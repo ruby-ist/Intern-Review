@@ -45,3 +45,6 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'psych', '< 4'
+gem "fomantic-ui-sass", "~> 2.8"
+
+gem "turbo-rails", "~> 1.4"

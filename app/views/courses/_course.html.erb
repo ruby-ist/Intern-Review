@@ -1,0 +1,8 @@
+<div class="ui course card" id="<%= dom_id(course) %>">
+	<div class="ui header"><%= course.title %></div>
+	<div class="image" style="background: url('<%= course.image_url || "https://pusat.edu.np/wp-content/uploads/2022/09/default-image.jpg" %>')" alt="course image"></div>
+	<div class="content">
+		<%= course.description.truncate_words(20) %>
+	</div>
+	<span class="extra"><%= course.duration %> days</span>
+</div>

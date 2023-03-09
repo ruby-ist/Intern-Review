@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>InternReview</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+	<title>InternReview</title>
+	<%= csrf_meta_tags %>
+	<%= csp_meta_tag %>
+	
+	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-
-  <body>
-    <%= yield %>
-  </body>
+<body>
+	<nav class="ui nav-section">
+		<div class="ui huge header"> Intern Review </div>
+	</nav>
+	
+	<div id="main">
+		<%= yield %>
+	</div>
+</body>
 </html>

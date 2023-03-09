@@ -1,0 +1,25 @@
+<%= form_with model: course do |f| %>
+	<%= f.label :title %>:
+	<%= f.text_field :title, autocomplete: "off", class: "anti-error-field" %>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: course, field: :title } %>
+	
+	<br/>
+	<%= f.label :image_url %>:
+	<%= f.url_field :image_url, placeholder: "(optional)", autocomplete: "off" %>
+	<br/>
+	<br/>
+	<%= f.label :description %>:
+	<%= f.text_area :description %>
+	<br/>
+	<br/>
+	<br/>
+	<%= f.label :duration %>:
+	<%= f.number_field :duration, in: 1..60, class: "number-field", autocomplete: "off" %> &ensp;days
+	<br/>
+	<%= render partial: "shared/error", locals: { model: course, field: :duration } %>
+	<br/>
+	<div class="right-aligned">
+		<%= f.submit class: "ui basic large orange button" %>
+	</div>
+<% end %>

@@ -1,0 +1,10 @@
+<section id="course-index">
+	<div class="ui big header">Courses:</div>
+	<div id="courses">
+		<%= render @courses %>
+	</div>
+	
+	<%= link_to new_course_path do %>
+		<div class="ui basic large orange button">+ New Course</div>
+	<% end %>
+</section>

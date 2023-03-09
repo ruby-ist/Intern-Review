@@ -1,0 +1,9 @@
+<div id="new-course">
+	<div class="ui centered form segment">
+		<h2 class="ui center aligned header"> New Course</h2>
+		<br/>
+		<%= turbo_frame_tag "new-course" do %>
+			<%= render partial: "form", locals: {course: @course} %>
+		<% end %>
+	</div>
+</div>

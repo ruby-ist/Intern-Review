@@ -1,0 +1,4 @@
+<% if model.errors[field].any? %>
+	<br/>
+	<div class="error"><%= field.to_s.titleize + " " + model.errors[field].first %></div>
+<% end %>
