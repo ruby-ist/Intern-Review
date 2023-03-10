@@ -16,8 +16,8 @@
 
 @import "semantic-ui";
 
-body{
-	color: #747e86;
+body, a{
+	color: #747e86 !important;
 }
 
 .ui.header{
@@ -51,7 +51,7 @@ nav{
 	}
 }
 
-#new-course{
+#course-form{
 	padding: 0 10%;
 	.form.segment{
 		padding: 5% 15% 10%;
@@ -82,7 +82,7 @@ nav{
 }
 
 .course.card{
-	margin: 0 30px 50px;
+	margin: 0 30px 50px !important;
 	width: 320px !important;
 
 	.image{
@@ -100,5 +100,25 @@ nav{
 
 	.extra{
 		text-align: right;
+	}
+}
+
+.course.segment{
+	padding: 50px 80px;
+
+	hr{
+		border: none;
+		height: 1px;
+		background: linear-gradient(90deg, white, #253E7E, white);
+	}
+
+	.huge.header{
+		color: #f26202;
+	}
+
+	.vertical.menu{
+		position: absolute;
+		right: 0;
+		top: 0;
 	}
 }

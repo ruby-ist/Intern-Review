@@ -1,6 +1,6 @@
-<%= form_with model: course do |f| %>
+<%= form_with model: course, local: true, id: "form-id" do |f| %>
 	<%= f.label :title %>:
-	<%= f.text_field :title, autocomplete: "off", class: "anti-error-field" %>
+	<%= f.text_field :title, autocomplete: "off" %>
 	<br/>
 	<%= render partial: "shared/error", locals: { model: course, field: :title } %>
 	

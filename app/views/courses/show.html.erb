@@ -1,0 +1,24 @@
+<div class="ui centered course segment">
+	<div class="ui vertical mini labeled icon menu">
+		<%= link_to edit_course_path(@course), class: "item" do %>
+			<i class="edit orange icon"></i>
+			Edit
+		<% end %>
+		<%= link_to course_path(@course), class: "item", data: { turbo_method: :delete } do %>
+			<i class="trash orange icon"></i>
+			Delete
+		<% end %>
+	</div>
+	<div class="ui huge center aligned header"><%= @course.title %></div>
+	<br/>
+	<hr/>
+	<div class="ui header">Description:</div>
+	<div><%= @course.description %></div>
+	<br/>
+	<div class="ui header">Duration:</div>
+	<div>Try to complete within <%= @course.duration %> Days</div>
+	
+	<br/>
+	<br/>
+	<div class="ui header">Modules:</div>
+</div>
