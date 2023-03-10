@@ -4,7 +4,7 @@
 			<i class="edit orange icon"></i>
 			Edit
 		<% end %>
-		<%= link_to course_path(@course), class: "item", data: { turbo_method: :delete } do %>
+		<%= link_to course_path(@course), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
 			<i class="trash orange icon"></i>
 			Delete
 		<% end %>
@@ -20,5 +20,16 @@
 	
 	<br/>
 	<br/>
-	<div class="ui header">Modules:</div>
+	<div class="ui center aligned container">
+		<div class="ui header">Modules</div>
+		<%= link_to new_course_section_path(@course) do %>
+			<div class="ui basic large orange button">+ New Section</div>
+		<% end %>
+		
+		<% day = 1 %>
+		<% @sections.each do |section| %>
+			<%= render partial: section, locals: {day: , section: }  %>
+			<% day += section.days_required %>
+		<% end %>
+	</div>
 </div>

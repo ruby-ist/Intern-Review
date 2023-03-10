@@ -1,0 +1,20 @@
+<div class="ui steps">
+	<a class="active step">
+		<div class="content">
+			Day <%= day %>
+			<% unless section.days_required == 1 %>
+				- <%= day + section.days_required - 1 %>
+			<% end %>
+		</div>
+	</a>
+	<a class="step">
+		<div class="content">
+			<div class="title"><%= section.title %></div>
+		</div>
+	</a>
+	<a class="step">
+		<div class="content">
+			<div class="description"><%= section.context %></div>
+		</div>
+	</a>
+</div>

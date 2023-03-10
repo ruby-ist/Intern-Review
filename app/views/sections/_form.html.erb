@@ -1,0 +1,20 @@
+<%= form_with model: [course, section], local: true do |f|%>
+	<%= f.label :title %>:
+	<%= f.text_field :title, autocomplete: "off" %>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: section, field: :title } %>
+	<br/>
+	<%= f.label :context %>:
+	<%= f.text_area :context %>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: section, field: :context } %>
+	<br/>
+	<%= f.label :days_required %>:
+	<%= f.number_field :days_required, in: 1..7, class: "number-field", autocomplete: "off" %> &ensp;days
+	<br/>
+	<%= render partial: "shared/error", locals: { model: section, field: :days_required } %>
+	<br/>
+	<div class="right-aligned">
+		<%= f.submit class: "ui basic large orange button" %>
+	</div>
+<% end %>
