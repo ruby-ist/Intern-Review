@@ -4,9 +4,12 @@
 		<div class="image" style="background: url('<%= course.image_url || "https://pusat.edu.np/wp-content/uploads/2022/09/default-image.jpg" %>')"></div>
 		<% if course.description.present? %>
 			<div class="content">
-				<%= course.description.truncate_words(20) %>
+				<%= course.description.truncate(125) %>
 			</div>
 		<% end %>
-		<span class="extra"><%= course.duration %> days</span>
+		<span class="extra">
+			<%= course.sections.count %> sections &ensp;|&ensp;
+			<%= course.duration %> days
+		</span>
 	</div>
 <% end %>

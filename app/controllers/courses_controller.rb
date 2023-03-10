@@ -29,10 +29,12 @@ class CoursesController < ApplicationController
 	end
 
 	def update
-		if @course.update(course_params)
-			redirect_to course_path @course
-		else
-			render :edit, status: :unprocessable_entity
+		respond_to do |format|
+			if @course.update(course_params)
+				format.html { redirect_to course_path @course }
+			else
+				format.html { render :edit, status: :unprocessable_entity }
+			end
 		end
 	end
 

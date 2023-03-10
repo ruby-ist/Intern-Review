@@ -1,7 +1,7 @@
 class SectionsController < ApplicationController
 
 	before_action :set_course, only: %w{ new create }
-	before_action :set_section, only: %w{ show }
+	before_action :set_section, only: %w{ show edit update destroy }
 
 	def new
 		@section = Section.new
@@ -19,6 +19,24 @@ class SectionsController < ApplicationController
 	end
 
 	def show
+	end
+
+	def edit
+	end
+
+	def update
+		respond_to do |format|
+			if @section.update(section_params)
+				format.html{ redirect_to course_path(@section.course_id) }
+			else
+				format.html{ render :edit, status: :unprocessable_entity}
+			end
+		end
+	end
+
+	def destroy
+		@section.destroy!
+		redirect_to course_path(@section.course_id)
 	end
 
 	private

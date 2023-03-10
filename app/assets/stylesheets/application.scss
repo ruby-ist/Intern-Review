@@ -15,6 +15,7 @@
  */
 
 @import "semantic-ui";
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
 
 body, a{
 	color: #747e86 !important;
@@ -36,6 +37,7 @@ nav{
 	.ui.header {
 		color: white;
 		display: inline-block;
+		font-family: 'Yeseva One', serif;
 	}
 }
 
@@ -155,5 +157,19 @@ nav{
 		position: absolute;
 		top: 0;
 		right: 0;
+	}
+}
+
+.section-flex{
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+
+	.icon.menu{
+		margin-left: 30px !important;
+
+		.item{
+			border: none !important;
+		}
 	}
 }
