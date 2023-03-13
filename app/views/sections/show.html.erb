@@ -1,8 +1,7 @@
 <div class="ui section placeholder segment">
 	<div class="ui two column very relaxed stackable grid">
-		<div class="column">
+		<div class="middle aligned column">
 			<h3 class="ui center aligned header">Section Details</h3>
-			<br/>
 			<table class="ui definition table">
 				<tbody>
 				<tr>
@@ -37,18 +36,32 @@
 						</td>
 					</tr>
 				<% end %>
+				
+				<% unless @daily_reports.empty? %>
+					<tr>
+						<td>Start date</td>
+						<td><%= @daily_reports.last.date.strftime("%a, %d %b %Y") %>
+					</tr>
+					
+					<% if @daily_reports.first.completed? %>
+						<tr>
+							<td>End date</td>
+							<td><%= @daily_reports.first.date.strftime("%a, %d %b %Y") %>
+						</tr>
+					<% end %>
+				<% end %>
 				</tbody>
 			</table>
 			<br/>
 		</div>
-		<!--		<div class="column">-->
-		<!--			<h3 class="ui center aligned header">Create Daily Report</h3>-->
-		<%#= render partial: "daily_reports/form", locals: { section: @section, daily_report: @daily_report } %>
-		<!--		</div>-->
-		<div class="center aligned middle aligned column">
-			<h3 class="ui center aligned header">Add reference</h3>
-			<%= render partial: "references/form", locals: { section: @section, reference: @reference } %>
+		<div class="column">
+			<h3 class="ui center aligned header">Create Daily Report</h3>
+			<%= render partial: "daily_reports/form", locals: { section: @section, daily_report: @daily_report } %>
 		</div>
+		<!--		<div class="center aligned middle aligned column">-->
+		<!--			<h3 class="ui center aligned header">Add reference</h3>-->
+		<%#= render partial: "references/form", locals: { section: @section, reference: @reference } %>
+		<!--		</div>-->
 	</div>
 	<div class="ui vertical divider">
 		<i class="tasks icon"></i>

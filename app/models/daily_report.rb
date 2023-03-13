@@ -6,4 +6,6 @@ class DailyReport < ApplicationRecord
 
 	enum status: {ongoing: 0, completed: 1}
 
+	scope :from_section, ->(id) { where(section_id: id).order(date: :desc) }
+
 end

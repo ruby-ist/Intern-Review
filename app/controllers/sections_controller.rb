@@ -21,7 +21,7 @@ class SectionsController < ApplicationController
 	def show
 		@daily_report = DailyReport.new
 		@reference = Reference.new
-		@daily_reports = DailyReport.where(section_id: @section.id).order(created_at: :desc)
+		@daily_reports = DailyReport.from_section @section.id
 	end
 
 	def edit

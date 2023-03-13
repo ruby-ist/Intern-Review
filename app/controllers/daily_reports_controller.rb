@@ -11,7 +11,7 @@ class DailyReportsController < ApplicationController
 			if @daily_report.save
 				format.html { redirect_to @section }
 			else
-				@daily_reports = DailyReport.where(section_id: @section.id).order(created_at: :desc)
+				@daily_reports = DailyReport.from_section @section.id
 				format.html { render "sections/show", status: :unprocessable_entity }
 			end
 		end
@@ -42,7 +42,7 @@ class DailyReportsController < ApplicationController
 	def set_daily_report
 		@daily_report = DailyReport.find params[:id]
 		@section = Section.find @daily_report.section_id
-		@daily_reports = DailyReport.where(section_id: @daily_report.section_id)
+		@daily_reports = DailyReport.from_section @section.id
 	rescue
 		render file: "#{Rails.root}/public/404.html", layout: false
 	end
