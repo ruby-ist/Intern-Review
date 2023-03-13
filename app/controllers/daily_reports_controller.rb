@@ -1,6 +1,6 @@
 class DailyReportsController < ApplicationController
 
-	before_action :set_daily_report, except: :create
+	before_action :set_daily_report, except: %w{ create destroy }
 
 	def create
 		@section = Section.find params[:section_id]
@@ -11,6 +11,7 @@ class DailyReportsController < ApplicationController
 			if @daily_report.save
 				format.html { redirect_to section_path(@section) }
 			else
+				@daily_reports = DailyReport.where(section_id: @section.id)
 				format.html { render "sections/show", status: :unprocessable_entity }
 			end
 		end
@@ -20,6 +21,21 @@ class DailyReportsController < ApplicationController
 		render "sections/show"
 	end
 
+	def update
+		respond_to do |format|
+			if @daily_report.update(daily_report_params)
+				format.html{ redirect_to section_path(@section) }
+			else
+				format.html { render 'sections/show', status: :unprocessable_entity }
+			end
+		end
+	end
+
+	def destroy
+		@daily_report = DailyReport.find params[:id]
+		@daily_report.destroy!
+		redirect_to section_path(@daily_report.section_id)
+	end
 
 	private
 

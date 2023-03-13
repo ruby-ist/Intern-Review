@@ -4,7 +4,8 @@ Rails.application.routes.draw do
 	root "courses#index"
 	resources :courses do
 		resources :sections, shallow: true, except: :index do
-			resources :daily_reports, shallow: false, except: %w{ index show new }
+			resources :daily_reports, shallow: false, only: :update
+			resources :daily_reports, only: %w{ create edit destroy }
 		end
 	end
 end

@@ -15,7 +15,7 @@
 	<br/>
 	<%= f.label :status %>:&ensp;
 	<div class="ui input">
-		<%= f.select :status, [["Ongoing", 0], ["Completed", 1]] %>
+		<%= f.select :status, [%w[Ongoing ongoing], %w[Completed completed]], { selected: daily_report.status} %>
 	</div>
 	<br/>
 	<%= render partial: "shared/error", locals: { model: daily_report, field: :status } %>
