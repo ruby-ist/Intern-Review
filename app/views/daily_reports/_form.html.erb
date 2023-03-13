@@ -1,0 +1,26 @@
+<%= form_with model: [section, daily_report], local: true do |f| %>
+	<%= f.label :date %>:&ensp;
+	<div class="ui input">
+		<%= f.date_field :date %>
+	</div>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: daily_report, field: :date } %>
+	<br/>
+	<%= f.label :progress %>:<br/>
+	<div class="ui input" style="width: 100%">
+		<%= f.text_area :progress %>
+	</div>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: daily_report, field: :progress } %>
+	<br/>
+	<%= f.label :status %>:&ensp;
+	<div class="ui input">
+		<%= f.select :status, [["Ongoing", 0], ["Completed", 1]] %>
+	</div>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: daily_report, field: :status } %>
+	<br/>
+	<div class="right-aligned">
+		<%= f.submit class: "ui basic large orange button" %>
+	</div>
+<% end %>

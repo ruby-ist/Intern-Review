@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_10_052942) do
+ActiveRecord::Schema.define(version: 2023_03_10_101013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,19 @@ ActiveRecord::Schema.define(version: 2023_03_10_052942) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "image_url"
+  end
+
+  create_table "daily_reports", force: :cascade do |t|
+    t.date "date"
+    t.integer "status", default: 0
+    t.text "progress"
+    t.text "feedback"
+    t.bigint "course_id"
+    t.bigint "section_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_daily_reports_on_course_id"
+    t.index ["section_id"], name: "index_daily_reports_on_section_id"
   end
 
   create_table "sections", force: :cascade do |t|

@@ -1,10 +1,39 @@
-<div class="ui center aligned section segment">
-	<div class="ui huge center aligned header"><%= @section.title %></div>
-	<br/>
-	<hr/>
-	<div class="ui header">Objectives:</div>
-	<div><%= @section.context %></div>
-	<br/>
-	<div class="ui inline header">Duration:</div>
-	<div><%= @section.days_required %> Days</div>
+<div class="ui section placeholder segment">
+	<div class="ui two column very relaxed stackable grid">
+		<div class="column">
+			<h3 class="ui center aligned header">Section Details</h3>
+			<br/>
+			<table class="ui definition table">
+				<tbody>
+				<tr>
+					<td class="two wide column">Title</td>
+					<td><%= @section.title %></td>
+				</tr>
+				<tr>
+					<td>Days</td>
+					<td><%= @section.days_required %> days</td>
+				</tr>
+				<tr>
+					<td>Objectives</td>
+					<td><%= simple_format h @section.context %></td>
+				</tr>
+				</tbody>
+			</table>
+			<br/>
+		</div>
+		<div class="column">
+			<h3 class="ui center aligned header">Create Daily Report</h3>
+			<%= render partial: "daily_reports/form", locals: { section: @section, daily_report: @daily_report } %>
+		</div>
+	</div>
+	<div class="ui vertical divider">
+		<i class="tasks icon"></i>
+	</div>
+</div>
+
+<br/>
+<br/>
+<h2 class="ui header">Reports: </h2>
+<div class="daily-reports">
+	<%= render @daily_reports %>
 </div>

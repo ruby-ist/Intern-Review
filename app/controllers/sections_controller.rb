@@ -19,6 +19,8 @@ class SectionsController < ApplicationController
 	end
 
 	def show
+		@daily_report = DailyReport.new
+		@daily_reports = DailyReport.where(section_id: @section.id)
 	end
 
 	def edit

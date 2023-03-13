@@ -25,9 +25,20 @@ body, a{
 	color: #33496A;
 }
 
+.ui.inline.header{
+	display: inline-block;
+}
+
 .ui.basic.orange.button:hover{
 	background: #f26202;
 	color: white;
+}
+
+.ui.placeholder.segment .column textarea{
+	margin: 0 !important;
+	max-width: initial !important;
+	width: 100% !important;
+	height: 120px;
 }
 
 nav{
@@ -170,6 +181,33 @@ nav{
 
 		.item{
 			border: none !important;
+		}
+	}
+}
+
+.daily-reports{
+	padding: 2% 10%;
+
+	.report.segment{
+		padding: 2% 5%;
+		margin-bottom: 50px;
+		position: relative;
+
+		.header{
+			margin-top: 0;
+		}
+
+		.status{
+			position: absolute;
+			right: 5%;
+			top: 10%;
+		}
+
+		.icon.menu{
+			width: max-content;
+			position: absolute;
+			right: 5%;
+			bottom: 10%;
 		}
 	}
 }

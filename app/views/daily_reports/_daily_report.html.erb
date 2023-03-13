@@ -1,0 +1,21 @@
+<div class="ui raised report segment">
+	<h4 class="ui inline header">Date:</h4>&ensp;<%= daily_report.date.strftime("%a, %d %b %Y") %>
+	<h4 class="ui header">Progress:</h4>
+	<%= simple_format h daily_report.progress %>
+	
+	<div class="status">
+		<h4 class="ui inline header">Status:</h4>
+		<div class="ui <%= daily_report.ongoing? ? "yellow" : "green" %> label">
+			<%= daily_report.status %>
+		</div>
+	</div>
+	
+	<div class="ui icon menu">
+		<%= link_to edit_section_daily_report_path(daily_report.section_id, daily_report), class: "item" do %>
+			<i class="edit orange icon"></i>
+		<% end %>
+		<%= link_to section_daily_report_path(daily_report.section_id, daily_report), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
+			<i class="trash orange icon"></i>
+		<% end %>
+	</div>
+</div>
