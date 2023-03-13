@@ -209,5 +209,22 @@ nav{
 			right: 5%;
 			bottom: 10%;
 		}
+
+		.progress{
+			width: 80%;
+		}
+	}
+}
+
+.middle.aligned{
+
+	label{
+		position: relative;
+		top: 7px;
+	}
+
+	.url-field{
+		width: 70% !important;
+		display: inline-block;
 	}
 }

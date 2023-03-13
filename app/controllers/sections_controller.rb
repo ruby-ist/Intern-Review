@@ -11,7 +11,7 @@ class SectionsController < ApplicationController
 		@section = @course.sections.build(section_params)
 		respond_to do |format|
 			if @section.save
-				format.html{ redirect_to course_path(@course) }
+				format.html{ redirect_to @course }
 			else
 				format.html{ render :new, status: :unprocessable_entity}
 			end
@@ -20,7 +20,8 @@ class SectionsController < ApplicationController
 
 	def show
 		@daily_report = DailyReport.new
-		@daily_reports = DailyReport.where(section_id: @section.id)
+		@reference = Reference.new
+		@daily_reports = DailyReport.where(section_id: @section.id).order(created_at: :desc)
 	end
 
 	def edit

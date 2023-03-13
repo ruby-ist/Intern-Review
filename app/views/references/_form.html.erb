@@ -1,0 +1,10 @@
+<%= form_with model: [section, reference], local: true, class: "ui form" do |f| %>
+	<label for='reference_url'>URL:&ensp;</label>
+	<%= f.url_field :url, class: "url-field" %>
+	<br/>
+	<%= render partial: 'shared/error', locals: { model: reference, field: :url } %>
+	<br/>
+	
+	<br/>
+	<%= f.submit class: "ui basic orange button" %>
+<% end %>

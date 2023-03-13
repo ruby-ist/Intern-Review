@@ -4,4 +4,5 @@ class Section < ApplicationRecord
 	validates :days_required, presence: true, numericality: {greater_than_or_equal_to: 1}
 
 	belongs_to :course
+	has_many :references, dependent: :destroy
 end
