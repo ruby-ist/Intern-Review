@@ -4,17 +4,28 @@
 	<title>InternReview</title>
 	<%= csrf_meta_tags %>
 	<%= csp_meta_tag %>
-	
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
 	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 	<%= javascript_pack_tag 'application', 'data-turbo-track': 'reload' %>
 </head>
 
 <body>
-	<nav class="ui nav-section">
-		<%= link_to courses_path do %>
-			<div class="ui huge header"> Intern Review </div>
+	<nav class="ui nav-section menu">
+		<%= link_to courses_path, class: "item" do %>
+			<div class="ui huge header">
+				<%= image_tag "intern-logo.svg", class: "logo" %>
+				Intern Review
+			</div>
 		<% end %>
+		
+		<div class="right menu">
+			<%= link_to "LOG IN", new_account_session_path, class: "item" %>
+			<%= link_to "SIGN UP", new_account_registration_path, class: "sign-up item"%>
+		</div>
 	</nav>
+	
+	<p class="notice"><%= notice %></p>
+	<p class="alert"><%= alert %></p>
 	
 	<div id="main">
 		<%= yield %>

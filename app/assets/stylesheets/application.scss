@@ -15,7 +15,7 @@
  */
 
 @import "semantic-ui";
-@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&family=Urbanist:wght@600&display=swap');
 
 body, a{
 	color: #747e86 !important;
@@ -41,14 +41,39 @@ body, a{
 	height: 120px;
 }
 
-nav{
-	background: #253E7E;
-	padding: 30px 60px;
+nav.ui.menu{
+	background: #253E7E !important;
+	padding: 20px 60px !important;
+	border-radius: 0 !important;
+	font-family: 'Tilt Warp', cursive !important;
 
 	.ui.header {
 		color: white;
 		display: inline-block;
-		font-family: 'Yeseva One', serif;
+		font-family: 'Urbanist', sans-serif;
+	}
+
+	img.logo{
+		width: 48px !important;
+		margin: 0 !important;
+	}
+
+	.right.menu {
+		.item {
+			color: white !important;
+			font-size: 1.2em;
+			margin: 0 10px;
+		}
+
+		.sign-up{
+			color: white !important;
+			border: 1px solid white;
+
+			&:hover{
+				background: white;
+				color: #253E7E !important;
+			}
+		}
 	}
 }
 
@@ -226,5 +251,61 @@ nav{
 	.url-field{
 		width: 70% !important;
 		display: inline-block;
+	}
+}
+
+.form.container{
+	display: grid;
+	place-items: center;
+}
+
+.ui.placeholder.segment .field{
+	max-width: 25rem;
+}
+
+.auth-form{
+	width: 60%;
+	margin: auto;
+	padding-bottom: 40px !important;
+
+	.header{
+		margin-top: 20px;
+		padding: 15px;
+	}
+
+	hr{
+		width: 80%;
+		border: none;
+		height: 1px;
+		background: linear-gradient(90deg, white, #f26202, white);
+		margin-bottom: 30px;
+	}
+
+	.ui.form{
+		.field{
+			label{
+				display: inline-block;
+				font-size: 1em;
+			}
+		}
+
+		.field.actions{
+			display: flex;
+			flex-direction: row-reverse;
+
+			.ui.button{
+				margin: 0 !important;
+			}
+		}
+	}
+
+	.checkbox{
+		position: relative;
+		top: 3px;
+	}
+
+	.link a{
+		color: #253E7E !important;
+		font-size: 1em;
 	}
 }

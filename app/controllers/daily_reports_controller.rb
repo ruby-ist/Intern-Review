@@ -1,6 +1,6 @@
 class DailyReportsController < ApplicationController
 
-	before_action :set_daily_report, except: [:create, :destroy]
+	before_action :set_daily_report, only: [:edit, :update]
 
 	def create
 		@section = Section.find params[:section_id]
@@ -35,6 +35,11 @@ class DailyReportsController < ApplicationController
 		@daily_report = DailyReport.find params[:id]
 		@daily_report.destroy!
 		redirect_to section_path(@daily_report.section_id)
+	end
+
+	def feedback
+		@daily_report = DailyReport.find params[:id]
+		@section = Section.find @daily_report.section_id
 	end
 
 	private
