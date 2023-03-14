@@ -9,7 +9,7 @@ class ReferencesController < ApplicationController
 			if @reference.save
 				format.html { redirect_to @section }
 			else
-				@daily_reports = DailyReport.from_section @section.id
+				@daily_reports = @section.daily_reports
 				format.html { render "sections/show", status: :unprocessable_entity}
 			end
 		end
@@ -40,7 +40,7 @@ class ReferencesController < ApplicationController
 	def set_reference
 		@reference = Reference.find params[:id]
 		@section = @reference.section
-		@daily_reports = DailyReport.from_section @section.id
+		@daily_reports = @section.daily_reports
 	rescue
 		render file: "#{Rails.root}/public/404.html", layout: false
 	end

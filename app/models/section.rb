@@ -5,4 +5,9 @@ class Section < ApplicationRecord
 
 	belongs_to :course
 	has_many :references, dependent: :destroy
+
+	has_many :section_reports
+	has_many :interns, through: :section_reports
+
+	has_many :daily_reports, through: :section_reports
 end

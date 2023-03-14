@@ -3,6 +3,12 @@ class Course < ApplicationRecord
 	validates :duration, presence: true, numericality: {only_integer: true }
 
 	has_many :sections, dependent: :destroy
+	belongs_to :account
+	has_and_belongs_to_many :trainers
+
+	has_many :course_reports
+	has_many :interns, through: :course_reports
+	# has_one :review, through: :course_reports
 
 	after_validation :blank_check
 

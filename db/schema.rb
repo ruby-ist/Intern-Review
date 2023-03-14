@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_14_035525) do
+ActiveRecord::Schema.define(version: 2023_03_14_101815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,22 @@ ActiveRecord::Schema.define(version: 2023_03_14_035525) do
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true
   end
 
+  create_table "admins", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "course_reports", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "intern_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_course_reports_on_course_id"
+    t.index ["intern_id"], name: "index_course_reports_on_intern_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -39,6 +55,17 @@ ActiveRecord::Schema.define(version: 2023_03_14_035525) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "image_url"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_courses_on_account_id"
+  end
+
+  create_table "courses_trainers", id: false, force: :cascade do |t|
+    t.bigint "trainer_id"
+    t.bigint "course_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_courses_trainers_on_course_id"
+    t.index ["trainer_id"], name: "index_courses_trainers_on_trainer_id"
   end
 
   create_table "daily_reports", force: :cascade do |t|
@@ -46,12 +73,25 @@ ActiveRecord::Schema.define(version: 2023_03_14_035525) do
     t.integer "status", default: 0
     t.text "progress"
     t.text "feedback"
-    t.bigint "course_id"
-    t.bigint "section_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["course_id"], name: "index_daily_reports_on_course_id"
-    t.index ["section_id"], name: "index_daily_reports_on_section_id"
+    t.bigint "section_report_id"
+    t.index ["section_report_id"], name: "index_daily_reports_on_section_report_id"
+  end
+
+  create_table "interns", force: :cascade do |t|
+    t.string "technology"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "interns_trainers", id: false, force: :cascade do |t|
+    t.bigint "trainer_id"
+    t.bigint "intern_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["intern_id"], name: "index_interns_trainers_on_intern_id"
+    t.index ["trainer_id"], name: "index_interns_trainers_on_trainer_id"
   end
 
   create_table "references", force: :cascade do |t|
@@ -62,6 +102,28 @@ ActiveRecord::Schema.define(version: 2023_03_14_035525) do
     t.index ["section_id"], name: "index_references_on_section_id"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.text "feedback"
+    t.bigint "admin_id"
+    t.bigint "course_report_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["admin_id"], name: "index_reviews_on_admin_id"
+    t.index ["course_report_id"], name: "index_reviews_on_course_report_id"
+  end
+
+  create_table "section_reports", force: :cascade do |t|
+    t.bigint "section_id"
+    t.bigint "intern_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "status", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["intern_id"], name: "index_section_reports_on_intern_id"
+    t.index ["section_id"], name: "index_section_reports_on_section_id"
+  end
+
   create_table "sections", force: :cascade do |t|
     t.string "title"
     t.integer "days_required"
@@ -70,6 +132,13 @@ ActiveRecord::Schema.define(version: 2023_03_14_035525) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["course_id"], name: "index_sections_on_course_id"
+  end
+
+  create_table "trainers", force: :cascade do |t|
+    t.bigint "admin_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["admin_id"], name: "index_trainers_on_admin_id"
   end
 
 end

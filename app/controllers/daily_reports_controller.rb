@@ -5,13 +5,13 @@ class DailyReportsController < ApplicationController
 	def create
 		@section = Section.find params[:section_id]
 		@daily_report = DailyReport.new(daily_report_params)
-		@daily_report.section_id = @section.id
-		@daily_report.course_id = @section.course_id
+		@section_report = SectionReport.find_or_create_by(intern_id: 1, section_id: params[:section_id])
+		@section_report.daily_reports << @daily_report
 		respond_to do |format|
 			if @daily_report.save
 				format.html { redirect_to @section }
 			else
-				@daily_reports = DailyReport.from_section @section.id
+				@daily_reports = @section.daily_reports
 				format.html { render "sections/show", status: :unprocessable_entity }
 			end
 		end
@@ -46,8 +46,8 @@ class DailyReportsController < ApplicationController
 
 	def set_daily_report
 		@daily_report = DailyReport.find params[:id]
-		@section = Section.find @daily_report.section_id
-		@daily_reports = DailyReport.from_section @section.id
+		@section = Section.find @daily_report.section_report.section_id
+		@daily_reports = @section.daily_reports
 	rescue
 		render file: "#{Rails.root}/public/404.html", layout: false
 	end

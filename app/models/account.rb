@@ -7,4 +7,14 @@ class Account < ApplicationRecord
 	validates :name, presence: true
 	validates :avatar_url, format: {with: URI::regexp(%w{http https})}, allow_nil: true
 
+	belongs_to :accountable, polymorphic: true
+	has_many :courses
+
+	before_validation :blank_check
+	def blank_check
+		if avatar_url.blank?
+			self.avatar_url = nil
+		end
+	end
+
 end
