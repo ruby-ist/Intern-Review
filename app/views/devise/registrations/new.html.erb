@@ -7,17 +7,17 @@
 			
 			<div class="field">
 				<%= f.label :name %>
-				<%= f.text_field :name %>
+				<%= f.text_field :name, autocomplete: "off" %>
 			</div>
 			
 			<div class="field">
 				<%= f.label :avatar_url %>
-				<%= f.url_field :avatar_url %>
+				<%= f.url_field :avatar_url, autocomplete: "off" %>
 			</div>
 			
 			<div class="field">
 				<%= f.label :email %>
-				<%= f.email_field :email, autofocus: true, autocomplete: "off" %>
+				<%= f.email_field :email, autocomplete: "off" %>
 			</div>
 			
 			<div class="field">
@@ -33,13 +33,25 @@
 				<%= f.password_field :password_confirmation, autocomplete: "off" %>
 			</div>
 			
+			<div class="field">
+				<%= f.label :account_type %>
+				<%= f.select :accountable_type, [%w(Intern Intern), %w(Trainer Trainer), %w(Admin Admin)] %>
+			</div>
+			
+			<div class="field">
+				<%= f.label :technology %> <em>(Only required for Interns)</em>
+				<%= text_field_tag :technology, "", autocomplete: "off" %>
+			</div>
+			
+			
 			<br/>
 			<%= render "devise/shared/error_messages", resource: resource %>
-			<%= render "devise/shared/links" %>
 			
 			<div class="field actions">
 				<%= f.submit "Sign up", class: "ui basic orange button" %>
 			</div>
+			
+			<%= render "devise/shared/links" %>
 		<% end %>
 	</div>
 </div>

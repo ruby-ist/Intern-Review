@@ -17,4 +17,12 @@ class Account < ApplicationRecord
 		end
 	end
 
+	def method_missing(method)
+		if %i(intern? admin? trainer?).include? method
+			accountable_type.inquiry.send(method.capitalize)
+		else
+			super
+		end
+	end
+
 end

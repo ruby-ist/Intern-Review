@@ -19,16 +19,35 @@
 		<% end %>
 		
 		<div class="right menu">
-			<%= link_to "LOG IN", new_account_session_path, class: "item" %>
-			<%= link_to "SIGN UP", new_account_registration_path, class: "sign-up item"%>
+			<% unless account_signed_in? %>
+				<%= link_to "LOG IN", new_account_session_path, class: "item" %>
+				<%= link_to "SIGN UP", new_account_registration_path, class: "sign-up item" %>
+			<% else %>
+				<%= link_to "LOG OUT", destroy_account_session_path, class: "sign-up item", data: {turbo_method: :delete, turbo_confirm: "Are you Sure?"} %>
+			<% end %>
 		</div>
 	</nav>
 	
-	<p class="notice"><%= notice %></p>
-	<p class="alert"><%= alert %></p>
+	<% if notice %>
+		<div class="ui positive notice message" style="width: max-content; margin: auto">
+			<%= notice %>
+			<i class="close icon"></i>
+		</div>
+	<% end %>
+	
+	<% if alert %>
+		<div class="ui negative alert message" style="width: max-content; margin: auto">
+			<%= alert %>
+			<i class="close icon"></i>
+		</div>
+	<% end %>
 	
 	<div id="main">
 		<%= yield %>
 	</div>
+
+	<script>
+		document.querySelector('.message .close.icon').addEventListener('click', (ev)=> { ev.target.parentElement.style.display = "none";});
+	</script>
 </body>
 </html>

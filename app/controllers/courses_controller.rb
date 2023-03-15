@@ -1,5 +1,7 @@
 class CoursesController < ApplicationController
 
+	before_action :account_is_not_an_intern!, except: %w( show )
+	before_action :authenticate_account!, only: :show
 	before_action :set_course, only: %w{ show edit update destroy }
 
 	def index

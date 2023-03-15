@@ -24,11 +24,13 @@
 							<ul>
 								<% @section.references.each do |reference| %>
 									<li><%= link_to reference.url, reference.url %>&ensp;&ensp;
-										<%= link_to edit_reference_path(reference) do %>
-											<i class="edit blue link icon"></i>
-										<% end %>
-										<%= link_to reference_path(reference), data: { turbo_method: :delete, turbo_confirm: "Are you Sure?" } do %>
-											<i class="trash blue link icon"></i>
+										<% unless current_account.intern? %>
+											<%= link_to edit_reference_path(reference) do %>
+												<i class="edit blue link icon"></i>
+											<% end %>
+											<%= link_to reference_path(reference), data: { turbo_method: :delete, turbo_confirm: "Are you Sure?" } do %>
+												<i class="trash blue link icon"></i>
+											<% end %>
 										<% end %>
 									</li>
 								<% end %>
@@ -40,13 +42,13 @@
 				<% unless @daily_reports.empty? %>
 					<tr>
 						<td>Start date</td>
-						<td><%= @daily_reports.last.date.strftime("%a, %d %b %Y") %>
+						<td><%= @section_report.start_date.strftime("%a, %d %b %Y") %>
 					</tr>
 					
 					<% if @daily_reports.first.completed? %>
 						<tr>
 							<td>End date</td>
-							<td><%= @daily_reports.first.date.strftime("%a, %d %b %Y") %>
+							<td><%= @section_report.end_date.strftime("%a, %d %b %Y") %>
 						</tr>
 					<% end %>
 				<% end %>
@@ -54,16 +56,17 @@
 			</table>
 			<br/>
 		</div>
-		<div class="column">
-			<h3 class="ui center aligned header">Create Daily Report</h3>
-			<%= render partial: "daily_reports/form", locals: { section: @section, daily_report: @daily_report } %>
-		</div>
-		
-<!--		<div class="center aligned middle aligned column">-->
-<!--			<h3 class="ui center aligned header">Add reference</h3>-->
-			<%#= render partial: "references/form", locals: { section: @section, reference: @reference } %>
-<!--		</div>-->
-	
+		<% if current_account.intern? %>
+			<div class="column">
+				<h3 class="ui center aligned header">Create Daily Report</h3>
+				<%= render partial: "daily_reports/form", locals: { section: @section, daily_report: @daily_report } %>
+			</div>
+		<% else %>
+			<div class="center aligned middle aligned column">
+				<h3 class="ui center aligned header">Add reference</h3>
+				<%= render partial: "references/form", locals: { section: @section, reference: @reference } %>
+			</div>
+		<% end %>
 	</div>
 	<div class="ui vertical divider">
 		<i class="tasks icon"></i>

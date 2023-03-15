@@ -41,6 +41,18 @@ body, a{
 	height: 120px;
 }
 
+.ui.message{
+	width: max-content;
+	margin: auto;
+
+	.close.icon{
+		position: relative;
+		top: initial;
+		right: initial;
+		left: 10px;
+	}
+}
+
 nav.ui.menu{
 	background: #253E7E !important;
 	padding: 20px 60px !important;
@@ -200,8 +212,10 @@ nav.ui.menu{
 	display: flex;
 	justify-content: center;
 	align-items: baseline;
+	margin-bottom: 1rem;
 
 	.icon.menu{
+		margin-top: 0!important;
 		margin-left: 30px !important;
 
 		.item{

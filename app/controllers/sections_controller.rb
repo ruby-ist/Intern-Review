@@ -1,5 +1,7 @@
 class SectionsController < ApplicationController
 
+	before_action :account_is_not_an_intern!, except: :show
+	before_action :authenticate_account!, only: :show
 	before_action :set_course, only: %w{ new create }
 	before_action :set_section, only: %w{ show edit update destroy }
 
@@ -19,9 +21,12 @@ class SectionsController < ApplicationController
 	end
 
 	def show
-		@daily_report = DailyReport.new
 		@reference = Reference.new
-		@daily_reports = @section.daily_reports
+		if current_account.intern?
+			@section_report = SectionReport.find_or_create_by(intern: current_user, section: @section)
+			@daily_report = @section_report.daily_reports.build
+			@daily_reports = @section_report.daily_reports.order(date: :desc)
+		end
 	end
 
 	def edit

@@ -1,14 +1,16 @@
 <div class="ui centered course segment">
-	<div class="ui vertical mini labeled icon menu">
-		<%= link_to edit_course_path(@course), class: "item" do %>
-			<i class="edit orange icon"></i>
-			Edit
-		<% end %>
-		<%= link_to course_path(@course), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
-			<i class="trash orange icon"></i>
-			Delete
-		<% end %>
-	</div>
+	<% unless current_account.intern? %>
+		<div class="ui vertical mini labeled icon menu">
+			<%= link_to edit_course_path(@course), class: "item" do %>
+				<i class="edit orange icon"></i>
+				Edit
+			<% end %>
+			<%= link_to course_path(@course), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
+				<i class="trash orange icon"></i>
+				Delete
+			<% end %>
+		</div>
+	<% end %>
 	<div class="ui huge center aligned header"><%= @course.title %></div>
 	<br/>
 	<hr/>
@@ -22,13 +24,15 @@
 	<br/>
 	<div class="ui center aligned container">
 		<div class="ui header">Modules</div>
-		<%= link_to new_course_section_path(@course) do %>
-			<div class="ui basic large orange button">+ New Section</div>
+		<% unless current_account.intern? %>
+			<%= link_to new_course_section_path(@course) do %>
+				<div class="ui basic large orange button">+ New Section</div>
+			<% end %>
 		<% end %>
 		
 		<% day = 1 %>
 		<% @sections.each do |section| %>
-			<%= render partial: section, locals: {day: , section: }  %>
+			<%= render partial: section, locals: { day:, section: } %>
 			<% day += section.days_required %>
 		<% end %>
 	</div>

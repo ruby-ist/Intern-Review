@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :accounts
-	# For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
 	root "courses#index"
+
+	devise_for :accounts, controllers: {
+		registrations: "accounts/registrations"
+	}
+
 	resources :courses do
 		resources :sections, shallow: true, except: :index do
 			resources :daily_reports, shallow: false, only: :update
@@ -16,4 +19,6 @@ Rails.application.routes.draw do
 			resources :references, only: [:create, :edit, :destroy]
 		end
 	end
+
+	get "dashboard", to: "dashboard#index"
 end

@@ -8,7 +8,7 @@ class Course < ApplicationRecord
 
 	has_many :course_reports
 	has_many :interns, through: :course_reports
-	# has_one :review, through: :course_reports
+	has_many :reviews, through: :course_reports
 
 	after_validation :blank_check
 
