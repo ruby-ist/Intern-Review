@@ -17,35 +17,35 @@
 @import "semantic-ui";
 @import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&family=Urbanist:wght@600&display=swap');
 
-body, a{
+body, a {
 	color: #747e86 !important;
 }
 
-.ui.header{
+.ui.header {
 	color: #33496A;
 }
 
-.ui.inline.header{
+.ui.inline.header {
 	display: inline-block;
 }
 
-.ui.basic.orange.button:hover{
+.ui.basic.orange.button:hover {
 	background: #f26202;
 	color: white;
 }
 
-.ui.placeholder.segment .column textarea{
+.ui.placeholder.segment .column textarea {
 	margin: 0 !important;
 	max-width: initial !important;
 	width: 100% !important;
 	height: 120px;
 }
 
-.ui.message{
+.ui.message {
 	width: max-content;
 	margin: auto;
 
-	.close.icon{
+	.close.icon {
 		position: relative;
 		top: initial;
 		right: initial;
@@ -53,7 +53,7 @@ body, a{
 	}
 }
 
-nav.ui.menu{
+nav.ui.menu {
 	background: #253E7E !important;
 	padding: 20px 60px !important;
 	border-radius: 0 !important;
@@ -65,7 +65,7 @@ nav.ui.menu{
 		font-family: 'Urbanist', sans-serif;
 	}
 
-	img.logo{
+	img.logo {
 		width: 48px !important;
 		margin: 0 !important;
 	}
@@ -74,14 +74,14 @@ nav.ui.menu{
 		.item {
 			color: white !important;
 			font-size: 1.2em;
-			margin: 0 10px;
 		}
 
-		.sign-up{
+		.sign-up {
 			color: white !important;
 			border: 1px solid white;
+			margin-left: 1em;
 
-			&:hover{
+			&:hover {
 				background: white;
 				color: #253E7E !important;
 			}
@@ -89,7 +89,7 @@ nav.ui.menu{
 	}
 }
 
-#main{
+#main {
 	padding: 5% 8%;
 	position: relative;
 }
@@ -102,29 +102,30 @@ nav.ui.menu{
 	}
 }
 
-#course-form{
+#course-form {
 	padding: 0 10%;
-	.form.segment{
+
+	.form.segment {
 		padding: 5% 15% 10%;
 
-		.number-field{
+		.number-field {
 			width: 80px;
 			margin-left: 10px;
 			margin-top: -8px;
 		}
 
-		.right-aligned{
+		.right-aligned {
 			display: block;
 			text-align: right;
 		}
 	}
 }
 
-.error{
+.error {
 	color: #B00100;
 }
 
-#courses{
+#courses {
 	margin-top: 50px;
 	display: flex;
 	flex-flow: row wrap;
@@ -132,11 +133,11 @@ nav.ui.menu{
 	text-align: left;
 }
 
-.course.card{
+.course.card {
 	margin: 0 30px 50px !important;
 	width: 320px !important;
 
-	.image{
+	.image {
 		width: 100%;
 		height: 200px;
 		background-size: cover !important;
@@ -144,150 +145,164 @@ nav.ui.menu{
 		background-repeat: no-repeat !important;
 	}
 
-	.content{
+	.content {
 		height: 90px;
 		overflow: clip;
 	}
 
-	.ui.header{
+	.ui.header {
 		padding: 6% 8%;
 		margin-bottom: 0;
 	}
 
-	.extra{
+	.extra {
 		text-align: right;
 	}
 }
 
-.course.segment{
+.course.segment {
 	padding: 50px 80px;
 
-	hr{
+	hr {
 		border: none;
 		height: 1px;
 		background: linear-gradient(90deg, white, #253E7E, white);
 	}
 
-	.huge.header{
+	.huge.header {
 		color: #f26202;
 	}
 
-	.vertical.menu{
+	.vertical.menu {
 		position: absolute;
 		right: 0;
 		top: 0;
 	}
 
-	.container{
+	.container {
 		position: relative;
 
-		.header{
+		.header {
 			margin-bottom: 50px;
 		}
 	}
 
-	.active.step .content{
+	.active.step .content {
 		width: 70px;
 		color: #f26202;
 	}
 
-	.step .content{
-		.title{
+	.step .content {
+		.title {
 			width: 100px;
 		}
 
-		.description{
+		.description {
 			width: 300px;
 		}
 	}
 
-	.orange.button{
+	.orange.button {
 		position: absolute;
 		top: 0;
 		right: 0;
 	}
 }
 
-.section-flex{
+.section-flex {
 	display: flex;
 	justify-content: center;
 	align-items: baseline;
 	margin-bottom: 1rem;
 
-	.icon.menu{
-		margin-top: 0!important;
+	.icon.menu {
+		margin-top: 0 !important;
 		margin-left: 30px !important;
 
-		.item{
+		.item {
 			border: none !important;
 		}
 	}
 }
 
-.daily-reports{
+.daily-reports {
 	padding: 2% 10%;
 
-	.report.segment{
+	.report.segment {
 		padding: 2% 5%;
 		margin-bottom: 50px;
 		position: relative;
 
-		.header{
+		.header {
 			margin-top: 0;
 		}
 
-		.status{
+		.status {
 			position: absolute;
 			right: 5%;
 			top: 10%;
 		}
 
-		.icon.menu{
+		.icon.menu {
 			width: max-content;
 			position: absolute;
 			right: 5%;
 			bottom: 10%;
 		}
 
-		.progress{
+		.progress {
 			width: 80%;
 		}
 	}
 }
 
-.middle.aligned{
 
-	label{
+.profile.daily-reports .report.segment {
+	padding: 5% 8% !important;
+
+	.ui.inline.header {
+		display: inline !important;
+	}
+
+	.status{
+		top: 15%;
+	}
+}
+
+
+.middle.aligned {
+
+	label {
 		position: relative;
 		top: 7px;
 	}
 
-	.url-field{
+	.url-field {
 		width: 70% !important;
 		display: inline-block;
 	}
 }
 
-.form.container{
+.form.container {
 	display: grid;
 	place-items: center;
 }
 
-.ui.placeholder.segment .field{
+.ui.placeholder.segment .field {
 	max-width: 25rem;
 }
 
-.auth-form{
+.auth-form {
 	width: 60%;
 	margin: auto;
 	padding-bottom: 40px !important;
 
-	.header{
+	.header {
 		margin-top: 20px;
 		padding: 15px;
 	}
 
-	hr{
+	hr {
 		width: 80%;
 		border: none;
 		height: 1px;
@@ -295,31 +310,35 @@ nav.ui.menu{
 		margin-bottom: 30px;
 	}
 
-	.ui.form{
-		.field{
-			label{
+	.ui.form {
+		.field {
+			label {
 				display: inline-block;
 				font-size: 1em;
 			}
 		}
 
-		.field.actions{
+		.field.actions {
 			display: flex;
 			flex-direction: row-reverse;
 
-			.ui.button{
+			.ui.button {
 				margin: 0 !important;
 			}
 		}
 	}
 
-	.checkbox{
+	.checkbox {
 		position: relative;
 		top: 3px;
 	}
 
-	.link a{
+	.link a {
 		color: #253E7E !important;
 		font-size: 1em;
 	}
+}
+
+.account.segment {
+	padding: 5% 20% !important;
 }

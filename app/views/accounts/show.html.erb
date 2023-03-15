@@ -1,0 +1,84 @@
+<div class="ui very padded centered placeholder account segment">
+	<h2 class="ui orange center aligned header">Account Details</h2>
+	<table class="ui definition table">
+		<tbody>
+		<tr>
+			<td class="four wide column">Name</td>
+			<td><%= @account.name.capitalize %></td>
+		</tr>
+		
+		<tr>
+			<td>Email</td>
+			<td><%= @account.email %></td>
+		</tr>
+		
+		<tr>
+			<td>Account Type</td>
+			<td><%= @account.accountable_type %></td>
+		</tr>
+		
+		<% if @account.intern? %>
+			<tr>
+				<td>Technology</td>
+				<td><%= @user.technology %></td>
+			</tr>
+		<% end %>
+		
+		<tr>
+			<td>Trainers</td>
+			<td>
+				<ul>
+					<% @user.trainers.each do |trainer| %>
+						<li><%= trainer.name %>
+					<% end %>
+				</ul>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="ui very padded segment">
+	
+	<% if @account.intern? %>
+		<h2 class="ui header">Reports:</h2>
+		
+		<% @section_reports.each do |section_report| %>
+			<% section = section_report.section %>
+			<div class="ui very padded placeholder segment">
+				<div class="ui steps">
+					<a class="active step">
+						<div class="content">
+							<%= section.days_required %> <%= section.days_required > 1 ? "days" : "day" %> Time
+						</div>
+					</a>
+					<%= link_to section_path(section), class: "step" do %>
+						<div class="content">
+							<div class="title"><%= section.title %></div>
+						</div>
+					<% end %>
+					<% if section_report.start_date %>
+						<a class="step">
+							<div class="content">
+								<b>Start Date:</b> <%= section_report.start_date.strftime("%a, %d %b %Y") %><br/>
+							</div>
+						</a>
+					<% end %>
+					<% if section_report.end_date %>
+						<a class="step">
+							<div class="content">
+								<b>End Date:</b> <%= section_report.end_date.strftime("%a, %d %b %Y") %>
+							</div>
+						</a>
+					<% end %>
+				</div>
+				
+				
+				<div class="profile daily-reports">
+					<%= render section_report.daily_reports.order(date: :desc) %>
+				</div>
+			</div>
+		<% end %>
+	
+	<% end %>
+</div>

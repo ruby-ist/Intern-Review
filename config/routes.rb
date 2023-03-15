@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-	root "courses#index"
+	root "dashboard#index"
 
 	devise_for :accounts, controllers: {
 		registrations: "accounts/registrations"
@@ -14,11 +14,11 @@ Rails.application.routes.draw do
 					get "feedback", to: "daily_reports#feedback"
 				end
 			end
-
 			resources :references, shallow: false, only: :update
 			resources :references, only: [:create, :edit, :destroy]
 		end
 	end
 
-	get "dashboard", to: "dashboard#index"
+	get "dashboard", to: "dashboard#index", as: :dashboard
+	get "accounts/:id", to: "accounts#show", as: :account
 end
