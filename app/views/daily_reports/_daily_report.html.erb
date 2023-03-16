@@ -11,12 +11,26 @@
 		</div>
 	</div>
 	
-	<div class="ui icon menu">
-		<%= link_to edit_daily_report_path(daily_report), class: "item" do %>
-			<i class="edit orange icon"></i>
-		<% end %>
-		<%= link_to daily_report_path(daily_report), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
-			<i class="trash orange icon"></i>
-		<% end %>
-	</div>
+	<% unless current_account.intern? %>
+		<br/>
+		<%= link_to "View Section", section_path(daily_report.section_report.section_id), class: "orange" %>
+		
+		<div class="ui right aligned container">
+		<em> created by</em>&ensp;
+		<b class="ui blue text">
+			<%= link_to daily_report.section_report.intern.name.capitalize, account_path(daily_report.section_report.intern.account) %>
+		</b>
+		</div>
+	<% end %>
+	
+	<% if current_account.intern? %>
+		<div class="ui icon menu">
+			<%= link_to edit_daily_report_path(daily_report), class: "item" do %>
+				<i class="edit orange icon"></i>
+			<% end %>
+			<%= link_to daily_report_path(daily_report), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
+				<i class="trash orange icon"></i>
+			<% end %>
+		</div>
+	<% end %>
 </div>

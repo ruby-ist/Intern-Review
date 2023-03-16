@@ -6,8 +6,8 @@ class AccountsController < ApplicationController
 		@account = Account.find params[:id]
 		@user = @account.accountable
 
-		if @account.intern? && params[:id].to_i != current_account.id
-			redirect_back fallback_location: account_path(current_account.id)
+		if current_account.intern? && params[:id].to_i != current_account.id
+			redirect_back fallback_location: account_path(current_account.id), alert: "You're not authorised to do that"
 		end
 
 		case @account.accountable_type

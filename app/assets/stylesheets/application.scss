@@ -253,6 +253,14 @@ nav.ui.menu {
 		.progress {
 			width: 80%;
 		}
+
+		a{
+			color: #253E7E !important;
+
+			&.orange{
+				color: #f26202 !important;
+			}
+		}
 	}
 }
 
@@ -341,4 +349,10 @@ nav.ui.menu {
 
 .account.segment {
 	padding: 5% 20% !important;
+}
+
+.ui.tabular.menu{
+	.active.item{
+		color: #f26202 !important;
+	}
 }
