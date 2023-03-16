@@ -12,7 +12,7 @@ class AccountsController < ApplicationController
 
 		case @account.accountable_type
 		when "Intern"
-			@section_reports = @user.section_reports.includes(:daily_reports, :section).order(start_date: :desc)
+			@section_reports = @user.section_reports.dated_reports
 		end
 	end
 

@@ -53,7 +53,8 @@ class DailyReportsController < ApplicationController
 
 	def set_daily_report
 		@daily_report = DailyReport.find params[:id]
-		@section = Section.find @daily_report.section_report.section_id
+		@section_report = @daily_report.section_report
+		@section = @section_report.section
 		@daily_reports = @section.daily_reports.order(date: :desc)
 	rescue
 		render file: "#{Rails.root}/public/404.html", layout: false

@@ -58,15 +58,6 @@ Account.create!(
 		},
 
 		{
-			name: "Sriram",
-			email: "sriram@rently.com",
-			password: "1234567",
-			password_confirmation: "1234567",
-			accountable_type: "Intern",
-			accountable_id: 1
-		},
-
-		{
 			name: "mitra",
 			email: "mitra@rently.com",
 			password: "1234567",
@@ -154,3 +145,11 @@ ramanan = Trainer.find_by(name: "Ramanan")
 ramanan.interns << Intern.find_by(name: "bala")
 ramanan.interns << Intern.find_by(name: "gowtham")
 ramanan.interns << Intern.find_by(name: "raagav")
+
+Trainer.all.each do |trainer|
+	trainer.courses << Course.first
+end
+
+Intern.all.each do |trainer|
+	Intern.courses << Course.first
+end
