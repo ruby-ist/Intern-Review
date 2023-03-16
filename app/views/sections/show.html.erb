@@ -39,7 +39,7 @@
 					</tr>
 				<% end %>
 				
-				<% unless @daily_reports.empty? %>
+				<% if @section_report && @daily_reports.present? %>
 					<tr>
 						<td>Start date</td>
 						<td><%= @section_report.start_date.strftime("%a, %d %b %Y") %>

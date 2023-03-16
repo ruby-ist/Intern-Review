@@ -22,10 +22,13 @@ class SectionsController < ApplicationController
 
 	def show
 		@reference = Reference.new
+		@section_report = nil
 		if current_account.intern?
 			@section_report = SectionReport.find_or_create_by(intern: current_user, section: @section)
 			@daily_report = @section_report.daily_reports.build
 			@daily_reports = @section_report.daily_reports.order(date: :desc)
+		elsif current_account.trainer?
+			@daily_reports = DailyReport.for_trainer(current_user.id).where(section_reports: {section_id: @section.id})
 		end
 	end
 

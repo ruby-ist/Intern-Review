@@ -20,6 +20,8 @@ class DashboardController < ApplicationController
 				@type = "today"
 				@daily_reports = DailyReport.for_trainer(@user.id).where(date: Date.today)
 			end
+		elsif request.variant.include? :Admin
+			@trainers = @user.trainers.includes(interns: :account)
 		end
 	end
 end

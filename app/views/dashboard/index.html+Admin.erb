@@ -1,0 +1,26 @@
+<div class="ui very padded placeholder segment">
+	<h2 class="ui header">Trainers and Interns</h2>
+	<table class="ui celled table">
+		<tbody>
+		<thead>
+		<tr>
+			<th>Trainers</th>
+			<th>Interns</th>
+		</tr>
+		</thead>
+		<% @trainers.each do |trainer| %>
+			<tr>
+				<td class="three wide center aligned column" rowspan="<%= trainer.interns.count %>"><%= trainer.name %></td>
+				<td><%= trainer.interns.first.name %>
+			</tr>
+			
+			<% trainer.interns[1..].each do |intern| %>
+				<tr>
+					<td class=rowspanned></td>
+					<td><%= intern.name %>
+				</tr>
+			<% end %>
+		<% end %>
+		</tbody>
+	</table>
+</div>

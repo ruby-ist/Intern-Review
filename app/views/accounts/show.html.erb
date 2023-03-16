@@ -22,18 +22,30 @@
 				<td>Technology</td>
 				<td><%= @user.technology %></td>
 			</tr>
+			
+			<tr>
+				<td>Trainers</td>
+				<td>
+					<ul>
+						<% @user.trainers.each do |trainer| %>
+							<li><%= trainer.name %></li>
+						<% end %>
+					</ul>
+				</td>
+			</tr>
+		<% else %>
+			<tr>
+				<td>Interns</td>
+				<td>
+					<ul>
+						<% @user.interns.includes(:account).each do |intern| %>
+							<li><%= link_to intern.account.name, account_path(intern.account) %>&ensp; (<%= intern.technology %>)</li>
+						<% end %>
+					</ul>
+				</td>
+			</tr>
 		<% end %>
 		
-		<tr>
-			<td>Trainers</td>
-			<td>
-				<ul>
-					<% @user.trainers.each do |trainer| %>
-						<li><%= trainer.name %>
-					<% end %>
-				</ul>
-			</td>
-		</tr>
 		</tbody>
 	</table>
 </div>
@@ -78,7 +90,12 @@
 					<%= render section_report.daily_reports %>
 				</div>
 			</div>
+			
 		<% end %>
-	
+	<% else %>
+		<h2 class="ui header">Courses Handling:</h2>
+		<div id="courses">
+			<%= render @courses  %>
+		</div>
 	<% end %>
 </div>

@@ -13,7 +13,10 @@ class AccountsController < ApplicationController
 		case @account.accountable_type
 		when "Intern"
 			@section_reports = @user.section_reports.dated_reports
+		when "Trainer"
+			@courses = @user.courses
+		else
+
 		end
 	end
-
 end
