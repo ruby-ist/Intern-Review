@@ -1,0 +1,21 @@
+<%= form_with model: batch, local: true do |f| %>
+	<%= f.label :name %>:
+	<div class="ui input">
+		<%= f.text_field :name %>
+	</div>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: batch, field: :name } %>
+	<br/>
+	
+	<%= f.label :status %>:
+	<div class="ui input">
+		<%= f.select :status, [%w[Active active], %w[Inactive inactive]], { selected: batch.status } %>
+	</div>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: batch, field: :status } %>
+	<br/>
+	
+	<div class="right-aligned">
+		<%= f.submit class: "ui basic large orange button" %>
+	</div>
+<% end %>

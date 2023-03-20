@@ -29,6 +29,8 @@ class SectionsController < ApplicationController
 			@daily_reports = @section_report.daily_reports.order(date: :desc)
 		elsif current_account.trainer?
 			@daily_reports = DailyReport.for_trainer(current_user.id).where(section_reports: {section_id: @section.id})
+		elsif current_account.admin?
+			@daily_reports = DailyReport.for_admin(current_user.id).where(section_reports: {section_id: @section.id})
 		end
 	end
 

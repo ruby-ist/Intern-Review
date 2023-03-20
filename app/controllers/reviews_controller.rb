@@ -29,7 +29,7 @@ class ReviewsController < ApplicationController
 			if @review.update(review_params)
 				format.html{ redirect_to account_path(current_account) }
 			else
-				format.html{ render :new, status: :unprocessable_entity}
+				format.html{ render :edit, status: :unprocessable_entity}
 			end
 		end
 	end

@@ -23,6 +23,8 @@ Rails.application.routes.draw do
 		resources :reviews, except: [:index, :show], shallow: true
 	end
 
+	resources :batches, except: [:index, :show]
+
 	get "dashboard", to: "dashboard#index", as: :dashboard
 	get "accounts/:id", to: "accounts#show", as: :account
 end

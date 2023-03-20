@@ -1,5 +1,5 @@
 class Batch < ApplicationRecord
-	validates :name, uniqueness: {message: "There is already a team exists with that name!"}
+	validates :name, uniqueness: {message: "There is already a team exists with that name!"}, length: {minimum: 4}
 
 	belongs_to :admin
 	has_many :interns
