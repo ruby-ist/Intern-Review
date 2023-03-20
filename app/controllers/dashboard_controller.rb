@@ -3,25 +3,29 @@ class DashboardController < ApplicationController
 	before_action :authenticate_account!
 
 	def index
-		request.variant = current_account.accountable_type.to_sym
+		request.variant = user_sym
 		@user = current_account.accountable
 
-		if request.variant.include? :Trainer
+		unless request.variant.include? :intern
 			@type = "all"
 			if params['date'] == "all"
-				@daily_reports = DailyReport.for_trainer(@user.id)
+				@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id)
 			elsif params['date']
 				begin
-					@daily_reports = DailyReport.for_trainer(@user.id).where(date: params['date'].to_date)
+					@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: params['date'].to_date)
 				rescue
 					@daily_reports = DailyReport.none
 				end
 			else
 				@type = "today"
-				@daily_reports = DailyReport.for_trainer(@user.id).where(date: Date.today)
+				@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: Date.today)
 			end
-		elsif request.variant.include? :Admin
-			@trainers = @user.trainers.includes(interns: :account)
 		end
+	end
+
+	private
+
+	def user_sym
+		current_account.accountable_type.downcase.to_sym
 	end
 end

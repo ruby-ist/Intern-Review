@@ -3,6 +3,8 @@
 class Accounts::RegistrationsController < Devise::RegistrationsController
 	skip_before_action :require_no_authentication, only: [:new, :create]
 	before_action :configure_sign_up_params, only: [:create]
+	before_action :authenticate_account!
+	before_action :admin_account!, only: [:new, :create]
 	# before_action :configure_account_update_params, only: [:update]
 
 	# GET /resource/sign_up
@@ -22,17 +24,30 @@ class Accounts::RegistrationsController < Devise::RegistrationsController
 
 			accountable = case resource.accountable_type
 						  when "Intern"
-							  Intern.create!(technology: params[:technology])
+							  @batch = Batch.find_by(name: params[:batch_name])
+							  Intern.create(technology: params[:technology], batch: @batch)
 						  when "Trainer"
-							  Trainer.create!(admin: current_account.accountable)
+							  @course = Course.find_by(title: params[:course_name])
+							  @batch = Batch.find_by(name: params[:batch_name])
+							  Trainer.create(admin: current_account.accountable, course: @course, batch: @batch )
 						  when "Admin"
 							  Admin.create!
 						  else
-							  raise "Missing Argument Error"
+							  raise "Invalid User Type"
 						  end
-
 			resource.accountable_id = accountable.id
 			unless resource.save
+				unless resource.admin?
+					unless @batch
+						resource.errors.messages[:batch] = ["must exist"]
+					end
+				end
+
+				if resource.trainer?
+					unless @course
+						resource.errors.messages[:course] = ["must exist"]
+					end
+				end
 				accountable.destroy!
 			end
 		else

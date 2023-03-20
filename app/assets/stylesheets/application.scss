@@ -356,3 +356,22 @@ nav.ui.menu {
 		color: #f26202 !important;
 	}
 }
+
+#reviews{
+	padding: 5% 10%;
+}
+
+.review.segment{
+	margin-bottom: 50px;
+
+	h4{
+		margin-top: 0 !important;
+	}
+
+	.icon.menu {
+		width: max-content;
+		position: absolute;
+		right: 5%;
+		bottom: 10%;
+	}
+}

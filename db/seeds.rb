@@ -156,3 +156,18 @@
 # 	next if intern.id == 1
 # 	intern.courses << Course.first
 # end
+#
+# trainer = Trainer.create!(admin_id: 3)
+#
+# Account.create!(name: "shanmugha",
+# 				email: "shanmugha@rently.com",
+# 				password: "1234567",
+# 				password_confirmation: "1234567",
+# 				accountable_id: trainer.id,
+# 				accountable_type: "Trainer")
+#
+# Trainer.update_all(course_id: 1)
+
+# Batch.create!(name: "Team guna", admin_id: 3)
+# Batch.create!(name: "Team Priya", admin_id: 3)
+# Batch.create!(name: "Team Ramanan", admin_id: 3)

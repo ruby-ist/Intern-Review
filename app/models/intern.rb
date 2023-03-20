@@ -1,6 +1,9 @@
 class Intern < ApplicationRecord
 	validates :technology, presence: true
 
+	belongs_to :batch
+	has_many :trainers, through: :batch
+
 	has_one :account, as: :accountable
 
 	has_many :section_reports
@@ -8,8 +11,6 @@ class Intern < ApplicationRecord
 
 	has_many :course_reports
 	has_many :courses, through: :course_reports
-
-	has_and_belongs_to_many :trainers
 
 	delegate_missing_to :account
 end

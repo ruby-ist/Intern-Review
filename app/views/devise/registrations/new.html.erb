@@ -43,6 +43,15 @@
 				<%= text_field_tag :technology, "", autocomplete: "off" %>
 			</div>
 			
+			<div class="field">
+				<%= f.label :course_name %> <em>(Only required for Trainers)</em>
+				<%= text_field_tag :course_name, "", autocomplete: "off" %>
+			</div>
+			
+			<div class="field">
+				<%= f.label :batch_name %> <em>(Not required for admin)</em>
+				<%= text_field_tag :batch_name, "", autocomplete: "off" %>
+			</div>
 			
 			<br/>
 			<%= render "devise/shared/error_messages", resource: resource %>
@@ -50,8 +59,6 @@
 			<div class="field actions">
 				<%= f.submit "Sign up", class: "ui basic orange button" %>
 			</div>
-			
-			<%= render "devise/shared/links" %>
 		<% end %>
 	</div>
 </div>

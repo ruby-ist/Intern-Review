@@ -1,0 +1,10 @@
+<%= form_with model: [course_report, review], local: true do |f|%>
+	<%= f.label :feedback %>:
+	<%= f.text_area :feedback %>
+	<br/>
+	<%= render partial: "shared/error", locals: { model: review, field: :feedback } %>
+	<br/>
+	<div class="right-aligned">
+		<%= f.submit class: "ui basic large orange button" %>
+	</div>
+<% end %>

@@ -20,8 +20,7 @@
 		
 		<div class="right menu">
 			<% unless account_signed_in? %>
-				<%= link_to "LOG IN", new_account_session_path, class: "item" %>
-				<%= link_to "SIGN UP", new_account_registration_path, class: "sign-up item" %>
+				<%= link_to "LOG IN", new_account_session_path, class: "sign-up item" %>
 			<% else %>
 				<%= link_to "DASHBOARD", dashboard_path, class: "item" %>
 				<% unless current_account.intern? %>

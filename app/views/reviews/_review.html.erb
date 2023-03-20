@@ -1,0 +1,19 @@
+<div class="ui very padded raised review segment">
+	<h4 class="ui inline header">Intern Name: </h4>
+	<%= review.course_report.intern.name %>
+	<br/>
+	<h4 class="ui inline header">Course Title: </h4>
+	<%= review.course_report.course.title %>
+	<br/>
+	<h4 class="ui inline header">Review: </h4><br/>
+	<%= review.feedback %>
+	
+	<div class="ui icon menu">
+		<%= link_to edit_review_path(review), class: "item" do %>
+			<i class="edit orange icon"></i>
+		<% end %>
+		<%= link_to review_path(review), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
+			<i class="trash orange icon"></i>
+		<% end %>
+	</div>
+</div>

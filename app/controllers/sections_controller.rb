@@ -1,6 +1,6 @@
 class SectionsController < ApplicationController
 
-	before_action :account_is_not_an_intern!, except: :show
+	before_action :not_an_intern_account!, except: :show
 	before_action :authenticate_account!, only: :show
 	before_action :set_course, only: %w{ new create }
 	before_action :set_section, only: %w{ show edit update destroy }

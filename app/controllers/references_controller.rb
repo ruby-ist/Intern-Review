@@ -1,6 +1,6 @@
 class ReferencesController < ApplicationController
 
-	before_action :account_is_not_an_intern!
+	before_action :not_an_intern_account!
 	before_action :set_reference, except: [:create, :destroy]
 
 	def create

@@ -13,10 +13,16 @@ class AccountsController < ApplicationController
 		case @account.accountable_type
 		when "Intern"
 			@section_reports = @user.section_reports.dated_reports
+			@batch = @user.batch
+			@trainers = @batch.trainers
+			@course_reports = CourseReport.where(intern: @user).includes(:course)
 		when "Trainer"
-			@courses = @user.courses
-		else
-
+			@batch = @user.batch
+			@interns = @batch.interns.includes(:account)
+			@course = @user.course
+		when "Admin"
+			@batches = @user.batches.includes(trainers: :account, interns: :account)
+			@reviews = @user.reviews.includes(course_report: [:intern, :course])
 		end
 	end
 end

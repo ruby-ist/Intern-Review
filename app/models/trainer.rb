@@ -1,9 +1,10 @@
 class Trainer < ApplicationRecord
 	belongs_to :admin
+	belongs_to :course
+	belongs_to :batch
 	has_one :account, as: :accountable
 
-	has_and_belongs_to_many :courses
-	has_and_belongs_to_many :interns
+	has_many :interns, through: :batch
 
 	delegate_missing_to :account
 end

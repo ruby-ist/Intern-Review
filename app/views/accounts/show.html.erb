@@ -1,4 +1,13 @@
-<div class="ui very padded centered placeholder account segment">
+<div class="ui very padded centered raised account segment">
+	
+	<% if @account.admin? %>
+		<div class="ui right aligned container">
+			<%= link_to new_account_registration_path do %>
+				<div class="ui basic large orange button">+ Create User</div>
+			<% end %>
+		</div>
+	<% end %>
+	
 	<h2 class="ui orange center aligned header">Account Details</h2>
 	<table class="ui definition table">
 		<tbody>
@@ -17,29 +26,55 @@
 			<td><%= @account.accountable_type %></td>
 		</tr>
 		
+		<% unless @account.admin? %>
+			<tr>
+				<td>Batch Name</td>
+				<td><%= @batch.name %></td>
+			</tr>
+		<% end %>
+		
 		<% if @account.intern? %>
 			<tr>
-				<td>Technology</td>
+				<td>Current Technology</td>
 				<td><%= @user.technology %></td>
+			</tr>
+			
+			<tr>
+				<td>Courses Enrolled</td>
+				<td>
+					<ul>
+						<% @course_reports.each do |course_report| %>
+							<% if current_account.admin? %>
+								<li><%= course_report.course.title %>
+									(<%= link_to "Add Review", new_course_report_review_path(course_report) %>)
+								</li>
+							<% else %>
+								<li> <%= course_report.course.title %></li>
+							<% end %>
+						<% end %>
+					</ul>
+				</td>
 			</tr>
 			
 			<tr>
 				<td>Trainers</td>
 				<td>
 					<ul>
-						<% @user.trainers.each do |trainer| %>
+						<% @trainers.each do |trainer| %>
 							<li><%= trainer.name %></li>
 						<% end %>
 					</ul>
 				</td>
 			</tr>
-		<% else %>
+		<% elsif @account.trainer? %>
 			<tr>
 				<td>Interns</td>
 				<td>
 					<ul>
-						<% @user.interns.includes(:account).each do |intern| %>
-							<li><%= link_to intern.account.name, account_path(intern.account) %>&ensp; (<%= intern.technology %>)</li>
+						<% @interns.each do |intern| %>
+							<li><%= link_to intern.account.name, account_path(intern.account) %>&ensp;
+								(<%= intern.technology %>)
+							</li>
 						<% end %>
 					</ul>
 				</td>
@@ -48,6 +83,44 @@
 		
 		</tbody>
 	</table>
+	
+	<% if @account.admin? %>
+		<br/><br/>
+		<h3 class="ui orange header">Batches Details</h3>
+		
+		<table class="ui celled table">
+			<tbody>
+			<thead>
+			<tr>
+				<th>Batch Name</th>
+				<th>Trainers</th>
+				<th>Interns</th>
+			</tr>
+			</thead>
+			
+			<% @batches.each do |batch| %>
+				<tr>
+					<td><%= batch.name %></td>
+					
+					<td>
+						<ul>
+							<% batch.trainers.each do |trainer| %>
+								<li><%= link_to trainer.name, account_path(trainer.account) %></li>
+							<% end %>
+						</ul>
+					</td>
+					
+					<td>
+						<ul>
+							<% batch.interns.each do |intern| %>
+								<li><%= link_to intern.name, account_path(intern.account) %></li>
+							<% end %>
+						</ul>
+					</td>
+				<tr>
+			<% end %>
+		</table>
+	<% end %>
 </div>
 
 <div class="ui very padded segment">
@@ -85,17 +158,20 @@
 					<% end %>
 				</div>
 				
-				
 				<div class="profile daily-reports">
 					<%= render section_report.daily_reports %>
 				</div>
 			</div>
-			
 		<% end %>
-	<% else %>
-		<h2 class="ui header">Courses Handling:</h2>
+	<% elsif @account.trainer? %>
+		<h2 class="ui header">Course Handling:</h2>
 		<div id="courses">
-			<%= render @courses  %>
+			<%= render @course %>
+		</div>
+	<% elsif @account.admin? %>
+		<h2 class="ui header">Reviews:</h2>
+		<div id="reviews">
+			<%= render @reviews %>
 		</div>
 	<% end %>
 </div>

@@ -19,6 +19,10 @@ Rails.application.routes.draw do
 		end
 	end
 
+	resources :course_reports, only: [] do
+		resources :reviews, except: [:index, :show], shallow: true
+	end
+
 	get "dashboard", to: "dashboard#index", as: :dashboard
 	get "accounts/:id", to: "accounts#show", as: :account
 end

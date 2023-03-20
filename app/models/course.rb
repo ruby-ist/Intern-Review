@@ -1,10 +1,10 @@
 class Course < ApplicationRecord
-	validates :title, presence: true, length: {minimum: 3}
+	validates :title, length: {minimum: 3}, uniqueness: true
 	validates :duration, presence: true, numericality: {only_integer: true }
 
 	has_many :sections, dependent: :destroy
 	belongs_to :account
-	has_and_belongs_to_many :trainers
+	has_many :trainers
 
 	has_many :course_reports
 	has_many :interns, through: :course_reports

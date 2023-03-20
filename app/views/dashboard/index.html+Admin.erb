@@ -1,26 +1,29 @@
-<div class="ui very padded placeholder segment">
-	<h2 class="ui header">Trainers and Interns</h2>
-	<table class="ui celled table">
-		<tbody>
-		<thead>
-		<tr>
-			<th>Trainers</th>
-			<th>Interns</th>
-		</tr>
-		</thead>
-		<% @trainers.each do |trainer| %>
-			<tr>
-				<td class="three wide center aligned column" rowspan="<%= trainer.interns.count %>"><%= trainer.name %></td>
-				<td><%= trainer.interns.first.name %>
-			</tr>
-			
-			<% trainer.interns[1..].each do |intern| %>
-				<tr>
-					<td class=rowspanned></td>
-					<td><%= intern.name %>
-				</tr>
+<div class="ui centered very padded raised segment">
+	<div class="ui tabular menu">
+		<%= link_to "Today Reports", dashboard_path, class: "item " + (@type == 'today' ? 'active' : '') %>
+		<%= link_to "All Reports", dashboard_path(date: "all"), class: "item " + (@type == 'all' ? 'active' : '') %>
+	</div>
+	
+	<% unless @type == 'today' %>
+		<br/>
+		<div class="ui very padded right aligned container">
+			<%= form_with url: dashboard_path, method: :get, local: true do |f| %>
+				Filter: &ensp;
+				<div class="ui input">
+					<%= date_field_tag :date %>
+				</div>
+				&ensp;&ensp;&ensp;
+				<%= f.submit "Apply", class: "ui basic orange button"  %>
 			<% end %>
+		</div>
+		<br/>
+	<% end %>
+	
+	<div class="daily-reports">
+		<% if @daily_reports.present? %>
+			<%= render @daily_reports %>
+		<% else %>
+			<div class="ui center aligned very padded container">No reports added for the date yet</div>
 		<% end %>
-		</tbody>
-	</table>
+	</div>
 </div>
