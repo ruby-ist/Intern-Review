@@ -4,7 +4,9 @@
 		<%= render @courses %>
 	</div>
 	
-	<%= link_to new_course_path do %>
-		<div class="ui basic large orange button">+ New Course</div>
+	<% unless current_account.intern? %>
+		<%= link_to new_course_path do %>
+			<div class="ui basic large orange button">+ New Course</div>
+		<% end %>
 	<% end %>
 </section>

@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 
 	root "dashboard#index"
 
+	devise_for :admin_users, ActiveAdmin::Devise.config
+	ActiveAdmin.routes(self)
+
 	devise_for :accounts, controllers: {
 		registrations: "accounts/registrations"
 	}
@@ -25,6 +28,6 @@ Rails.application.routes.draw do
 
 	resources :batches, except: [:index, :show]
 
-	get "dashboard", to: "dashboard#index", as: :dashboard
+	get "reports", to: "dashboard#index", as: :dashboard
 	get "accounts/:id", to: "accounts#show", as: :account
 end

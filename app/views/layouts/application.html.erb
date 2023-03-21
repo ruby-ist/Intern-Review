@@ -22,9 +22,9 @@
 			<% unless account_signed_in? %>
 				<%= link_to "LOG IN", new_account_session_path, class: "sign-up item" %>
 			<% else %>
-				<%= link_to "DASHBOARD", dashboard_path, class: "item" %>
+				<%= link_to "COURSES", courses_path, class: "item" %>
 				<% unless current_account.intern? %>
-					<%= link_to "COURSES", courses_path, class: "item" %>
+					<%= link_to "REPORTS", dashboard_path, class: "item" %>
 				<% end %>
 				<%= link_to "PROFILE", account_path(current_account.id), class: "item" %>
 				<%= link_to "LOG OUT", destroy_account_session_path, class: "sign-up item", data: {turbo_method: :delete, turbo_confirm: "Are you Sure?"} %>
