@@ -20,7 +20,7 @@ class AccountsController < ApplicationController
 			@batch = @user.batch
 			@interns = @batch.interns.includes(:account)
 			@course = @user.course
-		when "Admin"
+		when "AdminUser"
 			@batches = @user.batches.includes(trainers: :account, interns: :account)
 			@reviews = @user.reviews.includes(course_report: [:intern, :course])
 		end

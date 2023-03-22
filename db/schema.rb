@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_21_035746) do
+ActiveRecord::Schema.define(version: 2023_03_22_035546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,18 +58,13 @@ ActiveRecord::Schema.define(version: 2023_03_21_035746) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "admins", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "batches", force: :cascade do |t|
     t.string "name"
     t.integer "status", default: 0
-    t.bigint "admin_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["admin_id"], name: "index_batches_on_admin_id"
+    t.bigint "admin_user_id"
+    t.index ["admin_user_id"], name: "index_batches_on_admin_user_id"
   end
 
   create_table "course_reports", force: :cascade do |t|
@@ -123,11 +118,11 @@ ActiveRecord::Schema.define(version: 2023_03_21_035746) do
 
   create_table "reviews", force: :cascade do |t|
     t.text "feedback"
-    t.bigint "admin_id"
     t.bigint "course_report_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["admin_id"], name: "index_reviews_on_admin_id"
+    t.bigint "admin_user_id"
+    t.index ["admin_user_id"], name: "index_reviews_on_admin_user_id"
     t.index ["course_report_id"], name: "index_reviews_on_course_report_id"
   end
 
@@ -154,12 +149,10 @@ ActiveRecord::Schema.define(version: 2023_03_21_035746) do
   end
 
   create_table "trainers", force: :cascade do |t|
-    t.bigint "admin_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "course_id"
     t.bigint "batch_id"
-    t.index ["admin_id"], name: "index_trainers_on_admin_id"
     t.index ["batch_id"], name: "index_trainers_on_batch_id"
     t.index ["course_id"], name: "index_trainers_on_course_id"
   end

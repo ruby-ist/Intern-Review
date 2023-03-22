@@ -1,13 +1,5 @@
 <div class="ui very padded centered raised account segment">
 	
-	<% if @account.admin? %>
-		<div class="ui right aligned container">
-			<%= link_to new_account_registration_path do %>
-				<div class="ui basic large orange button">+ Create User</div>
-			<% end %>
-		</div>
-	<% end %>
-	
 	<h2 class="ui orange center aligned header">Account Details</h2>
 	<table class="ui definition table">
 		<tbody>
@@ -26,7 +18,7 @@
 			<td><%= @account.accountable_type %></td>
 		</tr>
 		
-		<% unless @account.admin? %>
+		<% unless @account.admin_user? %>
 			<tr>
 				<td>Batch Name</td>
 				<td><%= @batch.name %></td>
@@ -44,7 +36,7 @@
 				<td>
 					<ul>
 						<% @course_reports.each do |course_report| %>
-							<% if current_account.admin? %>
+							<% if current_account.admin_user? %>
 								<li><%= course_report.course.title %>
 									(<%= link_to "Add Review", new_course_report_review_path(course_report) %>)
 								</li>
@@ -84,7 +76,7 @@
 		</tbody>
 	</table>
 	
-	<% if @account.admin? %>
+	<% if @account.admin_user? %>
 		<br/><br/>
 		<h3 class="ui orange header">Batches Details</h3>
 		
@@ -168,7 +160,7 @@
 		<div id="courses">
 			<%= render @course %>
 		</div>
-	<% elsif @account.admin? %>
+	<% elsif @account.admin_user? %>
 		<h2 class="ui header">Reviews:</h2>
 		<div id="reviews">
 			<%= render @reviews %>

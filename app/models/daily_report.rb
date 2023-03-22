@@ -13,9 +13,9 @@ class DailyReport < ApplicationRecord
 			.includes(section_report: :intern)
 	}
 
-	scope :for_admin, -> (id) {
+	scope :for_admin_user, -> (id) {
 		joins(section_report: { intern: :batch })
-			.where(batches: { admin_id: id })
+			.where(batches: { admin_user_id: id })
 			.order(date: :desc, created_at: :desc)
 			.includes(section_report: {intern: :batch})
 	}

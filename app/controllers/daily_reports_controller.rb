@@ -1,7 +1,31 @@
 class DailyReportsController < ApplicationController
-
-
+	before_action :authenticate_account!
 	before_action :set_daily_report, only: [:edit, :update]
+
+	def index
+		request.variant = user_sym
+		@user = current_account.accountable
+
+		if current_account.intern?
+			redirect_to account_path(current_account)
+			return
+		end
+
+		@type = "all"
+		if params['date'] == "all"
+			@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id)
+		elsif params['date']
+			begin
+				@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: params['date'].to_date)
+			rescue
+				@daily_reports = DailyReport.none
+			end
+		else
+			@type = "today"
+			@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: Date.today)
+		end
+
+	end
 
 	def create
 		@section = Section.find params[:section_id]
@@ -31,7 +55,7 @@ class DailyReportsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @daily_report.update(daily_report_params)
-				format.html{ redirect_to @section }
+				format.html { redirect_to @section }
 			else
 				format.html { render 'sections/show', status: :unprocessable_entity }
 			end
@@ -62,5 +86,9 @@ class DailyReportsController < ApplicationController
 
 	def daily_report_params
 		params.require(:daily_report).permit(:date, :progress, :status)
+	end
+
+	def user_sym
+		current_account.accountable_type.underscore.to_sym
 	end
 end

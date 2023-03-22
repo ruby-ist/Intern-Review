@@ -171,4 +171,4 @@
 # Batch.create!(name: "Team guna", admin_id: 3)
 # Batch.create!(name: "Team Priya", admin_id: 3)
 # Batch.create!(name: "Team Ramanan", admin_id: 3)
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+# AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

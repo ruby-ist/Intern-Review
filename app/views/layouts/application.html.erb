@@ -11,7 +11,7 @@
 
 <body>
 	<nav class="ui nav-section menu">
-		<%= link_to dashboard_path, class: "item" do %>
+		<%= link_to reports_path, class: "item" do %>
 			<div class="ui huge header">
 				<%= image_tag "intern-logo.svg", class: "logo" %>
 				Intern Review
@@ -24,7 +24,7 @@
 			<% else %>
 				<%= link_to "COURSES", courses_path, class: "item" %>
 				<% unless current_account.intern? %>
-					<%= link_to "REPORTS", dashboard_path, class: "item" %>
+					<%= link_to "REPORTS", reports_path, class: "item" %>
 				<% end %>
 				<%= link_to "PROFILE", account_path(current_account.id), class: "item" %>
 				<%= link_to "LOG OUT", destroy_account_session_path, class: "sign-up item", data: {turbo_method: :delete, turbo_confirm: "Are you Sure?"} %>

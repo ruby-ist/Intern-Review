@@ -1,6 +1,6 @@
 ActiveAdmin.register Trainer do
 
-	permit_params :admin_id, :course_id, :batch_id, account_attributes: [:name, :email, :password, :password_confirmation, :_destroy]
+	permit_params :course_id, :batch_id, account_attributes: [:name, :email, :password, :password_confirmation, :_destroy]
 
 	index do
 		selectable_column
@@ -8,7 +8,6 @@ ActiveAdmin.register Trainer do
 		column :name
 		column :email
 		column :course
-		column :admin
 		column :batch
 		actions
 	end

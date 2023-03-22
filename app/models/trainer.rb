@@ -1,5 +1,4 @@
 class Trainer < ApplicationRecord
-	belongs_to :admin
 	belongs_to :course
 	belongs_to :batch
 	has_one :account, as: :accountable

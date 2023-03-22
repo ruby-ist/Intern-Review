@@ -17,5 +17,4 @@ class Course < ApplicationRecord
 			self.image_url = nil
 		end
 	end
-
 end

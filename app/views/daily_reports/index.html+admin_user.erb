@@ -1,13 +1,13 @@
 <div class="ui centered very padded raised segment">
 	<div class="ui tabular menu">
-		<%= link_to "Today Reports", dashboard_path, class: "item " + (@type == 'today' ? 'active' : '') %>
-		<%= link_to "All Reports", dashboard_path(date: "all"), class: "item " + (@type == 'all' ? 'active' : '') %>
+		<%= link_to "Today Reports", reports_path, class: "item " + (@type == 'today' ? 'active' : '') %>
+		<%= link_to "All Reports", reports_path(date: "all"), class: "item " + (@type == 'all' ? 'active' : '') %>
 	</div>
 	
 	<% unless @type == 'today' %>
 		<br/>
 		<div class="ui very padded right aligned container">
-			<%= form_with url: dashboard_path, method: :get, local: true do |f| %>
+			<%= form_with url: reports_path, method: :get, local: true do |f| %>
 				Filter: &ensp;
 				<div class="ui input">
 					<%= date_field_tag :date %>

@@ -9,7 +9,7 @@ ActiveAdmin.register CourseReport do
 		f.inputs do
 			f.has_many :review, heading: "Add review", allow_destroy: true do |a|
 				a.input :feedback
-				a.input :admin
+				a.input :admin_user
 			end
 		end
 		f.actions

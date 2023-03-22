@@ -13,5 +13,7 @@ class Intern < ApplicationRecord
 	has_many :course_reports
 	has_many :courses, through: :course_reports
 
+	has_many :reviews, through: :course_reports
+
 	delegate_missing_to :account
 end

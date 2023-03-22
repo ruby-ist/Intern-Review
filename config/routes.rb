@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-	root "dashboard#index"
+	root "courses#index"
 
 	devise_for :admin_users, ActiveAdmin::Devise.config
 	ActiveAdmin.routes(self)
@@ -28,6 +28,6 @@ Rails.application.routes.draw do
 
 	resources :batches, except: [:index, :show]
 
-	get "reports", to: "dashboard#index", as: :dashboard
+	get "reports", to: "daily_reports#index", as: :reports
 	get "accounts/:id", to: "accounts#show", as: :account
 end
