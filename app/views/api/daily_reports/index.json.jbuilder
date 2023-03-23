@@ -1,0 +1,1 @@
+json.array! @daily_reports, partial: "api/daily_reports/daily_report", as: :daily_report

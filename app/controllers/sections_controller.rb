@@ -13,9 +13,11 @@ class SectionsController < ApplicationController
 		@section = @course.sections.build(section_params)
 		respond_to do |format|
 			if @section.save
-				format.html{ redirect_to @course }
+				format.html { redirect_to @course }
+				format.json { render json: @section, status: :created }
 			else
-				format.html{ render :new, status: :unprocessable_entity}
+				format.html { render :new, status: :unprocessable_entity}
+				format.json { render json: @section.errors, status: :unprocessable_entity }
 			end
 		end
 	end
@@ -40,16 +42,21 @@ class SectionsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @section.update(section_params)
-				format.html{ redirect_to course_path(@section.course_id) }
+				format.html { redirect_to course_path(@section.course_id) }
+				format.json { render json: @section, status: :ok }
 			else
 				format.html{ render :edit, status: :unprocessable_entity}
+				format.json { render json: @section.errors, status: :unprocessable_entity }
 			end
 		end
 	end
 
 	def destroy
 		@section.destroy!
-		redirect_to course_path(@section.course_id)
+		respond_to do |format|
+			format.html { redirect_to course_path(@section.course_id) }
+			format.json { head :no_content }
+		end
 	end
 
 	private

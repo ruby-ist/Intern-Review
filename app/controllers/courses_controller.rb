@@ -21,8 +21,10 @@ class CoursesController < ApplicationController
 		respond_to do |format|
 			if @course.save
 				format.html { redirect_to course_path @course }
+				format.json { render json: @course, status: :created }
 			else
 				format.html { render :new, status: :unprocessable_entity }
+				format.json { render json: @course.errors, status: :unprocessable_entity }
 			end
 		end
 	end
@@ -38,15 +40,20 @@ class CoursesController < ApplicationController
 		respond_to do |format|
 			if @course.update(course_params)
 				format.html { redirect_to course_path @course }
+				format.html { render json: @course, status: :ok }
 			else
 				format.html { render :edit, status: :unprocessable_entity }
+				format.json { render json: @course.errors, status: :unprocessable_entity }
 			end
 		end
 	end
 
 	def destroy
 		course.destroy!
-		redirect_to courses_path, status: :see_other
+		respond_to do |format|
+			format.html { redirect_to courses_path, status: :see_other }
+			format.json { head :no_content }
+		end
 	end
 
 	private

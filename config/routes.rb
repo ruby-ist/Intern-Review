@@ -22,12 +22,29 @@ Rails.application.routes.draw do
 		end
 	end
 
-	resources :course_reports, only: [] do
-		resources :reviews, except: [:index, :show], shallow: true
+	scope 'course_reports/:course_report_id/' do
+		resources :reviews, only: [:new, :create]
 	end
 
+	resources :reviews, only: [:edit, :update, :destroy]
 	resources :batches, except: [:index, :show]
+	resources :daily_reports, only: :index
+	resources :accounts, only: :show
 
-	get "reports", to: "daily_reports#index", as: :reports
-	get "accounts/:id", to: "accounts#show", as: :account
+	namespace :api, defaults: { format: :json } do
+		resources :courses, except: [:new, :edit] do
+			resources :sections, shallow: true, except: [:index, :new, :edit] do
+				resources :daily_reports, only: [:create, :update, :destroy]
+				resources :references, only: [:create, :update, :destroy]
+			end
+		end
+
+		scope 'course_reports/:course_report_id/' do
+			resources :reviews, only: :create
+		end
+		resources :reviews, only: [:update, :destroy]
+		resources :batches, only: [:create, :update, :destroy]
+		resources :daily_reports, only: [:index]
+		resources :accounts, only: :show
+	end
 end

@@ -11,9 +11,11 @@ class BatchesController < ApplicationController
 		@batch = current_user.batches.build(batch_params)
 		respond_to do |format|
 			if @batch.save
-				format.html {redirect_to account_path(current_account) }
+				format.html { redirect_to account_path(current_account) }
+				format.json { render json: @batch, status: :created }
 			else
-				format.html {render :new, status: :unprocessable_entity}
+				format.html { render :new, status: :unprocessable_entity }
+				format.json { render json: @batch.errors, status: :unprocessable_entity }
 			end
 		end
 	end
@@ -24,16 +26,21 @@ class BatchesController < ApplicationController
 	def update
 		respond_to do |format|
 			if @batch.update(batch_params)
-				format.html {redirect_to account_path(current_account) }
+				format.html { redirect_to account_path(current_account) }
+				format.json { render json: @batch, status: :ok }
 			else
-				format.html {render :edit, status: :unprocessable_entity}
+				format.html { render :edit, status: :unprocessable_entity }
+				format.json { render json: @batch.errors, status: :unprocessable_entity }
 			end
 		end
 	end
 
 	def destroy
 		@batch.destroy!
-		redirect_to account_path(current_account)
+		respond_to do |format|
+			format.html { redirect_to account_path(current_account) }
+			format.json { head :no_content }
+		end
 	end
 
 	private

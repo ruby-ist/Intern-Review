@@ -9,9 +9,11 @@ class ReferencesController < ApplicationController
 		respond_to do |format|
 			if @reference.save
 				format.html { redirect_to @section }
+				format.json { render json: @reference, status: :created }
 			else
 				@daily_reports = @section.daily_reports
-				format.html { render "sections/show", status: :unprocessable_entity}
+				format.html { render "sections/show", status: :unprocessable_entity }
+				format.json { render @reference.errors, status: :unprocessable_entity }
 			end
 		end
 	end
@@ -24,8 +26,10 @@ class ReferencesController < ApplicationController
 		respond_to do |format|
 			if @reference.update(reference_params)
 				format.html{ redirect_to @section }
+				format.json { render json: @reference, status: :ok }
 			else
 				format.html { render 'sections/show', status: :unprocessable_entity }
+				format.json { render @reference.errors, status: :unprocessable_entity }
 			end
 		end
 	end
@@ -33,7 +37,10 @@ class ReferencesController < ApplicationController
 	def destroy
 		@reference = Reference.find params[:id]
 		@reference.destroy!
-		redirect_to section_path(@reference.section_id)
+		respond_to do |format|
+			format.html { redirect_to section_path(@reference.section_id) }
+			format.json { head :no_content }
+		end
 	end
 
 	private

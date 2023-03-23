@@ -14,9 +14,11 @@ class ReviewsController < ApplicationController
 
 		respond_to do |format|
 			if @review.save
-				format.html{ redirect_to account_path(current_account) }
+				format.html { redirect_to account_path(current_account) }
+				format.json { render json: @review, status: :created }
 			else
-				format.html{ render :new, status: :unprocessable_entity}
+				format.html { render :new, status: :unprocessable_entity }
+				format.json { render json: @review.errors, status: :unprocessable_entity }
 			end
 		end
 	end
@@ -27,16 +29,21 @@ class ReviewsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @review.update(review_params)
-				format.html{ redirect_to account_path(current_account) }
+				format.html { redirect_to account_path(current_account) }
+				format.json { render json: @review, status: :ok }
 			else
-				format.html{ render :edit, status: :unprocessable_entity}
+				format.html { render :edit, status: :unprocessable_entity }
+				format.json { render json: @review.errors, status: :unprocessable_entity }
 			end
 		end
 	end
 
 	def destroy
 		@review.destroy!
-		redirect_to account_path(current_account)
+		respond_to do |format|
+			format.html { redirect_to account_path(current_account) }
+			format.json { head :no_content }
+		end
 	end
 
 	private
