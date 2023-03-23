@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-
 	root "courses#index"
 
+	use_doorkeeper
 	devise_for :admin_users, ActiveAdmin::Devise.config
 	ActiveAdmin.routes(self)
 
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 	resources :daily_reports, only: :index
 	resources :accounts, only: :show
 
-	namespace :api, defaults: { format: :json } do
+	namespace :api do
 		resources :courses, except: [:new, :edit] do
 			resources :sections, shallow: true, except: [:index, :new, :edit] do
 				resources :daily_reports, only: [:create, :update, :destroy]

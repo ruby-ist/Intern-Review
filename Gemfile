@@ -47,3 +47,5 @@ gem "fomantic-ui-sass", "~> 2.8"
 gem "turbo-rails", "~> 1.4"
 gem "devise", "~> 4.9"
 gem "activeadmin", "~> 2.12"
+
+gem "doorkeeper", "~> 5.6"

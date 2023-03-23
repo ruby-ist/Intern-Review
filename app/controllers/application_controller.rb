@@ -1,12 +1,10 @@
 class ApplicationController < ActionController::Base
-
-
 	def current_user
 		current_account.accountable
 	end
 
 	def not_an_intern_account!
-		unless account_signed_in?
+		unless account_signed_in? || current_account
 			authenticate_account!
 		end
 
@@ -16,7 +14,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def admin_account!
-		unless current_account.admin?
+		unless current_account.admin_user?
 			redirect_back fallback_location: "/dashboard" ,alert: "You are not authorised to do that!"
 		end
 	end

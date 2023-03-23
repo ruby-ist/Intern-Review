@@ -1,7 +1,6 @@
-class Api::CoursesController < ApplicationController
+class Api::CoursesController < Api::ApiController
 
-	before_action :not_an_intern_account!, except: %w( index show )
-	before_action :authenticate_account!, only: [:index, :show]
+	before_action :doorkeeper_authorize!
 	before_action :set_course, only: %w{ show update destroy }
 
 	def index
