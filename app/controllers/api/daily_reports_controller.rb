@@ -7,7 +7,7 @@ class Api::DailyReportsController < ApplicationController
 		@user = current_account.accountable
 
 		if current_account.intern?
-			redirect_to account_path(current_account)
+			render json: {error: "Your account doesn't have that privilege"}, status: :non_authoritative_information
 			return
 		end
 

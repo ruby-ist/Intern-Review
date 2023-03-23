@@ -9,14 +9,10 @@ class BatchesController < ApplicationController
 
 	def create
 		@batch = current_user.batches.build(batch_params)
-		respond_to do |format|
-			if @batch.save
-				format.html { redirect_to account_path(current_account) }
-				format.json { render json: @batch, status: :created }
-			else
-				format.html { render :new, status: :unprocessable_entity }
-				format.json { render json: @batch.errors, status: :unprocessable_entity }
-			end
+		if @batch.save
+			redirect_to account_path(current_account), notice: "A new batch created!"
+		else
+			render :new, status: :unprocessable_entity
 		end
 	end
 
@@ -24,23 +20,16 @@ class BatchesController < ApplicationController
 	end
 
 	def update
-		respond_to do |format|
-			if @batch.update(batch_params)
-				format.html { redirect_to account_path(current_account) }
-				format.json { render json: @batch, status: :ok }
-			else
-				format.html { render :edit, status: :unprocessable_entity }
-				format.json { render json: @batch.errors, status: :unprocessable_entity }
-			end
+		if @batch.update(batch_params)
+			redirect_to account_path(current_account), notice: "Batch has been updated"
+		else
+			render :edit, status: :unprocessable_entity
 		end
 	end
 
 	def destroy
 		@batch.destroy!
-		respond_to do |format|
-			format.html { redirect_to account_path(current_account) }
-			format.json { head :no_content }
-		end
+		redirect_to account_path(current_account), notice: "Batch has been deleted"
 	end
 
 	private

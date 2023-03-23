@@ -7,7 +7,7 @@ class DailyReportsController < ApplicationController
 		@user = current_account.accountable
 
 		if current_account.intern?
-			redirect_to account_path(current_account)
+			redirect_to account_path(current_account), status: :non_authoritative_information
 			return
 		end
 
@@ -38,15 +38,11 @@ class DailyReportsController < ApplicationController
 			@section_report.completed!
 		end
 
-		respond_to do |format|
-			if @daily_report.save && @section_report.save
-				format.html { redirect_to @section }
-				format.json { render json: @daily_reports, status: :created }
-			else
-				@daily_reports = @section.daily_reports.order(date: :desc)
-				format.html { render "sections/show", status: :unprocessable_entity }
-				format.json { render json: @daily_reports.error, status: :unprocessable_entity }
-			end
+		if @daily_report.save && @section_report.save
+			redirect_to @section, notice: "Report successfully created!"
+		else
+			@daily_reports = @section.daily_reports.order(date: :desc)
+			render "sections/show", status: :unprocessable_entity
 		end
 	end
 
@@ -55,24 +51,17 @@ class DailyReportsController < ApplicationController
 	end
 
 	def update
-		respond_to do |format|
-			if @daily_report.update(daily_report_params)
-				format.html { redirect_to @section }
-				format.json { render json: @daily_report, status: :ok }
-			else
-				format.html { render 'sections/show', status: :unprocessable_entity }
-				format.json { render json: @daily_report.errors, status: :unprocessable_entity }
-			end
+		if @daily_report.update(daily_report_params)
+			redirect_to @section, notice: "Report has been edited successfully"
+		else
+			render 'sections/show', status: :unprocessable_entity
 		end
 	end
 
 	def destroy
 		@daily_report = DailyReport.find params[:id]
 		@daily_report.destroy!
-		respond_to do |format|
-			format.html { redirect_to section_path(@daily_report.section_id) }
-			format.json { head :no_content}
-		end
+		redirect_to section_path(@daily_report.section_id), notice: "Report has been destroyed"
 	end
 
 	def feedback

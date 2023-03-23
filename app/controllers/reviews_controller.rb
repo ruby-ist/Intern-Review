@@ -12,14 +12,10 @@ class ReviewsController < ApplicationController
 		@review = current_user.reviews.build(review_params)
 		@review.course_report_id = params[:course_report_id]
 
-		respond_to do |format|
-			if @review.save
-				format.html { redirect_to account_path(current_account) }
-				format.json { render json: @review, status: :created }
-			else
-				format.html { render :new, status: :unprocessable_entity }
-				format.json { render json: @review.errors, status: :unprocessable_entity }
-			end
+		if @review.save
+			redirect_to account_path(current_account), notice: "A new review is created"
+		else
+			render :new, status: :unprocessable_entity
 		end
 	end
 
@@ -27,23 +23,16 @@ class ReviewsController < ApplicationController
 	end
 
 	def update
-		respond_to do |format|
-			if @review.update(review_params)
-				format.html { redirect_to account_path(current_account) }
-				format.json { render json: @review, status: :ok }
-			else
-				format.html { render :edit, status: :unprocessable_entity }
-				format.json { render json: @review.errors, status: :unprocessable_entity }
-			end
+		if @review.update(review_params)
+			redirect_to account_path(current_account), notice: "Review has been successfully updated"
+		else
+			render :edit, status: :unprocessable_entity
 		end
 	end
 
 	def destroy
 		@review.destroy!
-		respond_to do |format|
-			format.html { redirect_to account_path(current_account) }
-			format.json { head :no_content }
-		end
+		redirect_to account_path(current_account), notice: "Review is deleted successfully"
 	end
 
 	private
