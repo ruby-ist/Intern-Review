@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 	root "courses#index"
 
-	use_doorkeeper
+	use_doorkeeper do
+		skip_controllers :authorizations, :applications, :authorized_applications
+	end
+
 	devise_for :admin_users, ActiveAdmin::Devise.config
 	ActiveAdmin.routes(self)
 

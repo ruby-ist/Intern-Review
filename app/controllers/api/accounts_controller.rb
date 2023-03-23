@@ -1,6 +1,6 @@
-class Api::AccountsController < ApplicationController
+class Api::AccountsController < Api::ApiController
 
-	before_action :authenticate_account!
+	before_action :doorkeeper_authorize!
 
 	def show
 		@account = Account.find params[:id]
@@ -24,5 +24,7 @@ class Api::AccountsController < ApplicationController
 			@batches = @user.batches.includes(trainers: :account, interns: :account)
 			@reviews = @user.reviews.includes(course_report: [:intern, :course])
 		end
+	rescue
+		render json: {error: "Record not found"}
 	end
 end

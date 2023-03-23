@@ -23,5 +23,7 @@ class AccountsController < ApplicationController
 			@batches = @user.batches.includes(trainers: :account, interns: :account)
 			@reviews = @user.reviews.includes(course_report: [:intern, :course])
 		end
+	rescue
+		redirect_back fallback_location: root_path, alert: "Record not found", status: :see_other
 	end
 end

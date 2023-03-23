@@ -1,5 +1,5 @@
-class Api::BatchesController < ApplicationController
-	before_action :authenticate_account!
+class Api::BatchesController < Api::ApiController
+	before_action :doorkeeper_authorize!
 	before_action :admin_account!
 	before_action :set_batch, except: [:new, :create]
 

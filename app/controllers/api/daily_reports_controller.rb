@@ -1,5 +1,5 @@
-class Api::DailyReportsController < ApplicationController
-	before_action :authenticate_account!
+class Api::DailyReportsController < Api::ApiController
+	before_action :doorkeeper_authorize!
 	before_action :set_daily_report, only: [:edit, :update]
 
 	def index
@@ -39,10 +39,10 @@ class Api::DailyReportsController < ApplicationController
 		end
 
 		if @daily_report.save && @section_report.save
-			render json: @daily_reports, status: :created
+			render json: @daily_report, status: :created
 		else
 			@daily_reports = @section.daily_reports.order(date: :desc)
-			render json: @daily_reports.error, status: :unprocessable_entity
+			render json: @daily_report.errors, status: :unprocessable_entity
 		end
 	end
 

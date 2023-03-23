@@ -1,9 +1,11 @@
 class Api::CoursesController < Api::ApiController
 
 	before_action :doorkeeper_authorize!
+	before_action :not_an_intern_account!, except: %w( index show )
 	before_action :set_course, only: %w{ show update destroy }
 
 	def index
+		p current_account
 		if current_account.intern?
 			@courses = current_user.courses.order(:created_at)
 		else

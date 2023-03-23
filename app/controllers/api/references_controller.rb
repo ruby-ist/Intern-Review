@@ -1,4 +1,4 @@
-class Api::ReferencesController < ApplicationController
+class Api::ReferencesController < Api::ApiController
 
 	before_action :not_an_intern_account!
 	before_action :set_reference, except: [:create, :destroy]

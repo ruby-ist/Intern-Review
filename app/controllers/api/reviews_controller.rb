@@ -1,5 +1,5 @@
-class Api::ReviewsController < ApplicationController
-	before_action :authenticate_account!
+class Api::ReviewsController < Api::ApiController
+	before_action :doorkeeper_authorize!
 	before_action :admin_account!
 	before_action :set_review, except: :create
 
