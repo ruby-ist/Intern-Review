@@ -5,7 +5,6 @@ class Api::CoursesController < Api::ApiController
 	before_action :set_course, only: %w{ show update destroy }
 
 	def index
-		p current_account
 		if current_account.intern?
 			@courses = current_user.courses.order(:created_at)
 		else
@@ -15,10 +14,11 @@ class Api::CoursesController < Api::ApiController
 
 	def create
 		@course = Course.new(course_params)
+		@course.account_id = current_account.id
 		if @course.save
-			render json: @course, status: :created
+			render partial: "api/courses/course", locals: {course: @course}, status: :created
 		else
-			render json: @course.errors, status: :unprocessable_entity
+			render json: { errors: @course.errors }, status: :unprocessable_entity
 		end
 	end
 
@@ -28,14 +28,14 @@ class Api::CoursesController < Api::ApiController
 
 	def update
 		if @course.update(course_params)
-			render json: @course, status: :ok
+			render partial: "api/courses/course", locals: {course: @course}, status: :ok
 		else
-			render json: @course.errors, status: :unprocessable_entity
+			render json: { errors: @course.errors }, status: :unprocessable_entity
 		end
 	end
 
 	def destroy
-		course.destroy!
+		@course.destroy!
 		head :no_content
 	end
 

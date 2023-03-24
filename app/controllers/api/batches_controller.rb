@@ -1,23 +1,22 @@
 class Api::BatchesController < Api::ApiController
 	before_action :doorkeeper_authorize!
 	before_action :admin_account!
-	before_action :set_batch, except: [:new, :create]
+	before_action :set_batch, except: :create
 
 	def create
 		@batch = current_user.batches.build(batch_params)
-
 		if @batch.save
-			render json: @batch, status: :created
+			render partial: "api/batches/batch", locals: {batch: @batch}, status: :created
 		else
-			render json: @batch.errors, status: :unprocessable_entity
+			render json: {errors: @batch.errors}, status: :unprocessable_entity
 		end
 	end
 
 	def update
 		if @batch.update(batch_params)
-			render json: @batch, status: :ok
+			render partial: "api/batches/batch", locals: {batch: @batch}, status: :ok
 		else
-			render json: @batch.errors, status: :unprocessable_entity
+			render json: {errors: @batch.errors}, status: :unprocessable_entity
 		end
 	end
 

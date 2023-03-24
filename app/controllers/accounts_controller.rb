@@ -9,6 +9,10 @@ class AccountsController < ApplicationController
 			redirect_back fallback_location: account_path(current_account.id), alert: "You're not authorised to do that"
 		end
 
+		if current_account.trainer? && @account.admin_user?
+			redirect_back fallback_location: account_path(current_account.id), alert: "You're not authorised to do that"
+		end
+
 		case @account.accountable_type
 		when "Intern"
 			@section_reports = @user.section_reports.dated_reports

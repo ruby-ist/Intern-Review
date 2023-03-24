@@ -1,0 +1,1 @@
+json.extract! batch, :id, :admin_user_id, :name, :status

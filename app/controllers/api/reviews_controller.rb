@@ -7,17 +7,17 @@ class Api::ReviewsController < Api::ApiController
 		@review = current_user.reviews.build(review_params)
 		@review.course_report_id = params[:course_report_id]
 		if @review.save
-			render json: @review, status: :created
+			render partial: "api/reviews/review", locals: {review: @review}, status: :created
 		else
-			render json: @review.errors, status: :unprocessable_entity
+			render json: {errors: @review.errors}, status: :unprocessable_entity
 		end
 	end
 
 	def update
 		if @review.update(review_params)
-			render json: @review, status: :ok
+			render partial: "api/reviews/review", locals: {review: @review}, status: :ok
 		else
-			render json: @review.errors, status: :unprocessable_entity
+			render json: {errors: @review.errors}, status: :unprocessable_entity
 		end
 	end
 

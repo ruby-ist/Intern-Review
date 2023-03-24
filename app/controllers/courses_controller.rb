@@ -18,6 +18,7 @@ class CoursesController < ApplicationController
 
 	def create
 		@course = Course.new(course_params)
+		@course.account_id = current_account.id
 		if @course.save
 			redirect_to course_path @course, notice: "New course has been created!"
 		else
@@ -41,7 +42,7 @@ class CoursesController < ApplicationController
 	end
 
 	def destroy
-		course.destroy!
+		@course.destroy!
 		redirect_to courses_path, notice: "Course has been deleted!"
 	end
 

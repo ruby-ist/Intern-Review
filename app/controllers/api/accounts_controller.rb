@@ -10,6 +10,11 @@ class Api::AccountsController < Api::ApiController
 			return
 		end
 
+		if current_account.trainer? && @account.admin_user?
+			render json: {error: "You're not authorised to do that"}, status: :forbidden
+			return
+		end
+
 		case @account.accountable_type
 		when "Intern"
 			@section_reports = @user.section_reports.dated_reports

@@ -1,30 +1,28 @@
 class Api::ReferencesController < Api::ApiController
 
+	before_action :doorkeeper_authorize!
 	before_action :not_an_intern_account!
-	before_action :set_reference, except: [:create, :destroy]
+	before_action :set_reference, except: :create
 
 	def create
 		@section = Section.find params[:section_id]
 		@reference = @section.references.build(reference_params)
 		if @reference.save
-			render json: @reference, status: :created
+			render partial: "api/references/reference", locals: {reference: @reference}, status: :created
 		else
-			@daily_reports = @section.daily_reports
-			render @reference.errors, status: :unprocessable_entity
+			render json: {errors: @reference.errors}, status: :unprocessable_entity
 		end
-
 	end
 
 	def update
 		if @reference.update(reference_params)
-			render json: @reference, status: :ok
+			render partial: "api/references/reference", locals: {reference: @reference}, status: :ok
 		else
-			render @reference.errors, status: :unprocessable_entity
+			render json: {errors: @reference.errors}, status: :unprocessable_entity
 		end
 	end
 
 	def destroy
-		@reference = Reference.find params[:id]
 		@reference.destroy!
 		head :no_content
 	end
@@ -33,8 +31,6 @@ class Api::ReferencesController < Api::ApiController
 
 	def set_reference
 		@reference = Reference.find params[:id]
-		@section = @reference.section
-		@daily_reports = @section.daily_reports
 	rescue
 		render json: { error: "Reference not found!" }, status: :not_found
 	end

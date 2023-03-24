@@ -2,25 +2,23 @@ class Api::SectionsController < Api::ApiController
 
 	before_action :not_an_intern_account!, except: :show
 	before_action :doorkeeper_authorize!, only: :show
-	before_action :set_course, only: %w{ new create }
-	before_action :set_section, only: %w{ show edit update destroy }
+	before_action :set_course, only: :create
+	before_action :set_section, only: %w{ show update destroy }
 
 	def create
 		@section = @course.sections.build(section_params)
 		if @section.save
-			render json: @section, status: :created
+			render partial: 'api/sections/section', locals: {section: @section}, status: :created
 		else
-			render json: @section.errors, status: :unprocessable_entity
+			render json: {errors: @section.errors}, status: :unprocessable_entity
 		end
 	end
 
 	def show
-		@reference = Reference.new
 		@section_report = nil
 		if current_account.intern?
 			@section_report = SectionReport.find_or_create_by(intern: current_user, section: @section)
-			@daily_report = @section_report.daily_reports.build
-			@daily_reports = @section_report.daily_reports.order(date: :desc)
+			@daily_reports = @section_report.daily_reports.order(date: :desc, created_at: :desc)
 		elsif current_account.trainer?
 			@daily_reports = DailyReport.for_trainer(current_user.id).where(section_reports: { section_id: @section.id })
 		elsif current_account.admin_user?
@@ -30,9 +28,9 @@ class Api::SectionsController < Api::ApiController
 
 	def update
 		if @section.update(section_params)
-			render json: @section, status: :ok
+			render partial: 'api/sections/section', locals: {section: @section}, status: :ok
 		else
-			render json: @section.errors, status: :unprocessable_entity
+			render json: {errors: @section.errors}, status: :unprocessable_entity
 		end
 	end
 

@@ -1,6 +1,6 @@
 class Api::DailyReportsController < Api::ApiController
 	before_action :doorkeeper_authorize!
-	before_action :set_daily_report, only: [:edit, :update]
+	before_action :set_daily_report, only: [:update, :destroy]
 
 	def index
 		request.variant = user_sym
@@ -33,35 +33,62 @@ class Api::DailyReportsController < Api::ApiController
 
 		if @section_report.daily_reports.count == 0
 			@section_report.start_date = @daily_report.date
-		elsif @daily_report.completed?
+		end
+
+		if @daily_report.completed?
 			@section_report.end_date = @daily_report.date
 			@section_report.completed!
 		end
 
 		if @daily_report.save && @section_report.save
-			render json: @daily_report, status: :created
+			render partial: "api/daily_reports/daily_report", locals: {daily_report: @daily_report}, status: :created
 		else
 			@daily_reports = @section.daily_reports.order(date: :desc)
-			render json: @daily_report.errors, status: :unprocessable_entity
+			render json: {errors: @daily_report.errors}, status: :unprocessable_entity
 		end
 	end
 
 	def update
 		if @daily_report.update(daily_report_params)
-			render json: @daily_report, status: :ok
+
+			if @daily_reports.first == @daily_report
+				if @daily_report.ongoing?
+					@section_report.end_date = nil
+					@section_report.ongoing!
+				elsif @daily_report.completed?
+					@section_report.end_date = @daily_report.date
+					@section_report.completed!
+				end
+				@section_report.save!
+			end
+
+			render partial: "api/daily_reports/daily_report", locals: {daily_report: @daily_report}, status: :ok
 		else
-			render json: @daily_report.errors, status: :unprocessable_entity
+			render json: {errors: @daily_report.errors}, status: :unprocessable_entity
 		end
 	end
 
 	def destroy
-		@daily_report = DailyReport.find params[:id]
-		@daily_report.destroy!
+		if @daily_reports.first == @daily_report
+			if @daily_report.completed?
+				@section_report.end_date = nil
+				@section_report.ongoing!
+			end
+		end
+
+		if @section_report.daily_reports.count == 1
+			@section_report.start_date = nil
+			@section_report.ongoing!
+		end
+
+		if @daily_report.destroy!
+			@section_report.save!
+		end
+
 		head :no_content
 	end
 
 	def feedback
-		@daily_report = DailyReport.find params[:id]
 		@section = Section.find @daily_report.section_id
 	end
 
@@ -70,8 +97,7 @@ class Api::DailyReportsController < Api::ApiController
 	def set_daily_report
 		@daily_report = DailyReport.find params[:id]
 		@section_report = @daily_report.section_report
-		@section = @section_report.section
-		@daily_reports = @section.daily_reports.order(date: :desc)
+		@daily_reports = @section_report.daily_reports.order(date: :desc, created_at: :desc).limit(1)
 	rescue
 		render json: { error: "Daily report not found!" }, status: :not_found
 	end

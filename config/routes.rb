@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 	resources :daily_reports, only: :index
 	resources :accounts, only: :show
 
-	namespace :api do
+	namespace :api, defaults: {format: :json} do
 		resources :courses, except: [:new, :edit] do
 			resources :sections, shallow: true, except: [:index, :new, :edit] do
 				resources :daily_reports, only: [:create, :update, :destroy]
