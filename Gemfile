@@ -29,6 +29,10 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
 	# Call 'byebug' anywhere in the code to stop execution and get a debugger console
 	gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+
+	gem "rspec-rails", "~> 5.1"
+
+	gem 'factory_bot_rails'
 end
 
 group :development do
@@ -47,5 +51,4 @@ gem "fomantic-ui-sass", "~> 2.8"
 gem "turbo-rails", "~> 1.4"
 gem "devise", "~> 4.9"
 gem "activeadmin", "~> 2.12"
-
 gem "doorkeeper", "~> 5.6"
