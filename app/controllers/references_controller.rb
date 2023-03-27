@@ -9,7 +9,7 @@ class ReferencesController < ApplicationController
 		if @reference.save
 			redirect_to @section, notice: "A new reference is added to the section"
 		else
-			@daily_reports = @section.daily_reports
+			@daily_reports = @section.daily_reports.order_by_date
 			render "sections/show", status: :unprocessable_entity
 		end
 	end
@@ -37,7 +37,7 @@ class ReferencesController < ApplicationController
 	def set_reference
 		@reference = Reference.find params[:id]
 		@section = @reference.section
-		@daily_reports = @section.daily_reports
+		@daily_reports = @section.daily_reports.order_by_date
 	rescue
 		render file: "#{Rails.root}/public/404.html", layout: false
 	end

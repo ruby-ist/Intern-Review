@@ -81,11 +81,11 @@ RSpec.describe Section do
 		end
 	end
 
-	context "associations" do
+	context "has many" do
 		[:references, :interns, :section_reports, :daily_reports].each do |sym|
-			it "include #{sym.to_s.humanize}" do
-				section = create(:section)
-				expect(section).to respond_to(sym)
+			it sym.to_s.humanize do
+				association = Section.reflect_on_association(sym).macro
+				expect(association).to be(:has_many)
 			end
 		end
 	end

@@ -1,6 +1,6 @@
 class DailyReportsController < ApplicationController
 	before_action :authenticate_account!
-	before_action :set_daily_report, except: [:index, :create, :feedback]
+	before_action :set_daily_report, except: [:index, :create, :feedback, :destroy]
 
 	def index
 		request.variant = user_sym
@@ -31,19 +31,10 @@ class DailyReportsController < ApplicationController
 		@section_report = SectionReport.find_or_create_by(intern: current_user, section: @section)
 		@daily_report = @section_report.daily_reports.build(daily_report_params)
 
-		if @section_report.daily_reports.count == 0
-			@section_report.start_date = @daily_report.date
-		end
-
-		if @daily_report.completed?
-			@section_report.end_date = @daily_report.date
-			@section_report.completed!
-		end
-
-		if @daily_report.save && @section_report.save
+		if @daily_report.save
 			redirect_to @section, notice: "Report successfully created!"
 		else
-			@daily_reports = @section.daily_reports.order(date: :desc)
+			@daily_reports = @section.daily_reports.order_by_date
 			render "sections/show", status: :unprocessable_entity
 		end
 	end
@@ -54,18 +45,6 @@ class DailyReportsController < ApplicationController
 
 	def update
 		if @daily_report.update(daily_report_params)
-
-			if @daily_reports.first == @daily_report
-				if @daily_report.ongoing?
-					@section_report.end_date = nil
-					@section_report.ongoing!
-				elsif @daily_report.completed?
-					@section_report.end_date = @daily_report.date
-					@section_report.completed!
-				end
-				@section_report.save!
-			end
-
 			redirect_to @section, notice: "Report has been edited successfully"
 		else
 			render 'sections/show', status: :unprocessable_entity
@@ -73,23 +52,9 @@ class DailyReportsController < ApplicationController
 	end
 
 	def destroy
-		if @daily_reports.first == @daily_report
-			if @daily_report.completed?
-				@section_report.end_date = nil
-				@section_report.ongoing!
-			end
-		end
-
-		if @daily_reports.size == 1
-			@section_report.start_date = nil
-			@section_report.ongoing!
-		end
-
-		if @daily_report.destroy!
-			@section_report.save!
-		end
-
-		redirect_to section_path(@section), notice: "Report has been destroyed"
+		daily_report = DailyReport.find params[:id]
+		daily_report.destroy!
+		redirect_to section_path(daily_report.section_report.section_id), notice: "Report has been destroyed"
 	end
 
 	def feedback
@@ -103,7 +68,7 @@ class DailyReportsController < ApplicationController
 		@daily_report = DailyReport.find params[:id]
 		@section_report = @daily_report.section_report
 		@section = @section_report.section
-		@daily_reports = @section_report.daily_reports.order(date: :desc, created_at: :asc)
+		@daily_reports = @section_report.daily_reports.order_by_date
 	rescue
 		render file: "#{Rails.root}/public/404.html", layout: false
 	end

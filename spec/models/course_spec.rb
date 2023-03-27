@@ -92,11 +92,11 @@ RSpec.describe Course do
 		end
 	end
 
-	context "associations" do
+	context "has_many" do
 		[:sections, :trainers, :course_reports, :interns, :reviews].each do |sym|
-			it "include #{sym.to_s.humanize}" do
-				course = create(:accounted_course)
-				expect(course).to respond_to(sym)
+			it sym.to_s.humanize do
+				association = Course.reflect_on_association(sym).macro
+				expect(association).to be(:has_many)
 			end
 		end
 	end
