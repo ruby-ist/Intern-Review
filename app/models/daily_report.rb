@@ -5,6 +5,10 @@ class DailyReport < ApplicationRecord
 
 	belongs_to :section_report
 
+	has_one :intern, through: :section_report
+	has_one :section, through: :section_report
+	has_one :course, through: :section
+
 	enum status: { ongoing: 0, completed: 1 }
 
 	scope :order_by_date, -> {

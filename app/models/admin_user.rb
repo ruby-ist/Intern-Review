@@ -4,10 +4,15 @@ class AdminUser < ApplicationRecord
 	devise :database_authenticatable,
 		   :recoverable, :rememberable, :validatable
 
-	has_one :account, as: :accountable
+	has_one :account, as: :accountable, dependent: :destroy
 	accepts_nested_attributes_for :account
 
 	has_many :reviews
 	has_many :batches
+
+	has_many :interns, through: :batches
+	has_many :trainers, through: :batches
+	has_many :daily_reports, through: :interns
+
 	delegate_missing_to :account
 end

@@ -1,7 +1,9 @@
 FactoryBot.define do
 	factory :account do
 		name { "Tester" }
-		email { "tester@rently.com" }
+		sequence :email do |n|
+			"tester_#{n}@rently.com"
+		end
 		password { "1234567" }
 		password_confirmation { "1234567" }
 
@@ -21,10 +23,17 @@ FactoryBot.define do
 
 	end
 
-	factory :admin_user
+	factory :admin_user do
+		sequence :email do |n|
+			"admin_#{n}@rently.com"
+		end
+		password { "admin_password" }
+		password_confirmation { "admin_password" }
+	end
 
 	factory :trainer do
 		batch
+		course factory: :accounted_course
 	end
 
 	factory :intern do
