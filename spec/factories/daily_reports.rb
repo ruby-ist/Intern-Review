@@ -1,6 +1,8 @@
 FactoryBot.define do
 	factory :daily_report do
-		date { "27-03-2023" }
+		sequence :date do |n|
+			Date.today - 31 + n
+		end
 		progress { "Learning Test Driven Development" }
 		feedback { "Not fast enough, complete it sooner" }
 		status { "completed" }

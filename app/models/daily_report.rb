@@ -28,7 +28,7 @@ class DailyReport < ApplicationRecord
 			.order(date: :desc, created_at: :desc)
 			.includes(section_report: {intern: :batch})
 	}
-	
+
 	before_save do
 		report = section_report
 
@@ -56,6 +56,12 @@ class DailyReport < ApplicationRecord
 			end
 			report.save!
 		end
+
+		if daily_reports.last == self
+			if report.start_date != date
+				report.update(start_date: date)
+			end
+		end
 	end
 
 	before_destroy do
@@ -71,6 +77,9 @@ class DailyReport < ApplicationRecord
 		if daily_reports.size == 1
 			report.start_date = nil
 			report.ongoing!
+		elsif daily_reports.last == self
+			second_report = daily_reports.second_to_last
+			report.start_date =  second_report.date
 		end
 
 		report.save!
