@@ -8,7 +8,6 @@ class Intern < ApplicationRecord
 	accepts_nested_attributes_for :account
 
 	has_many :section_reports
-	has_many :sections, through: :section_reports
 	has_many :daily_reports, through: :section_reports
 
 	has_many :course_reports

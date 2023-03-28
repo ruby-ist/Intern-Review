@@ -92,7 +92,7 @@ RSpec.describe Course do
 		end
 	end
 
-	context "has_many" do
+	context "has many" do
 		[:sections, :trainers, :course_reports, :interns, :reviews].each do |sym|
 			it sym.to_s.humanize do
 				association = Course.reflect_on_association(sym).macro
