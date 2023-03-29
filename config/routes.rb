@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 		end
 		resources :reviews, only: [:update, :destroy]
 		resources :batches, only: [:create, :update, :destroy]
-		resources :daily_reports, only: [:index]
+		resources :daily_reports, only: :index
 		resources :accounts, only: :show
 	end
 end

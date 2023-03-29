@@ -64,4 +64,12 @@ class SectionsController < ApplicationController
 	def section_params
 		params.require(:section).permit(:title, :context, :days_required)
 	end
+
+	def enrolled?
+		if current_account.intern?
+			unless current_user.course_ids.include? @section.course_id
+				redirect_back fallback_location: account_path(current_account), alert: "You are not enrolled on that course"
+			end
+		end
+	end
 end

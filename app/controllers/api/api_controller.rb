@@ -1,5 +1,4 @@
 class Api::ApiController < ApplicationController
-	before_action :doorkeeper_authorize!, only: :not_an_intern_account!
 	skip_before_action :verify_authenticity_token
 	respond_to :json
 

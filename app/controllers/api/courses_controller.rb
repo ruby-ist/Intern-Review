@@ -1,6 +1,7 @@
 class Api::CoursesController < Api::ApiController
 
 	before_action :doorkeeper_authorize!
+	before_action :enrolled?, only: :show
 	before_action :not_an_intern_account!, except: %w( index show )
 	before_action :set_course, only: %w{ show update destroy }
 
@@ -49,6 +50,15 @@ class Api::CoursesController < Api::ApiController
 
 	def course_params
 		params.require(:course).permit(:title, :description, :image_url, :duration)
+	end
+
+	def enrolled?
+		if current_account.intern?
+			unless current_user.course_ids.include? params[:id].to_i
+				render json: {errors: {intern: "not enrolled for the course" }}, status: :non_authoritative_information
+				return
+			end
+		end
 	end
 
 end

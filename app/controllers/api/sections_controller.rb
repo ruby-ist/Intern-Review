@@ -1,9 +1,10 @@
 class Api::SectionsController < Api::ApiController
 
+	before_action :doorkeeper_authorize!
 	before_action :not_an_intern_account!, except: :show
-	before_action :doorkeeper_authorize!, only: :show
 	before_action :set_course, only: :create
 	before_action :set_section, only: %w{ show update destroy }
+	before_action :enrolled?, only: :show
 
 	def create
 		@section = @course.sections.build(section_params)
@@ -55,6 +56,15 @@ class Api::SectionsController < Api::ApiController
 
 	def section_params
 		params.require(:section).permit(:title, :context, :days_required)
+	end
+
+	def enrolled?
+		if current_account.intern?
+			unless current_user.course_ids.include? @section.course_id
+				render json: {errors: {intern: "not enrolled for the course" }}, status: :non_authoritative_information
+				return
+			end
+		end
 	end
 
 end

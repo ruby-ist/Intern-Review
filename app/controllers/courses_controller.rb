@@ -2,6 +2,7 @@ class CoursesController < ApplicationController
 
 	before_action :not_an_intern_account!, except: %w( index show )
 	before_action :authenticate_account!, only: [:index, :show]
+	before_action :enrolled?, only: :show
 	before_action :set_course, only: %w{ show edit update destroy }
 
 	def index
@@ -56,6 +57,14 @@ class CoursesController < ApplicationController
 
 	def course_params
 		params.require(:course).permit(:title, :description, :image_url, :duration)
+	end
+
+	def enrolled?
+		if current_account.intern?
+			unless current_user.course_ids.include? params[:id].to_i
+				redirect_back fallback_location: account_path(current_account), alert: "You are not enrolled on that course"
+			end
+		end
 	end
 
 end
