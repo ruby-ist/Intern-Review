@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 			resources :daily_reports, only: [:create, :edit, :destroy] do
 				member do
 					get "feedback", to: "daily_reports#edit_feedback"
+					post "feedback", to: "daily_reports#cancel_feedback"
 					patch "feedback", to: "daily_reports#update_feedback"
 				end
 			end

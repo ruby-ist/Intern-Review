@@ -89,6 +89,18 @@ class DailyReportsController < ApplicationController
 		end
 	end
 
+	def cancel_feedback
+		daily_report = DailyReport.find params[:id]
+		respond_to do |format|
+			format.turbo_stream do
+				render turbo_stream: turbo_stream.replace(daily_report,
+														   partial: 'daily_reports/daily_report',
+														   locals: { daily_report: daily_report, feedback: false } )
+			end
+			format.html { redirect_back fallback_location: section_path(daily_report.section) }
+		end
+	end
+
 	private
 
 	def set_daily_report

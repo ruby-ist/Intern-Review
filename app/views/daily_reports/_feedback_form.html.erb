@@ -8,7 +8,7 @@
 		<br/>
 		
 		<div class="right aligned ui container">
-			<%= link_to "Cancel", section_path(daily_report.section), class: 'ui basic secondary button' %> &ensp;
+			<%= link_to "Cancel", feedback_daily_report_path(daily_report), class: 'ui basic secondary button', data: {turbo_method: :post} %> &ensp;
 			<%= f.submit class: "ui orange basic button", value: 'Submit Feedback' %>
 		</div>
 	<% end %>
