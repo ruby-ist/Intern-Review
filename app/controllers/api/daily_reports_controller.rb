@@ -1,5 +1,6 @@
 class Api::DailyReportsController < Api::ApiController
 	before_action :doorkeeper_authorize!
+	before_action :intern_account!, except: [:index, :feedback]
 	before_action :set_daily_report, only: [:update, :destroy]
 
 	def index
@@ -7,7 +8,7 @@ class Api::DailyReportsController < Api::ApiController
 		@user = current_account.accountable
 
 		if current_account.intern?
-			render json: {error: "Your account doesn't have that privilege"}, status: :non_authoritative_information
+			render json: {errors: { account: "Your account doesn't have that privilege"}}, status: :forbidden
 			return
 		end
 

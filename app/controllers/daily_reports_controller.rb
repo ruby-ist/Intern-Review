@@ -7,7 +7,7 @@ class DailyReportsController < ApplicationController
 		@user = current_account.accountable
 
 		if current_account.intern?
-			redirect_to account_path(current_account), status: :non_authoritative_information
+			redirect_to account_path(current_account), alert: "You can't do that"
 			return
 		end
 

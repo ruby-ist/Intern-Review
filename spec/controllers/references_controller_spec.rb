@@ -30,7 +30,7 @@ describe Api::ReferencesController do
 				format: :json
 			}
 
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 
@@ -68,7 +68,7 @@ describe Api::ReferencesController do
 
 	end
 
-	describe 'PUT /api/courses/:id' do
+	describe 'PUT /api/references/:id' do
 
 		let(:reference) { create(:reference, section:) }
 
@@ -79,7 +79,7 @@ describe Api::ReferencesController do
 
 		it "should not allow interns to update it" do
 			put :update, params: { id: reference.id, access_token: intern_token.token, format: :json }
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 
@@ -123,13 +123,13 @@ describe Api::ReferencesController do
 			expect(response).to have_http_status(:unauthorized)
 		end
 
-		it "should not allow interns to create it" do
+		it "should not allow interns to delete it" do
 			delete :destroy, params: { id: reference.id, access_token: intern_token.token, format: :json }
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 
-		it "deletes the course" do
+		it "deletes the reference" do
 			delete :destroy, params: { id: reference.id, access_token: trainer_token.token, format: :json }
 			expect(response).to have_http_status(:no_content)
 			expect(section.references).not_to include(reference)

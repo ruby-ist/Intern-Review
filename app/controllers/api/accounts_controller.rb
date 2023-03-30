@@ -10,7 +10,7 @@ class Api::AccountsController < Api::ApiController
 			return
 		end
 
-		if current_account.trainer? && @account.admin_user?
+		if current_account.trainer? && !(@account.intern? || current_account == @account)
 			render json: {error: "You're not authorised to do that"}, status: :forbidden
 			return
 		end

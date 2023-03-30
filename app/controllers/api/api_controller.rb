@@ -8,13 +8,19 @@ class Api::ApiController < ApplicationController
 
 	def not_an_intern_account!
 		if current_account.intern?
-			render json: {errors: {account: "does not have that privilege"}}, status: :non_authoritative_information
+			render json: {errors: {account: "does not have that privilege"}}, status: :forbidden
 		end
 	end
 
 	def admin_account!
 		unless current_account.admin_user?
-			render json: {errors: {account: "does not have that privilege"}}, status: :non_authoritative_information
+			render json: {errors: {account: "does not have that privilege"}}, status: :forbidden
+		end
+	end
+
+	def intern_account!
+		unless current_account.intern?
+			render json: {errors: {account: "does not have that privilege"}}, status: :forbidden
 		end
 	end
 end

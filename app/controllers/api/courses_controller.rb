@@ -55,7 +55,7 @@ class Api::CoursesController < Api::ApiController
 	def enrolled?
 		if current_account.intern?
 			unless current_user.course_ids.include? params[:id].to_i
-				render json: {errors: {intern: "not enrolled for the course" }}, status: :non_authoritative_information
+				render json: {errors: {intern: "not enrolled for the course" }}, status: :forbidden
 				return
 			end
 		end

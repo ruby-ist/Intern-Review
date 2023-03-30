@@ -30,7 +30,7 @@ RSpec.describe Api::SectionsController do
 				format: :json
 			}
 
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 
@@ -90,7 +90,7 @@ RSpec.describe Api::SectionsController do
 					access_token: intern_token.token,
 					format: :json
 				}
-				expect(response).to have_http_status(:non_authoritative_information)
+				expect(response).to have_http_status(:forbidden)
 			end
 		end
 
@@ -143,7 +143,7 @@ RSpec.describe Api::SectionsController do
 
 		it "should not allow interns to update it" do
 			put :update, params: { id: section.id, access_token: intern_token.token, format: :json }
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 
@@ -185,9 +185,9 @@ RSpec.describe Api::SectionsController do
 			expect(response).to have_http_status(:unauthorized)
 		end
 
-		it "should not allow interns to create it" do
+		it "should not allow interns to delete it" do
 			delete :destroy, params: { id: section.id, access_token: intern_token.token, format: :json }
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 

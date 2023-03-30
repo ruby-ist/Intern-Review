@@ -9,7 +9,7 @@ class AccountsController < ApplicationController
 			redirect_back fallback_location: account_path(current_account.id), alert: "You're not authorised to do that"
 		end
 
-		if current_account.trainer? && @account.admin_user?
+		if current_account.trainer? && !(@account.intern? || current_account == @account)
 			redirect_back fallback_location: account_path(current_account.id), alert: "You're not authorised to do that"
 		end
 

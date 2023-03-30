@@ -52,7 +52,7 @@ describe Api::CoursesController do
 
 		it "should not allow interns to create it" do
 			post :create, params: { access_token: intern_token.token, format: :json }
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 
@@ -107,7 +107,7 @@ describe Api::CoursesController do
 					format: :json
 				}
 
-				expect(response).to have_http_status(:non_authoritative_information)
+				expect(response).to have_http_status(:forbidden)
 			end
 		end
 
@@ -149,7 +149,7 @@ describe Api::CoursesController do
 
 		it "should not allow interns to update it" do
 			put :update, params: { id: course.id, access_token: intern_token.token, format: :json }
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 
@@ -191,9 +191,9 @@ describe Api::CoursesController do
 			expect(response).to have_http_status(:unauthorized)
 		end
 
-		it "should not allow interns to create it" do
+		it "should not allow interns to delete it" do
 			delete :destroy, params: { id: course.id, access_token: intern_token.token, format: :json }
-			expect(response).to have_http_status(:non_authoritative_information)
+			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
 		end
 

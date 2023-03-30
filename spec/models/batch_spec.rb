@@ -27,8 +27,8 @@ RSpec.describe Batch do
 		end
 
 		it "should be unique" do
-			create(:batch)
-			batch = build(:batch)
+			create(:batch, name: 'Team srira')
+			batch = build(:batch, name: 'Team srira')
 			batch.save
 
 			expect(batch.errors).to include(:name)
