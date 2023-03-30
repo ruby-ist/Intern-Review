@@ -1,7 +1,8 @@
 class Api::DailyReportsController < Api::ApiController
 	before_action :doorkeeper_authorize!
-	before_action :intern_account!, except: [:index, :feedback]
-	before_action :set_daily_report, only: [:update, :destroy]
+	before_action :intern_account!, except: [:index, :update_feedback]
+	before_action :not_an_intern_account!, only: [:update_feedback]
+	before_action :set_daily_report, only: [:update, :destroy, :update_feedback]
 
 	def index
 		request.variant = user_sym
@@ -52,8 +53,12 @@ class Api::DailyReportsController < Api::ApiController
 		head :no_content
 	end
 
-	def feedback
-		@section = Section.find @daily_report.section_id
+	def update_feedback
+		if @daily_report.update(feedback_param)
+			render partial: "api/daily_reports/daily_report", locals: {daily_report: @daily_report}, status: :ok
+		else
+			render json: {errors: @daily_report.errors}, status: :unprocessable_entity
+		end
 	end
 
 	private
@@ -66,6 +71,10 @@ class Api::DailyReportsController < Api::ApiController
 
 	def daily_report_params
 		params.require(:daily_report).permit(:date, :progress, :status)
+	end
+
+	def feedback_param
+		params.require(:daily_report).permit(:feedback)
 	end
 
 	def user_sym

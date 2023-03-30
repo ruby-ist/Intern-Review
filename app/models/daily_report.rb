@@ -1,7 +1,7 @@
 class DailyReport < ApplicationRecord
 	validates :date, presence: true
 	validates :progress, length: { minimum: 25 }
-	validates :feedback, length: { minimum: 5 }, allow_nil: true
+	validates :feedback, length: { minimum: 5 }, allow_blank: true
 
 	belongs_to :section_report
 

@@ -214,4 +214,64 @@ RSpec.describe Api::DailyReportsController do
 		end
 
 	end
+
+	describe 'PATCH /api/daily_report/:id/feedback' do
+		let(:daily_report) { create(:daily_report, section: section) }
+
+		it "requires authentication"do
+			patch :update_feedback, params: { id: daily_report.id, format: :json }
+			expect(response).to have_http_status(:unauthorized)
+		end
+
+		it "should not allow interns to update it" do
+			patch :update_feedback, params: {
+				id: daily_report.id,
+				access_token: intern_token.token,
+				format: :json,
+			}
+			expect(response).to have_http_status(:forbidden)
+		end
+
+		it "should check for validation" do
+			patch :update_feedback, params: {
+				id: daily_report.id,
+				access_token: trainer_token.token,
+				format: :json,
+				daily_report: {
+					feedback: 'damn'
+				}
+			}
+			expect(response).to have_http_status(:unprocessable_entity)
+			expect(json_response['errors']).to include('feedback')
+		end
+
+		it "should update feedback" do
+			feedback = "Good work!"
+			patch :update_feedback, params: {
+				id: daily_report.id,
+				access_token: trainer_token.token,
+				format: :json,
+				daily_report: {
+					feedback: feedback
+				}
+			}
+			expect(response).to have_http_status(:ok)
+			expect(json_response['feedback']).to include feedback
+		end
+
+		it "should not update other fields" do
+			date = Date.today
+			patch :update_feedback, params: {
+				id: daily_report.id,
+				access_token: trainer_token.token,
+				format: :json,
+				daily_report: {
+					date: date
+				}
+			}
+			expect(response).to have_http_status(:ok)
+			expect(json_response['date']).not_to eq date
+		end
+
+	end
 end

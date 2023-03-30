@@ -1,0 +1,15 @@
+<div id="<%= dom_id(daily_report) + "_form" %>">
+	<%= form_with model: [:feedback, daily_report], local: true, class: "ui form" do |f| %>
+		<h4 class="ui header">Feedback:</h4>
+		<%= f.text_area :feedback  %>
+		
+		<br/>
+		<%= render partial: "shared/error", locals: { model: daily_report, field: :feedback } %>
+		<br/>
+		
+		<div class="right aligned ui container">
+			<%= link_to "Cancel", section_path(daily_report.section), class: 'ui basic secondary button' %> &ensp;
+			<%= f.submit class: "ui orange basic button", value: 'Submit Feedback' %>
+		</div>
+	<% end %>
+</div>

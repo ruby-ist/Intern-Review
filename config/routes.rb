@@ -17,7 +17,8 @@ Rails.application.routes.draw do
 			resources :daily_reports, shallow: false, only: :update
 			resources :daily_reports, only: [:create, :edit, :destroy] do
 				member do
-					get "feedback", to: "daily_reports#feedback"
+					get "feedback", to: "daily_reports#edit_feedback"
+					patch "feedback", to: "daily_reports#update_feedback"
 				end
 			end
 			resources :references, shallow: false, only: :update
@@ -37,7 +38,11 @@ Rails.application.routes.draw do
 	namespace :api, defaults: {format: :json} do
 		resources :courses, except: [:new, :edit] do
 			resources :sections, shallow: true, except: [:index, :new, :edit] do
-				resources :daily_reports, only: [:create, :update, :destroy]
+				resources :daily_reports, only: [:create, :update, :destroy] do
+					member do
+						patch "feedback", to: 'daily_reports#update_feedback'
+					end
+				end
 				resources :references, only: [:create, :update, :destroy]
 			end
 		end

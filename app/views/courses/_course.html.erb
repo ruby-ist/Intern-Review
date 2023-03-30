@@ -1,7 +1,7 @@
 <%= link_to course_path course do %>
 	<div class="ui course card" id="<%= dom_id(course) %>">
 		<div class="ui header"><%= course.title %></div>
-		<div class="image" style="background: url('<%= course.image_url || "https://pusat.edu.np/wp-content/uploads/2022/09/default-image.jpg" %>')"></div>
+		<div class="image" style="background: url('<%= course.image_url || "/default.jpg" %>')"></div>
 		<% if course.description.present? %>
 			<div class="content">
 				<%= course.description.truncate(125) %>
