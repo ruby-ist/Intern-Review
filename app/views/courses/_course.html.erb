@@ -1,4 +1,4 @@
-<%= link_to course_path course, id: dom_id(course) do %>
+<%= link_to course_path(course), id: dom_id(course) do %>
 	<div class="ui course card" >
 		<div class="ui header"><%= course.title %></div>
 		<div class="image" style="background: url('<%= course.image_url || "/default.jpg" %>')"></div>

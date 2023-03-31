@@ -2,7 +2,7 @@ class Api::CoursesController < Api::ApiController
 
 	before_action :doorkeeper_authorize!
 	before_action :enrolled?, only: :show
-	before_action :not_an_intern_account!, except: %w( index show )
+	before_action :not_an_intern_account!, except: %w( index show search )
 	before_action :set_course, only: %w{ show update destroy }
 
 	def index
@@ -40,6 +40,21 @@ class Api::CoursesController < Api::ApiController
 		head :no_content
 	end
 
+	def search
+		if current_account.intern?
+			@courses = current_user.courses.order(:created_at)
+		else
+			@courses = Course.order(:created_at)
+		end
+
+		query = params["query"]
+		if query.present?
+			@courses = @courses.where('title ILIKE ?', "%#{Course.sanitize_sql_like(query)}%" )
+		end
+
+		render 'api/courses/index'
+	end
+
 	private
 
 	def set_course
@@ -62,4 +77,3 @@ class Api::CoursesController < Api::ApiController
 	end
 
 end
-

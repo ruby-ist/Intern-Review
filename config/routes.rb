@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
 	namespace :api, defaults: { format: :json } do
 		resources :courses, except: [:new, :edit] do
+			post '/search', to: 'courses#search', on: :collection
 			resources :sections, shallow: true, except: [:index, :new, :edit] do
 				resources :daily_reports, only: [:create, :update, :destroy] do
 					patch "feedback", to: 'daily_reports#update_feedback', on: :member

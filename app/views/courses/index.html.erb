@@ -3,7 +3,7 @@
 	
 	
 	<div id="courses">
-		<%= render @courses %>
+		<%= render partial: 'courses/courses', locals: {courses: @courses } %>
 	</div>
 	
 	<div class="floating-fields">

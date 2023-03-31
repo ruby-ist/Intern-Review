@@ -203,4 +203,65 @@ describe Api::CoursesController do
 			expect(Course.all).not_to include(course)
 		end
 	end
+
+	describe 'POST /api/courses/search' do
+		before do
+			course_1 = create(:accounted_course, title: "Ruby on rails")
+			course_2 = create(:accounted_course, title: "React")
+			create(:accounted_course, title: "React native")
+
+			create(:course_report, course: course_1, intern: )
+			create(:course_report, course: course_2, intern: )
+
+		end
+
+		it "requires authentication" do
+			post :search, format: :json
+			expect(response).to have_http_status(:unauthorized)
+		end
+
+		it "should return return courses matching the query" do
+			post :search, params: {
+				query: 'React',
+				access_token: trainer_token.token,
+				format: :json,
+			}
+
+			expect(response).to have_http_status(:ok)
+			expect(json_response.count).to eq 2
+		end
+
+		it "should search only enrolled courses for interns" do
+			post :search, params: {
+				query: 'React',
+				access_token: intern_token.token,
+				format: :json,
+			}
+
+			expect(response).to have_http_status(:ok)
+			expect(json_response.count).to eq 1
+		end
+
+		it "should perform case insensitive search" do
+			post :search, params: {
+				query: 'REACT',
+				access_token: trainer_token.token,
+				format: :json,
+			}
+
+			expect(response).to have_http_status(:ok)
+			expect(json_response.count).to eq 2
+		end
+
+		it "should return all courses if no query is passed" do
+			post :search, params: {
+				query: '',
+				access_token: trainer_token.token,
+				format: :json,
+			}
+
+			expect(response).to have_http_status(:ok)
+			expect(json_response.count).to eq Course.all.count
+		end
+	end
 end
