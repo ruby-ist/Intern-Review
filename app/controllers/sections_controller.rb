@@ -23,7 +23,7 @@ class SectionsController < ApplicationController
 		if current_account.intern?
 			@section_report = SectionReport.find_or_create_by!(intern: current_user, section: @section)
 			@daily_report = @section_report.daily_reports.build
-			@daily_reports = @section_report.daily_reports.order_by_date
+			@daily_reports = @section_report.daily_reports.order_by_date.includes(intern: :account)
 		elsif current_account.trainer?
 			@daily_reports = DailyReport.for_trainer(current_user.id).where(section_reports: { section_id: @section.id })
 		elsif current_account.admin_user?

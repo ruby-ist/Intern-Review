@@ -1,7 +1,22 @@
 <div class="ui raised report segment" id=<%= dom_id(daily_report) %>>
 	
+	<div class="username">
+		<%= avatar_url(daily_report.intern.account) %>
+		<b class="ui blue text" style="font-size: 1.1em">
+			<%= link_to daily_report.intern.name.capitalize, account_path(daily_report.intern.account) %>
+		</b>
+		
+		<div class="ui right aligned container status">
+			<h4 class="ui inline header">Status:</h4>
+			<div class="ui <%= daily_report.ongoing? ? "yellow" : "green" %> label">
+				<%= daily_report.status %>
+			</div>
+		</div>
+	</div>
+	
+	<div class="content">
 	<% if current_account.admin_user? %>
-		<h4 class="ui inline header">Batch: </h4>&ensp;<%= daily_report.section_report.intern.batch.name %>
+		<h4 class="ui inline header">Batch: </h4>&ensp;<%= daily_report.intern.batch.name %>
 		<br/>
 	<% end %>
 	
@@ -15,13 +30,6 @@
 		<div class="progress"><%= simple_format h daily_report.feedback %></div>
 	<% end %>
 	
-	<div class="status">
-		<h4 class="ui inline header">Status:</h4>
-		<div class="ui <%= daily_report.ongoing? ? "yellow" : "green" %> label">
-			<%= daily_report.status %>
-		</div>
-	</div>
-	
 	<% feedback ||= false %>
 	<% unless current_account.intern? %>
 		<br/>
@@ -32,16 +40,10 @@
 				<%= link_to "Give feedback", feedback_daily_report_path(daily_report), class: "orange", method: :get %>
 			<% end %>
 		<% end %>
-		
-		<div class="ui right aligned container">
-			<em> created by</em>&ensp;
-			<b class="ui blue text">
-				<%= link_to daily_report.section_report.intern.name.capitalize, account_path(daily_report.section_report.intern.account) %>
-			</b>
-		</div>
 	<% end %>
 	
 	<% if current_account.trainer? && feedback %>
+		<br/><br/>
 		<%= render partial: 'daily_reports/feedback_form', locals: { daily_report: daily_report } %>
 	<% end %>
 	
@@ -55,4 +57,7 @@
 			<% end %>
 		</div>
 	<% end %>
+	</div>
+	
+	
 </div>

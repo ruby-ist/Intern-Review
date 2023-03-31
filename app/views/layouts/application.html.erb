@@ -18,15 +18,22 @@
 			</div>
 		<% end %>
 		
+		<% if account_signed_in? %>
+			<%= link_to "COURSES", courses_path, class: "tab item" %>
+			<% unless current_account.intern? %>
+				<%= link_to "REPORTS", daily_reports_path, class: "tab item" %>
+			<% end %>
+			<%= link_to "PROFILE", account_path(current_account.id), class: "tab item" %>
+		<% end %>
+		
 		<div class="right menu">
 			<% unless account_signed_in? %>
 				<%= link_to "LOG IN", new_account_session_path, class: "sign-up item" %>
 			<% else %>
-				<%= link_to "COURSES", courses_path, class: "item" %>
-				<% unless current_account.intern? %>
-					<%= link_to "REPORTS", daily_reports_path, class: "item" %>
-				<% end %>
-				<%= link_to "PROFILE", account_path(current_account.id), class: "item" %>
+				<div class="email tab item">
+					<%= avatar_url(current_account) %>
+					<%= current_account.email %>
+				</div>
 				<%= link_to "LOG OUT", destroy_account_session_path, class: "sign-up item", data: {turbo_method: :delete, turbo_confirm: "Are you Sure?"} %>
 			<% end %>
 		</div>

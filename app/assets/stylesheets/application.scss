@@ -53,11 +53,38 @@ body, a {
 	}
 }
 
+.ui.mini.image{
+	margin: 10px 5px;
+}
+
+.ui.placeholder .image:not(:first-child)::before, .ui.placeholder .paragraph:not(:first-child)::before, .ui.placeholder .header:not(:first-child)::before {
+	height: 1em !important;
+}
+
+
+.username{
+	margin-bottom: 15px;
+}
+
+.placeholder.segment .username{
+	margin-bottom: 0;
+}
+
 nav.ui.menu {
 	background: #253E7E !important;
 	padding: 20px 60px !important;
 	border-radius: 0 !important;
 	font-family: 'Tilt Warp', cursive !important;
+
+	.tab.item{
+		color: white !important;
+		font-size: 1.2em;
+
+		&.email{
+			font-family: "Helvetica Neue", Helvetica, sans-serif;
+			padding: 0 1em !important;
+		}
+	}
 
 	.ui.header {
 		color: white;
@@ -229,18 +256,32 @@ nav.ui.menu {
 	padding: 2% 10%;
 
 	.report.segment {
-		padding: 2% 5%;
+		overflow: hidden;
 		margin-bottom: 50px;
 		position: relative;
+		padding: 0 !important;
+
+		.content{
+			padding: 2% 5%;
+		}
+
+		.username{
+			padding: 1% 2%;
+			background: #f9fafb;
+			border-bottom: 1px solid #d9dadb;
+			position: relative;
+		}
 
 		.header {
 			margin-top: 0;
 		}
 
 		.status {
+			display: inline-block;
 			position: absolute;
-			right: 5%;
-			top: 10%;
+			right: 3%;
+			top: 50%;
+			transform: translateY(-50%);
 		}
 
 		.icon.menu {
@@ -266,14 +307,9 @@ nav.ui.menu {
 
 
 .profile.daily-reports .report.segment {
-	padding: 5% 8% !important;
 
 	.ui.inline.header {
 		display: inline !important;
-	}
-
-	.status{
-		top: 15%;
 	}
 }
 

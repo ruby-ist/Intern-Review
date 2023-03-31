@@ -38,7 +38,7 @@
 						<% @course_reports.each do |course_report| %>
 							<% if current_account.admin_user? %>
 								<li><%= course_report.course.title %>
-									(<%= link_to "Add Review", new_course_report_review_path(course_report) %>)
+									(<%= link_to "Add Review", new_review_path(course_report) %>)
 								</li>
 							<% else %>
 								<li> <%= course_report.course.title %></li>
@@ -53,7 +53,9 @@
 				<td>
 					<ul>
 						<% @trainers.each do |trainer| %>
-							<li><%= trainer.name %></li>
+							<li>
+									<%= avatar_url(trainer.account, 24) %> <%= trainer.account.name %>
+							</li>
 						<% end %>
 					</ul>
 				</td>
@@ -64,7 +66,7 @@
 				<td>
 					<ul>
 						<% @interns.each do |intern| %>
-							<li><%= link_to intern.account.name, account_path(intern.account) %>&ensp;
+							<li><%= avatar_url(intern.account, 24) %> <%= link_to intern.account.name, account_path(intern.account) %>&ensp;
 								(<%= intern.technology %>)
 							</li>
 						<% end %>
@@ -97,7 +99,7 @@
 					<td>
 						<ul>
 							<% batch.trainers.each do |trainer| %>
-								<li><%= link_to trainer.name, account_path(trainer.account) %></li>
+								<li><%= avatar_url(trainer.account, 24) %> <%= link_to trainer.name, account_path(trainer.account) %></li>
 							<% end %>
 						</ul>
 					</td>
@@ -105,7 +107,7 @@
 					<td>
 						<ul>
 							<% batch.interns.each do |intern| %>
-								<li><%= link_to intern.name, account_path(intern.account) %></li>
+								<li><%= avatar_url(intern.account, 24) %> <%= link_to intern.name, account_path(intern.account) %></li>
 							<% end %>
 						</ul>
 					</td>
