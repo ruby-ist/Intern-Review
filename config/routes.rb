@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 	}
 
 	resources :courses do
+		post "/search", to: "courses#search", as: :search, on: :collection
 		resources :sections, shallow: true, except: :index do
 			resources :daily_reports, shallow: false, only: :update
 			resources :daily_reports, only: [:create, :edit, :destroy] do
@@ -36,13 +37,11 @@ Rails.application.routes.draw do
 	resources :daily_reports, only: :index
 	resources :accounts, only: :show
 
-	namespace :api, defaults: {format: :json} do
+	namespace :api, defaults: { format: :json } do
 		resources :courses, except: [:new, :edit] do
 			resources :sections, shallow: true, except: [:index, :new, :edit] do
 				resources :daily_reports, only: [:create, :update, :destroy] do
-					member do
-						patch "feedback", to: 'daily_reports#update_feedback'
-					end
+					patch "feedback", to: 'daily_reports#update_feedback', on: :member
 				end
 				resources :references, only: [:create, :update, :destroy]
 			end

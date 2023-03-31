@@ -1,12 +1,25 @@
 <section id="course-index">
 	<div class="ui big header">Courses:</div>
+	
+	
 	<div id="courses">
 		<%= render @courses %>
 	</div>
 	
-	<% unless current_account.intern? %>
-		<%= link_to new_course_path do %>
-			<div class="ui basic large orange button">+ New Course</div>
+	<div class="floating-fields">
+		<%= form_with url: search_courses_path, local: true, html: { class: "ui right aligned container search-form" } do |f| %>
+			<div class="ui action input">
+				<%= f.text_field :query, placeholder: "search courses...", autocomplete: "off" %>
+				<button onclick="this.formAction.submit()" class="ui custom  blue button">
+					<i class="search icon"></i>
+					Search
+				</button>
+			</div>
 		<% end %>
-	<% end %>
+		<% unless current_account.intern? %>
+			<%= link_to new_course_path do %>
+				<div class="ui basic large orange button">+ New Course</div>
+			<% end %>
+		<% end %>
+	</div>
 </section>

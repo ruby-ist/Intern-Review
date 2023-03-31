@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
 
-	before_action :not_an_intern_account!, except: %w( index show )
+	before_action :not_an_intern_account!, except: %w( index show search )
 	before_action :authenticate_account!, only: [:index, :show]
 	before_action :enrolled?, only: :show
 	before_action :set_course, only: %w{ show edit update destroy }
@@ -45,6 +45,24 @@ class CoursesController < ApplicationController
 	def destroy
 		@course.destroy!
 		redirect_to courses_path, notice: "Course has been deleted!"
+	end
+
+	def search
+		if current_account.intern?
+			@courses = current_user.courses.order(:created_at)
+		else
+			@courses = Course.order(:created_at)
+		end
+
+		query = params["query"]
+		if query.present?
+			@courses = @courses.where('title ILIKE ?', "%#{Course.sanitize_sql_like(query)}%" )
+		end
+
+		respond_to do |format|
+			format.turbo_stream
+			format.html { render :index }
+		end
 	end
 
 	private

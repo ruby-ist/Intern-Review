@@ -122,7 +122,8 @@ nav.ui.menu {
 }
 
 #course-index {
-	.ui.button {
+
+	.floating-fields{
 		position: absolute;
 		top: 60px;
 		right: 8%;
@@ -146,6 +147,11 @@ nav.ui.menu {
 			text-align: right;
 		}
 	}
+}
+
+.search-form{
+	display: inline !important;
+	margin-right: 24px !important;
 }
 
 .error {
