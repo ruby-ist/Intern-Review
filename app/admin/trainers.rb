@@ -2,6 +2,10 @@ ActiveAdmin.register Trainer do
 
 	permit_params :course_id, :batch_id, account_attributes: [:name, :email, :password, :password_confirmation, :_destroy]
 
+	filter :course
+	filter :batch
+	filter :interns
+
 	index do
 		selectable_column
 		id_column

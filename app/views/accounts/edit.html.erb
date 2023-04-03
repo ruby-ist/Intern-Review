@@ -1,0 +1,24 @@
+<div id="course-form">
+	<div class="ui centered form segment">
+		<h2 class="ui center aligned header"> Edit Account</h2>
+		<br/>
+		<%= form_with url: account_update_path, scope: current_account, local: true, class: "ui form" do |f| %>
+			<%= hidden_field_tag :_method, :put  %>
+			
+			<%= f.label :name %>
+			<%= f.text_field :name %>
+			<br/>
+			<%= render partial: 'shared/error', locals: { model: current_account, field: :name } %>
+			<br/>
+			
+			<%= f.label :avatar_url %>
+			<%= f.text_field :avatar_url %>
+			<br/>
+			<%= render partial: 'shared/error', locals: { model: current_account, field: :avatar_url } %>
+			<br/>
+			
+			<br/>
+			<%= f.submit 'Update Account', class: "ui basic orange button" %>
+		<% end %>
+	</div>
+</div>

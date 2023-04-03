@@ -30,4 +30,23 @@ class AccountsController < ApplicationController
 	rescue
 		redirect_back fallback_location: root_path, alert: "Record not found", status: :see_other
 	end
+
+
+	def edit
+	end
+
+	def update
+		if current_account.update(account_params)
+			redirect_to account_path(current_account), notice: "Account Details Updated"
+		else
+			render :edit, status: :unprocessable_entity
+		end
+	end
+
+	private
+
+	def account_params
+		params.require(:account).permit(:name, :avatar_url)
+	end
+
 end

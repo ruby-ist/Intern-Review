@@ -40,12 +40,14 @@
 				<% end %>
 				
 				<% if @section_report && @daily_reports.present? %>
-					<tr>
-						<td>Start date</td>
-						<td><%= @section_report.start_date.strftime("%a, %d %b %Y") %>
-					</tr>
+					<% if @section_report.start_date %>
+						<tr>
+							<td>Start date</td>
+							<td><%= @section_report.start_date.strftime("%a, %d %b %Y") %>
+						</tr>
+					<% end %>
 					
-					<% if @daily_reports.first.completed? %>
+					<% if @section_report.end_date %>
 						<tr>
 							<td>End date</td>
 							<td><%= @section_report.end_date.strftime("%a, %d %b %Y") %>

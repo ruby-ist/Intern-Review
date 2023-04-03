@@ -3,9 +3,9 @@ class Api::ReferencesController < Api::ApiController
 	before_action :doorkeeper_authorize!
 	before_action :not_an_intern_account!
 	before_action :set_reference, except: :create
+	before_action :set_section, only: :create
 
 	def create
-		@section = Section.find params[:section_id]
 		@reference = @section.references.build(reference_params)
 		if @reference.save
 			render partial: "api/references/reference", locals: {reference: @reference}, status: :created
@@ -28,6 +28,12 @@ class Api::ReferencesController < Api::ApiController
 	end
 
 	private
+
+	def set_section
+		@section = Section.find params[:section_id]
+	rescue
+		render json: { error: "Section not found!" }, status: :not_found
+	end
 
 	def set_reference
 		@reference = Reference.find params[:id]

@@ -38,6 +38,11 @@ Rails.application.routes.draw do
 	resources :daily_reports, only: :index
 	resources :accounts, only: :show
 
+	scope :account do
+		get "/edit", to: "accounts#edit", as: :account_edit
+		put "/update", to: "accounts#update", as: :account_update
+	end
+
 	namespace :api, defaults: { format: :json } do
 		resources :courses, except: [:new, :edit] do
 			post '/search', to: 'courses#search', on: :collection

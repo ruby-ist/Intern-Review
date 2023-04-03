@@ -2,6 +2,7 @@
 	
 	<% if @account == current_account %>
 		<div class="ui right aligned container">
+			<%= link_to "Edit account", account_edit_path, class: "ui basic large orange button" %>
 			<%= link_to "Change password", edit_account_password_path, class: "ui basic large orange button" %>
 		</div>
 	<% end %>

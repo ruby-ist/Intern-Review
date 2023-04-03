@@ -4,4 +4,6 @@ class CourseReport < ApplicationRecord
 
 	has_one :review, dependent: :destroy
 	accepts_nested_attributes_for :review
+
+	delegate_missing_to :review
 end

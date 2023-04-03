@@ -3,6 +3,7 @@ class Api::DailyReportsController < Api::ApiController
 	before_action :intern_account!, except: [:index, :update_feedback]
 	before_action :not_an_intern_account!, only: [:update_feedback]
 	before_action :set_daily_report, only: [:update, :destroy, :update_feedback]
+	before_action :set_section, only: :create
 
 	def index
 		request.variant = user_sym
@@ -29,7 +30,6 @@ class Api::DailyReportsController < Api::ApiController
 	end
 
 	def create
-		@section = Section.find params[:section_id]
 		@section_report = SectionReport.find_or_create_by(intern: current_user, section: @section)
 		@daily_report = @section_report.daily_reports.build(daily_report_params)
 
@@ -62,6 +62,12 @@ class Api::DailyReportsController < Api::ApiController
 	end
 
 	private
+
+	def set_section
+		@section = Section.find params[:section_id]
+	rescue
+		render json: { error: "Section not found!" }, status: :not_found
+	end
 
 	def set_daily_report
 		@daily_report = DailyReport.find params[:id]

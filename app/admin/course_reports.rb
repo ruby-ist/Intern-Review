@@ -1,7 +1,17 @@
 ActiveAdmin.register CourseReport do
 
-	permit_params :course_id, :intern_id, :start_date, :end_date, review_attributes: [:feedback, :admin_id]
+	permit_params :course_id, :intern_id, :start_date, :end_date, review_attributes: [:feedback, :admin_user_id]
 
+	index do
+		selectable_column
+		id_column
+		column :course
+		column :intern
+		column :feedback
+		column :admin_user
+
+		actions
+	end
 
 	form do |f|
 		f.semantic_errors
