@@ -17,7 +17,7 @@
 @import "semantic-ui";
 @import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&family=Urbanist:wght@600&display=swap');
 
-body, a {
+body, a:not(.ui.button) {
 	color: #747e86 !important;
 }
 

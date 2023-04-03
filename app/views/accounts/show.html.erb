@@ -1,5 +1,11 @@
 <div class="ui very padded centered raised account segment">
 	
+	<% if @account == current_account %>
+		<div class="ui right aligned container">
+			<%= link_to "Change password", edit_account_password_path, class: "ui basic large orange button" %>
+		</div>
+	<% end %>
+	
 	<h2 class="ui orange center aligned header">Account Details</h2>
 	<table class="ui definition table">
 		<tbody>
@@ -54,7 +60,7 @@
 					<ul>
 						<% @trainers.each do |trainer| %>
 							<li>
-									<%= avatar_url(trainer.account, 24) %> <%= trainer.account.name %>
+								<%= avatar_url(trainer.account, 24) %> <%= trainer.account.name %>
 							</li>
 						<% end %>
 					</ul>

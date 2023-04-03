@@ -1,25 +1,35 @@
-<h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<div class="form container">
+	<div class="ui raised placeholder auth-form segment">
+		<h2 class="ui center aligned middle aligned orange header">Change your password</h2>
+		<hr/>
+		
+		<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { class: "ui form" }) do |f| %>
+			
+			<div class="field">
+				<%= label_tag :current_password %>
+				<%= password_field_tag :current_password, "", autofocus: true, autocomplete: "off"  %>
+				<%= render "shared/error", model: resource, field: :current_password %>
+			</div>
+			
+			<div class="field">
+				<%= f.label :password, "New password" %><br/>
+				<%= f.password_field :password, autocomplete: "off" %>
+				
+				<%= render "shared/error", model: resource, field: :password %>
+			</div>
+			
+			
+			<div class="field">
+				<%= f.label :password_confirmation, "Confirm new password" %><br/>
+				<%= f.password_field :password_confirmation, autocomplete: "off" %>
+				<%= render "shared/error", model: resource, field: :password_confirmation %>
+			</div>
+			
+			<br/>
+			
+			<div class="field actions">
+				<%= f.submit "Change my password", class: "ui basic orange button" %>
+			</div>
+		<% end %>
+	</div>
+</div>

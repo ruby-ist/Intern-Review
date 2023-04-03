@@ -9,7 +9,8 @@ Rails.application.routes.draw do
 	ActiveAdmin.routes(self)
 
 	devise_for :accounts, controllers: {
-		registrations: "accounts/registrations"
+		registrations: "accounts/registrations",
+		passwords: "accounts/passwords"
 	}
 
 	resources :courses do
