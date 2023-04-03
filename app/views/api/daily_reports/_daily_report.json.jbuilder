@@ -1,6 +1,4 @@
-json.extract! daily_report, :id, :date, :status
-json.progress simple_format(h(daily_report.progress))
-json.feedback simple_format(h(daily_report.feedback))
+json.extract! daily_report, :id, :date, :status, :progress, :feedback
 
 if current_account.admin_user?
 	json.batch daily_report.section_report.intern.batch.name
