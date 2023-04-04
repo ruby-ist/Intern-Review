@@ -2,6 +2,14 @@ ActiveAdmin.register CourseReport do
 
 	permit_params :course_id, :intern_id, :start_date, :end_date, review_attributes: [:feedback, :admin_user_id]
 
+	includes(:course, intern: :account, review: {admin_user: :account} )
+
+	filter :course
+	filter :intern, as: :select, collection: Intern.includes(:account).distinct
+												   .collect { |intern| [intern.account.name, intern.id] }
+	filter :created_at, as: :date_range
+	filter :updated_at, as: :date_range
+
 	index do
 		selectable_column
 		id_column

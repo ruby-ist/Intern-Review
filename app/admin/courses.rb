@@ -11,6 +11,8 @@ ActiveAdmin.register Course do
 	filter :duration
 	filter :description
 	filter :account
+	filter :created_at, as: :date_range
+	filter :updated_at, as: :date_range
 
 	index do
 		selectable_column

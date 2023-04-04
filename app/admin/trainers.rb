@@ -2,9 +2,14 @@ ActiveAdmin.register Trainer do
 
 	permit_params :course_id, :batch_id, account_attributes: [:name, :email, :password, :password_confirmation, :_destroy]
 
+	includes :account, :batch, :course
+
 	filter :course
 	filter :batch
-	filter :interns
+	filter :interns , as: :select, collection: Intern.includes(:account).distinct
+													 .collect { |intern| [intern.account.name, intern.id] }
+	filter :created_at, as: :date_range
+	filter :updated_at, as: :date_range
 
 	index do
 		selectable_column
