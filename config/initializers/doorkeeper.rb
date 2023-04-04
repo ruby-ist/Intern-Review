@@ -7,10 +7,13 @@ Doorkeeper.configure do
 
 	# This block will be called to check whether the resource owner is authenticated or not.
 	resource_owner_authenticator do
-		current_account || warden.authenticate!(scope: :account)
+		account = current_account || warden.authenticate!(scope: :account)
+		p account
+		account
 	end
 
-	resource_owner_from_credentials do |routes|
+	resource_owner_from_credentials do
+
 		Account.authenticate!(params[:email], params[:password])
 	end
 
@@ -21,16 +24,13 @@ Doorkeeper.configure do
 	# adding oauth authorized applications. In other case it will return 403 Forbidden response
 	# every time somebody will try to access the admin web interface.
 	#
-	# admin_authenticator do
-	#   # Put your admin authentication logic here.
-	#   # Example implementation:
-	#
-	#   if current_account
-	#     head :forbidden unless current_account.admin_user?
-	#   else
-	#     redirect_to root
-	#   end
-	# end
+	admin_authenticator do
+	  # Put your admin authentication logic here.
+	  # Example implementation:
+	  unless current_account
+	    redirect_to new_account_session_path
+	  end
+	end
 
 	# You can use your own model classes if you need to extend (or even override) default
 	# Doorkeeper models such as `Application`, `AccessToken` and `AccessGrant.
@@ -349,7 +349,7 @@ Doorkeeper.configure do
 	# before enabling:
 	#   https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.2
 	#   https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.3
-	grant_flows %w[password]
+	grant_flows %w[client_credentials password]
 
 	# Allows to customize OAuth grant flows that +each+ application support.
 	# You can configure a custom block (or use a class respond to `#call`) that must

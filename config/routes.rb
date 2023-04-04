@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
 	root "courses#index"
 
-	use_doorkeeper do
-		skip_controllers :authorizations, :applications, :authorized_applications
-	end
+	use_doorkeeper
 
 	devise_for :admin_users, ActiveAdmin::Devise.config
 	ActiveAdmin.routes(self)
@@ -70,5 +68,6 @@ Rails.application.routes.draw do
 		resources :batches, only: [:create, :update, :destroy]
 		resources :daily_reports, only: :index
 		resources :accounts, only: :show
+		put "account/update", to: "accounts#update", as: :account_update
 	end
 end

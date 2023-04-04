@@ -160,4 +160,76 @@ RSpec.describe Api::ReviewsController do
 
 	end
 
+	describe 'PATCH /api/daily_report/:id/progress' do
+		let(:review) { create(:review, intern: ) }
+
+		it "requires authentication"do
+			patch :update_progress, params: { id: review.id, format: :json }
+			expect(response).to have_http_status(:unauthorized)
+		end
+
+		it "should not allow admins to update it" do
+			patch :update_progress, params: {
+				id: review.id,
+				access_token: admin_user_token.token,
+				format: :json,
+			}
+			expect(response).to have_http_status(:forbidden)
+		end
+
+		it "should check for validation" do
+			patch :update_progress, params: {
+				id: review.id,
+				access_token: intern_token.token,
+				format: :json,
+				review: {
+					progress: 'damn',
+				}
+			}
+			expect(response).to have_http_status(:unprocessable_entity)
+			expect(json_response['errors']).to include('progress')
+		end
+
+		it "should update progress" do
+			progress = "There i completed my report"
+			patch :update_progress, params: {
+				id: review.id,
+				access_token: intern_token.token,
+				format: :json,
+				review: {
+					progress: progress
+				}
+			}
+			expect(response).to have_http_status(:ok)
+			expect(json_response['progress']).to include progress
+		end
+
+		it "should not update other fields" do
+			feedback = "sfsfsfsfsgdg"
+			patch :update_progress, params: {
+				id: review.id,
+				access_token: intern_token.token,
+				format: :json,
+				review: {
+					feedback: feedback
+				}
+			}
+			expect(response).to have_http_status(:ok)
+			expect(json_response['feedback']).not_to eq feedback
+		end
+
+		it "should only allow interns to update their own review" do
+			review = create(:review)
+			progress = "There i completed my report"
+			patch :update_progress, params: {
+				id: review.id,
+				access_token: intern_token.token,
+				format: :json,
+				review: {
+					progress: progress
+				}
+			}
+			expect(response).to have_http_status(:forbidden)
+		end
+	end
 end

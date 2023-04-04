@@ -3,6 +3,7 @@ class ReviewsController < ApplicationController
 	before_action :admin_account!, except: [:edit_progress, :update_progress, :cancel_progress, :mark_complete]
 	before_action :intern_account!, only: [:edit_progress, :update_progress, :cancel_progress, :mark_complete]
 	before_action :set_review, except: [:new, :create]
+	before_action :associated_review, only: [:edit_progress, :update_progress, :cancel_progress, :mark_complete]
 
 	def new
 		@course_report = CourseReport.find params[:course_report_id]
@@ -100,6 +101,12 @@ class ReviewsController < ApplicationController
 
 	def progress_param
 		params.require(:review).permit(:progress)
+	end
+
+	def associated_review
+		if @review.course_report.intern_id != current_user.id
+			redirect_back fallback_location: account_path(current_account), notice: "You don't have access to that review"
+		end
 	end
 
 end

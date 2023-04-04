@@ -1,6 +1,6 @@
 class Api::ReviewsController < Api::ApiController
 	before_action :doorkeeper_authorize!
-	before_action :admin_account!
+	before_action :admin_account!, except: :update_progress
 	before_action :intern_account!, only: :update_progress
 	before_action :set_review, except: :create
 
@@ -28,6 +28,11 @@ class Api::ReviewsController < Api::ApiController
 	end
 
 	def update_progress
+		if @review.course_report.intern_id != current_user.id
+			render json: {errors: {review: "doesn't belong to you"}}, status: :forbidden
+			return
+		end
+
 		if @review.update(progress_param)
 			render partial: "api/reviews/review", locals: {review: @review}, status: :ok
 		else

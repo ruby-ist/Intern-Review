@@ -186,4 +186,39 @@ RSpec.describe Api::AccountsController do
 			end
 		end
 	end
+
+	describe '/account/update' do
+		it "requires authentication" do
+			put :update, params: {
+				format: :json
+			}
+			expect(response).to have_http_status(:unauthorized)
+		end
+
+		it "checks for validation" do
+			put :update, params: {
+				access_token: intern_token.token,
+				format: :json,
+				account: {
+					avatar_url: "sfskfjnsfkj"
+				}
+			}
+			expect(response).to have_http_status(:unprocessable_entity)
+			expect(json_response["errors"]).to include("avatar_url")
+		end
+
+		it "updates name and avatar_url" do
+			put :update, params: {
+				access_token: intern_token.token,
+				format: :json,
+				account: {
+					name: "Srira",
+					avatar_url: "https://google.com"
+				}
+			}
+			expect(response).to have_http_status(:ok)
+			expect(json_response["name"]).to eq "Srira"
+			expect(json_response["avatar_url"]).to eq "https://google.com"
+		end
+	end
 end
