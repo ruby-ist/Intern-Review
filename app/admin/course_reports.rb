@@ -7,7 +7,7 @@ ActiveAdmin.register CourseReport do
 		id_column
 		column :course
 		column :intern
-		column :feedback
+		column :status
 		column :admin_user
 
 		actions

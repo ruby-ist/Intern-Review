@@ -8,4 +8,9 @@ module ApplicationHelper
 		)
 	end
 
+	def markdown(content)
+		options = [:escape_html, :safe_links_only, :hard_wrap, :autolink, :no_intra_emphasis, :strikethrough]
+		Markdown.new(content, *options).to_html.html_safe
+	end
+
 end

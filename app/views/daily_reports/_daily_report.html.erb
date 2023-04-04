@@ -22,12 +22,12 @@
 	
 	<h4 class="ui inline header">Date:</h4>&ensp;<%= daily_report.date.strftime("%a, %d %b %Y") %>
 	<h4 class="ui header">Progress:</h4>
-	<div class="progress"><%= simple_format h daily_report.progress %></div>
+	<div class="progress"><%= markdown daily_report.progress %></div>
 	
 	<% if daily_report.feedback.present? %>
 		<br/>
 		<h4 class="ui header">Feedback:</h4>
-		<div class="progress"><%= simple_format h daily_report.feedback %></div>
+		<div class="progress"><%= markdown daily_report.feedback %></div>
 	<% end %>
 	
 	<% feedback ||= false %>

@@ -124,7 +124,7 @@
 	<% end %>
 </div>
 
-<% if current_account.intern? %>
+<% if current_account.intern? && @reviews.present? %>
 <div class="ui very padded raised segment">
 	<h2 class="ui header">Reviews:</h2>
 	<div id="reviews">

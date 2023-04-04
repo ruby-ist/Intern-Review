@@ -30,7 +30,6 @@ group :development, :test do
 	# Call 'byebug' anywhere in the code to stop execution and get a debugger console
 	gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 	gem "rspec-rails", "~> 5.1"
-	gem "rails-controller-testing", "~> 1.0"
 	gem 'factory_bot_rails'
 end
 
@@ -51,3 +50,4 @@ gem "turbo-rails", "~> 1.4"
 gem "devise", "~> 4.9"
 gem "activeadmin", "~> 2.12"
 gem "doorkeeper", "~> 5.6"
+gem "redcarpet", "~> 3.6"

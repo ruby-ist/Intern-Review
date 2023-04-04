@@ -11,14 +11,14 @@
 	<br/>
 	<h4 class="ui inline header">Review: </h4><br/>
 	<div class="feedback">
-		<%= simple_format h review.feedback %>
+		<%= markdown review.feedback %>
 	</div>
 	
 	<% if review.progress.present? %>
 		<br/>
 		<h4 class="ui inline header">Progress: </h4><br/>
 		<div class="feedback">
-			<%= simple_format h review.progress %>
+			<%= markdown review.progress %>
 		</div>
 	<% end %>
 	
