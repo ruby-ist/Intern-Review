@@ -23,7 +23,7 @@
 						<td>
 							<ul>
 								<% @section.references.each do |reference| %>
-									<li><%= link_to reference.url, reference.url %>&ensp;&ensp;
+									<li><%= link_to h(reference.url), reference.url, data: {confirm: "You are about to follow an external link, are you sure?"} %>&ensp;&ensp;
 										<% unless current_account.intern? %>
 											<%= link_to edit_reference_path(reference) do %>
 												<i class="edit blue link icon"></i>
