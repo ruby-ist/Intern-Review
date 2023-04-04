@@ -1,5 +1,6 @@
 <div class="ui very padded centered raised account segment">
 	
+	<h2 class="ui orange center aligned header">Account Details</h2>
 	<% if @account == current_account %>
 		<div class="ui right aligned container">
 			<%= link_to "Edit account", account_edit_path, class: "ui basic large orange button" %>
@@ -7,7 +8,6 @@
 		</div>
 	<% end %>
 	
-	<h2 class="ui orange center aligned header">Account Details</h2>
 	<table class="ui definition table">
 		<tbody>
 		<tr>
@@ -123,7 +123,17 @@
 		</table>
 	<% end %>
 </div>
-<div class="ui very padded segment">
+
+<% if current_account.intern? %>
+<div class="ui very padded raised segment">
+	<h2 class="ui header">Reviews:</h2>
+	<div id="reviews">
+		<%= render @reviews %>
+	</div>
+</div>
+<% end %>
+
+<div class="ui very padded raised segment">
 	
 	<% if @account.intern? %>
 		<h2 class="ui header">Reports:</h2>

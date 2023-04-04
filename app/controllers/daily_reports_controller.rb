@@ -77,7 +77,7 @@ class DailyReportsController < ApplicationController
 				format.turbo_stream do
 					render turbo_stream: turbo_stream.replace(daily_report)
 				end
-				format.html { redirect_to section_path(daily_report.section, notice: "Feedback has been added") }
+				format.html { redirect_to section_path(daily_report.section), notice: "Feedback has been added" }
 			else
 				format.turbo_stream do
 					render turbo_stream: turbo_stream.update("daily_report_#{daily_report.id}_form",

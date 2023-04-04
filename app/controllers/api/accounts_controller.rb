@@ -32,4 +32,18 @@ class Api::AccountsController < Api::ApiController
 	rescue
 		render json: {error: "Record not found"}
 	end
+
+	def update
+		if current_account.update(account_params)
+			render partial: "api/accounts/account", locals: {account: current_account}, status: :ok
+		else
+			render json: { errors: current_account.errors }, status: :unprocessable_entity
+		end
+	end
+
+	private
+
+	def account_params
+		params.require(:account).permit(:name, :avatar_url)
+	end
 end

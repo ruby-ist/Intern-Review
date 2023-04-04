@@ -33,7 +33,14 @@ Rails.application.routes.draw do
 		resources :reviews, only: [:new, :create]
 	end
 
-	resources :reviews, only: [:edit, :update, :destroy]
+	resources :reviews, only: [:edit, :update, :destroy] do
+		member  do
+			get "progress", to: "reviews#edit_progress"
+			post "progress", to: "reviews#cancel_progress"
+			patch "progress", to: "reviews#update_progress"
+			patch "complete", to: "reviews#mark_complete"
+		end
+	end
 	resources :batches, except: [:index, :show]
 	resources :daily_reports, only: :index
 	resources :accounts, only: :show
@@ -57,7 +64,9 @@ Rails.application.routes.draw do
 		scope 'course_reports/:course_report_id/' do
 			resources :reviews, only: :create
 		end
-		resources :reviews, only: [:update, :destroy]
+		resources :reviews, only: [:update, :destroy] do
+			patch "progress", to: "reviews#update_progress", on: :member
+		end
 		resources :batches, only: [:create, :update, :destroy]
 		resources :daily_reports, only: :index
 		resources :accounts, only: :show

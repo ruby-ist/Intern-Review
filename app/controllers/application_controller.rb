@@ -9,13 +9,19 @@ class ApplicationController < ActionController::Base
 		end
 
 		if current_account.intern?
-			redirect_back fallback_location: "/courses" ,alert: "You are not authorised to do that!"
+			redirect_back fallback_location: account_path(current_account), alert: "You are not authorised to do that!"
 		end
 	end
 
 	def admin_account!
 		unless current_account.admin_user?
-			redirect_back fallback_location: "/courses" ,alert: "You are not authorised to do that!"
+			redirect_back fallback_location: account_path(current_account), alert: "You are not authorised to do that!"
+		end
+	end
+
+	def intern_account!
+		unless current_account.intern?
+			redirect_back fallback_location: account_path(current_account), alert: "You are not authorised to do that!"
 		end
 	end
 end

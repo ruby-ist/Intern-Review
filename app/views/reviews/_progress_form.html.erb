@@ -1,0 +1,15 @@
+<div id="<%= dom_id(review) + "_form" %>">
+	<%= form_with model: [:progress, review], local: true, class: "ui form" do |f| %>
+		<h4 class="ui header">Progress:</h4>
+		<%= f.text_area :progress  %>
+		
+		<br/>
+		<%= render partial: "shared/error", locals: { model: review, field: :progress } %>
+		<br/>
+		
+		<div class="right aligned ui container">
+			<%= link_to "Cancel", progress_review_path(review), class: 'ui basic secondary button', data: {turbo_method: :post} %> &ensp;
+			<%= f.submit class: "ui orange basic button", value: 'Update progress' %>
+		</div>
+	<% end %>
+</div>

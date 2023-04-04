@@ -1,19 +1,62 @@
-<div class="ui very padded raised review segment">
-	<h4 class="ui inline header">Intern Name: </h4>
-	<%= review.course_report.intern.name %>
-	<br/>
-	<h4 class="ui inline header">Course Title: </h4>
-	<%= review.course_report.course.title %>
+<div class="ui very padded raised review segment" id=<%= dom_id(review) %>>
+	
+	<% if current_account.admin_user? %>
+		<h4 class="ui inline header">Intern: </h4>&ensp;
+		<b><%= link_to review.course_report.intern.name, account_path(review.course_report.intern.account) %></b>
+		<br/>
+	<% end %>
+	
+	<h4 class="ui inline header">Course Title: </h4>&ensp;
+	<b><%= link_to review.course_report.course.title, course_path(review.course_report.course) %></b>
 	<br/>
 	<h4 class="ui inline header">Review: </h4><br/>
-	<%= review.feedback %>
-	
-	<div class="ui icon menu">
-		<%= link_to edit_review_path(review), class: "item" do %>
-			<i class="edit orange icon"></i>
-		<% end %>
-		<%= link_to review_path(review), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
-			<i class="trash orange icon"></i>
-		<% end %>
+	<div class="feedback">
+		<%= simple_format h review.feedback %>
 	</div>
+	
+	<% if review.progress.present? %>
+		<br/>
+		<h4 class="ui inline header">Progress: </h4><br/>
+		<div class="feedback">
+			<%= simple_format h review.progress %>
+		</div>
+	<% end %>
+	
+	<% progress ||= false %>
+	<% if current_account.intern? %>
+		<br/>
+		<em>Reviewed by </em>
+		<%= avatar_url(review.admin_user.account, 23) %>
+		<span class="ui blue text"><%= review.admin_user.name %></span>
+		<br/>
+		<% unless progress %>
+			<%= link_to "Submit progress", progress_review_path(review), class: "orange", method: :get %>
+		<% end %>
+		
+		
+		<% if progress %>
+			<br/><br/>
+			<%= render partial: 'reviews/progress_form', locals: { review: review } %>
+		<% end %>
+		
+		<div class="complete btn">
+			<% if review.pending? %>
+				<%= link_to "Mark as complete", complete_review_path(review), class: "green", data: {turbo_method: :patch} %>
+			<% else %>
+				<i class="green check icon"></i>
+				<%= link_to "Completed", complete_review_path(review), class: "black", data: {turbo_method: :patch} %>
+			<% end %>
+		</div>
+	<% end %>
+	
+	<% if current_account.admin_user? %>
+		<div class="ui icon menu">
+			<%= link_to edit_review_path(review), class: "item" do %>
+				<i class="edit orange icon"></i>
+			<% end %>
+			<%= link_to review_path(review), class: "item", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
+				<i class="trash orange icon"></i>
+			<% end %>
+		</div>
+	<% end %>
 </div>
