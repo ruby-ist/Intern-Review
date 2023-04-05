@@ -8,6 +8,7 @@
 	<%= f.label :image_url %>:
 	<%= f.url_field :image_url, placeholder: "(optional)", autocomplete: "off" %>
 	<br/>
+	<%= render partial: "shared/error", locals: { model: course, field: :image_url } %>
 	<br/>
 	<%= f.label :description %>:
 	<%= f.text_area :description %>

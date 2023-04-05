@@ -6,8 +6,8 @@ class Account < ApplicationRecord
 
 	class << self
 		def authenticate!(email, password)
-			account = find_by(email: )
-			account if account&.valid_password? password
+			account = find_for_authentication(email: )
+			account&.valid_password?(password) ? account : nil
 		end
 	end
 

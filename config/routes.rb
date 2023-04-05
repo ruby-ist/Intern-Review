@@ -6,8 +6,8 @@ Rails.application.routes.draw do
 	devise_for :admin_users, ActiveAdmin::Devise.config
 	ActiveAdmin.routes(self)
 
-	devise_for :accounts, controllers: {
-		registrations: "accounts/registrations",
+	devise_for :accounts, skip: [:registrations], controllers: {
+		# registrations: "accounts/registrations",
 		passwords: "accounts/passwords"
 	}
 

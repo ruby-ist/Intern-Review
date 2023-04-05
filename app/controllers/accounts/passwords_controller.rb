@@ -14,7 +14,6 @@ class Accounts::PasswordsController < Devise::PasswordsController
 		account = Account.authenticate!(current_account.email, params[:current_password])
 		if account.present?
 			if account.reset_password(password_params[:password], password_params[:password_confirmation])
-				bypass_sign_in(account)
 				redirect_to account_path(current_account), notice: "password successfully changed"
 			else
 				self.resource = account
