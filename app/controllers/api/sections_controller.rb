@@ -43,13 +43,13 @@ class Api::SectionsController < Api::ApiController
 	private
 
 	def set_course
-		@course = Course.find params[:course_id]
+		@course = Course.find_by_id! params[:course_id].to_i
 	rescue
 		render json: {error: "Course not found!"}, status: :not_found
 	end
 
 	def set_section
-		@section = Section.find params[:id]
+		@section = Section.find_by_id! params[:id].to_i
 	rescue
 		render json: {error: "Section not found!"}, status: :not_found
 	end

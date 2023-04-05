@@ -1,7 +1,9 @@
 class DailyReportsController < ApplicationController
 	before_action :authenticate_account!
 	before_action :not_an_intern_account!, only: [:edit_feedback, :update_feedback]
-	before_action :set_daily_report, except: [:index, :create, :edit_feedback, :destroy]
+	before_action :set_daily_report, except: [:index, :create, :edit_feedback, :update_feedback, :cancel_feedback, :destroy]
+	before_action :set_section, only: :create
+	before_action :set_only_daily_report, only: [:edit_feedback, :update_feedback, :cancel_feedback, :destroy]
 
 	def index
 		request.variant = user_sym
@@ -28,10 +30,8 @@ class DailyReportsController < ApplicationController
 	end
 
 	def create
-		@section = Section.find params[:section_id]
 		@section_report = SectionReport.find_or_create_by(intern: current_user, section: @section)
 		@daily_report = @section_report.daily_reports.build(daily_report_params)
-
 		if @daily_report.save
 			redirect_to @section, notice: "Report successfully created!"
 		else
@@ -53,13 +53,11 @@ class DailyReportsController < ApplicationController
 	end
 
 	def destroy
-		daily_report = DailyReport.find params[:id]
-		daily_report.destroy!
-		redirect_to section_path(daily_report.section), notice: "Report has been destroyed"
+		@daily_report.destroy!
+		redirect_to section_path(@daily_report.section), notice: "Report has been destroyed"
 	end
 
 	def edit_feedback
-		@daily_report = DailyReport.find params[:id]
 		respond_to do |format|
 			format.turbo_stream do
 				render turbo_stream: turbo_stream.replace( @daily_report,
@@ -71,45 +69,55 @@ class DailyReportsController < ApplicationController
 	end
 
 	def update_feedback
-		daily_report = DailyReport.find params[:id]
 		respond_to do |format|
-			if daily_report.update(feedback_param)
+			if @daily_report.update(feedback_param)
 				format.turbo_stream do
-					render turbo_stream: turbo_stream.replace(daily_report)
+					render turbo_stream: turbo_stream.replace(@daily_report)
 				end
-				format.html { redirect_to section_path(daily_report.section), notice: "Feedback has been added" }
+				format.html { redirect_to section_path(@daily_report.section), notice: "Feedback has been added" }
 			else
 				format.turbo_stream do
-					render turbo_stream: turbo_stream.update("daily_report_#{daily_report.id}_form",
+					render turbo_stream: turbo_stream.update("daily_report_#{@daily_report.id}_form",
 															 partial: "daily_reports/feedback_form",
-															 locals: { daily_report: daily_report })
+															 locals: { daily_report: @daily_report })
 				end
-				format.html { redirect_back fallback_location: section_path(daily_report.section) }
+				format.html { redirect_back fallback_location: section_path(@daily_report.section) }
 			end
 		end
 	end
 
 	def cancel_feedback
-		daily_report = DailyReport.find params[:id]
 		respond_to do |format|
 			format.turbo_stream do
-				render turbo_stream: turbo_stream.replace(daily_report,
+				render turbo_stream: turbo_stream.replace(@daily_report,
 														   partial: 'daily_reports/daily_report',
-														   locals: { daily_report: daily_report, feedback: false } )
+														   locals: { daily_report: @daily_report, feedback: false } )
 			end
-			format.html { redirect_back fallback_location: section_path(daily_report.section) }
+			format.html { redirect_back fallback_location: section_path(@daily_report.section) }
 		end
 	end
 
 	private
 
+	def set_section
+		@section = Section.find_by_id! params[:section_id].to_i
+	rescue
+		redirect_back fallback_location: courses_path, alert: "Invalid Course Id"
+	end
+
 	def set_daily_report
-		@daily_report = DailyReport.find params[:id]
+		@daily_report = DailyReport.find_by_id! params[:id].to_i
 		@section_report = @daily_report.section_report
 		@section = @section_report.section
 		@daily_reports = @section_report.daily_reports.order_by_date
 	rescue
-		render file: "#{Rails.root}/public/404.html", layout: false
+		redirect_back fallback_location: courses_path, alert: "Invalid Daily report Id"
+	end
+
+	def set_only_daily_report
+		@daily_report = DailyReport.find_by_id! params[:id].to_i
+	rescue
+		redirect_back fallback_location: courses_path, alert: "Invalid Daily report Id"
 	end
 
 	def daily_report_params

@@ -39,8 +39,8 @@ class BatchesController < ApplicationController
 	end
 
 	def set_batch
-		@batch = Batch.find params[:id]
+		@batch = Batch.find_by_id! params[:id].to_i
 	rescue
-		render file: "#{Rails.root}/public/404.html", layout: false
+		redirect_back fallback_location: account_path(current_account), alert: "Invalid batch Id"
 	end
 end

@@ -2,9 +2,9 @@ class ReferencesController < ApplicationController
 
 	before_action :not_an_intern_account!
 	before_action :set_reference, except: [:create, :destroy]
+	before_action :set_section, only: :create
 
 	def create
-		@section = Section.find params[:section_id]
 		@reference = @section.references.build(reference_params)
 		if @reference.save
 			redirect_to @section, notice: "A new reference is added to the section"
@@ -27,19 +27,29 @@ class ReferencesController < ApplicationController
 	end
 
 	def destroy
-		@reference = Reference.find params[:id]
-		@reference.destroy!
-		redirect_to section_path(@reference.section_id), notice: "Reference has been deleted for the section"
+		@reference = Reference.find_by_id params[:id].to_i
+		if @reference.present?
+			@reference.destroy!
+			redirect_to section_path(@reference.section_id), notice: "Reference has been deleted for the section"
+		else
+			redirect_back fallback_location: courses_path, alert: "Invalid Reference id"
+		end
 	end
 
 	private
 
+	def set_section
+		@section = Section.find_by_id! params[:section_id].to_i
+	rescue
+		redirect_back fallback_location: courses_path, alert: "Invalid Section Id"
+	end
+
 	def set_reference
-		@reference = Reference.find params[:id]
+		@reference = Reference.find_by_id! params[:id].to_i
 		@section = @reference.section
 		@daily_reports = @section.daily_reports.order_by_date
 	rescue
-		render file: "#{Rails.root}/public/404.html", layout: false
+		redirect_back fallback_location: courses_path, alert: "Invalid reference Id"
 	end
 
 	def reference_params

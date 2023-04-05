@@ -3,7 +3,7 @@ class Api::AccountsController < Api::ApiController
 	before_action :doorkeeper_authorize!
 
 	def show
-		@account = Account.find params[:id]
+		@account = Account.find_by_id! params[:id].to_i
 		@user = @account.accountable
 		if current_account.intern? && params[:id].to_i != current_account.id
 			render json: {error: "You're not authorised to do that"}, status: :forbidden

@@ -4,7 +4,7 @@ class Course < ApplicationRecord
 	validates :image_url, format: { with: URI::regexp(%w{http https})}, allow_nil: true
 
 	has_many :sections, dependent: :destroy
-	belongs_to :account
+	belongs_to :account, optional: true
 	has_many :trainers
 
 	has_many :course_reports, dependent: :destroy

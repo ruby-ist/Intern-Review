@@ -15,7 +15,7 @@ class Account < ApplicationRecord
 	validates :avatar_url, format: { with: URI::regexp(%w{http https}) }, allow_nil: true
 
 	belongs_to :accountable, polymorphic: true, inverse_of: :account
-	has_many :courses
+	has_many :courses, dependent: :nullify
 
 	# has_many :access_grants,
 	# 		 class_name: 'Doorkeeper::AccessGrant',

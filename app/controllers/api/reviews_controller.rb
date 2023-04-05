@@ -6,7 +6,7 @@ class Api::ReviewsController < Api::ApiController
 
 	def create
 		@review = current_user.reviews.build(review_params)
-		@review.course_report_id = params[:course_report_id]
+		@review.course_report_id = params[:course_report_id].to_i
 		if @review.save
 			render partial: "api/reviews/review", locals: {review: @review}, status: :created
 		else
@@ -47,7 +47,7 @@ class Api::ReviewsController < Api::ApiController
 	end
 
 	def set_review
-		@review = Review.find params[:id]
+		@review = Review.find_by_id! params[:id].to_i
 	rescue
 		render json: { error: "Review not found!" }, status: :not_found
 	end

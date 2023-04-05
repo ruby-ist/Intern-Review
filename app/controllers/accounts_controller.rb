@@ -2,7 +2,7 @@ class AccountsController < ApplicationController
 	before_action :authenticate_account!
 
 	def show
-		@account = Account.find params[:id]
+		@account = Account.find_by_id! params[:id].to_i
 		@user = @account.accountable
 
 		if current_account.intern? && params[:id].to_i != current_account.id

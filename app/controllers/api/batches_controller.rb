@@ -32,7 +32,7 @@ class Api::BatchesController < Api::ApiController
 	end
 
 	def set_batch
-		@batch = Batch.find params[:id]
+		@batch = Batch.find_by_id! params[:id].to_i
 	rescue
 		render json: { error: "Batch not found" }, status: :not_found
 	end

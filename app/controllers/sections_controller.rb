@@ -50,15 +50,15 @@ class SectionsController < ApplicationController
 	private
 
 	def set_course
-		@course = Course.find params[:course_id]
+		@course = Course.find_by_id! params[:course_id].to_i
 	rescue
-		render file: "#{Rails.root}/public/404.html", layout: false
+		redirect_back fallback_location: courses_path, alert: "Invalid course Id"
 	end
 
 	def set_section
-		@section = Section.find params[:id]
+		@section = Section.find_by_id! params[:id].to_i
 	rescue
-		render file: "#{Rails.root}/public/404.html", layout: false
+		redirect_back fallback_location: courses_path, alert: "Invalid section Id"
 	end
 
 	def section_params

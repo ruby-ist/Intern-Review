@@ -6,13 +6,15 @@ class ReviewsController < ApplicationController
 	before_action :associated_review, only: [:edit_progress, :update_progress, :cancel_progress, :mark_complete]
 
 	def new
-		@course_report = CourseReport.find params[:course_report_id]
+		@course_report = CourseReport.find_by_id! params[:course_report_id].to_i
 		@review = current_user.reviews.build
+	rescue
+		redirect_back fallback_location: courses_path, alert: "Invalid CourseReport Id"
 	end
 
 	def create
 		@review = current_user.reviews.build(review_params)
-		@review.course_report_id = params[:course_report_id]
+		@review.course_report_id = params[:course_report_id].to_i
 
 		if @review.save
 			redirect_to account_path(current_account), notice: "A new review is created"
@@ -94,9 +96,9 @@ class ReviewsController < ApplicationController
 	end
 
 	def set_review
-		@review = Review.find params[:id]
+		@review = Review.find_by_id! params[:id].to_i
 	rescue
-		render file: "#{Rails.root}/public/404.html", layout: false
+		redirect_back fallback_location: account_path(current_account), alert: "Invalid review Id"
 	end
 
 	def progress_param

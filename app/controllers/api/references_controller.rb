@@ -30,13 +30,13 @@ class Api::ReferencesController < Api::ApiController
 	private
 
 	def set_section
-		@section = Section.find params[:section_id]
+		@section = Section.find_by_id! params[:section_id].to_i
 	rescue
 		render json: { error: "Section not found!" }, status: :not_found
 	end
 
 	def set_reference
-		@reference = Reference.find params[:id]
+		@reference = Reference.find_by_id! params[:id].to_i
 	rescue
 		render json: { error: "Reference not found!" }, status: :not_found
 	end

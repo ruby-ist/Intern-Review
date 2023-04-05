@@ -58,7 +58,7 @@ class Api::CoursesController < Api::ApiController
 	private
 
 	def set_course
-		@course = Course.find params[:id]
+		@course = Course.find_by_id! params[:id].to_i
 	rescue
 		render json: {error: "Course not found"}, status: :not_found
 	end
@@ -68,6 +68,11 @@ class Api::CoursesController < Api::ApiController
 	end
 
 	def enrolled?
+		unless Course.exists? params[:id].to_i
+			render json: {error: "Course not found"}, status: :not_found
+			return
+		end
+
 		if current_account.intern?
 			unless current_user.course_ids.include? params[:id].to_i
 				render json: {errors: {intern: "not enrolled for the course" }}, status: :forbidden

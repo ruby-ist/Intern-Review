@@ -68,9 +68,9 @@ class CoursesController < ApplicationController
 	private
 
 	def set_course
-		@course = Course.find params[:id]
+		@course = Course.find_by_id! params[:id].to_i
 	rescue
-		render file: "#{Rails.root}/public/404.html", layout: false
+		redirect_back fallback_location: courses_path, alert: "Invalid course Id"
 	end
 
 	def course_params
@@ -78,9 +78,14 @@ class CoursesController < ApplicationController
 	end
 
 	def enrolled?
+		unless Course.exists? params[:id].to_i
+			redirect_back fallback_location: courses_path, alert: "Invalid course Id"
+			return
+		end
+
 		if current_account.intern?
 			unless current_user.course_ids.include? params[:id].to_i
-				redirect_back fallback_location: account_path(current_account), alert: "You are not enrolled on that course"
+				redirect_back fallback_location: courses_path, alert: "You are not enrolled on that course"
 			end
 		end
 	end
