@@ -8,7 +8,8 @@ Rails.application.routes.draw do
 
 	devise_for :accounts, skip: [:registrations], controllers: {
 		# registrations: "accounts/registrations",
-		passwords: "accounts/passwords"
+		passwords: "accounts/passwords",
+		sessions: "accounts/sessions"
 	}
 
 	resources :courses do
@@ -42,6 +43,8 @@ Rails.application.routes.draw do
 	resources :batches, except: [:index, :show]
 	resources :daily_reports, only: :index
 	resources :accounts, only: :show
+
+	get "/courses", to: "courses#index", as: :accounts
 
 	scope :account do
 		get "/edit", to: "accounts#edit", as: :account_edit

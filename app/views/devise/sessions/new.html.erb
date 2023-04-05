@@ -3,10 +3,10 @@
 		<h2 class="ui center aligned middle aligned orange header">Log In</h2>
 		<hr/>
 		
-		<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "ui form"}) do |f| %>
+		<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "ui form" }) do |f| %>
 			<div class="field">
 				<%= f.label :email %>
-				<%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+				<%= f.email_field :email, autofocus: true, autocomplete: "off" %>
 			</div>
 			
 			<div class="field">
@@ -21,6 +21,10 @@
 				</div>
 			<% end %>
 			
+			<div class="field">
+				<%= recaptcha_tags %>
+				<%= render partial: "shared/error", locals: {model: resource, field: :base} %>
+			</div>
 			<br/>
 			
 			<div class="field actions">

@@ -148,7 +148,7 @@ RSpec.describe Api::DailyReportsController do
 
 	describe 'PUT /api/daily_reports/:id' do
 
-		let(:daily_report) { create(:daily_report, section:) }
+		let(:daily_report) { create(:daily_report, section:, intern:) }
 
 		it "requires authentication" do
 			put :update, params: { id: daily_report.id, format: :json }
@@ -159,6 +159,13 @@ RSpec.describe Api::DailyReportsController do
 			put :update, params: { id: daily_report.id, access_token: trainer_token.token, format: :json }
 			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
+		end
+
+		it "should not allow other interns to update it" do
+			daily_report = create(:daily_report)
+			put :update, params: { id: daily_report.id, access_token: intern_token.token, format: :json }
+			expect(response).to have_http_status(:forbidden)
+			expect(json_response['errors']).to include("intern")
 		end
 
 		it "should check validations" do
@@ -194,7 +201,7 @@ RSpec.describe Api::DailyReportsController do
 
 	describe 'DELETE /api/daily_reports/:id' do
 
-		let(:daily_report) { create(:daily_report, section:) }
+		let(:daily_report) { create(:daily_report, section:, intern:) }
 
 		it "requires authentication" do
 			delete :destroy, params: { id: daily_report.id, format: :json }
@@ -205,6 +212,13 @@ RSpec.describe Api::DailyReportsController do
 			delete :destroy, params: { id: daily_report.id, access_token: trainer_token.token, format: :json }
 			expect(response).to have_http_status(:forbidden)
 			expect(json_response).to include("errors")
+		end
+
+		it "should not allow other interns to destroy it" do
+			daily_report = create(:daily_report)
+			delete :destroy, params: { id: daily_report.id, access_token: intern_token.token, format: :json }
+			expect(response).to have_http_status(:forbidden)
+			expect(json_response['errors']).to include("intern")
 		end
 
 		it "deletes the daily_report" do

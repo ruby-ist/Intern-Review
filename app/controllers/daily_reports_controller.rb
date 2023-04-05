@@ -4,6 +4,7 @@ class DailyReportsController < ApplicationController
 	before_action :set_daily_report, except: [:index, :create, :edit_feedback, :update_feedback, :cancel_feedback, :destroy]
 	before_action :set_section, only: :create
 	before_action :set_only_daily_report, only: [:edit_feedback, :update_feedback, :cancel_feedback, :destroy]
+	before_action :associated_report, only: [:edit, :update, :destroy]
 
 	def index
 		request.variant = user_sym
@@ -130,5 +131,11 @@ class DailyReportsController < ApplicationController
 
 	def user_sym
 		current_account.accountable_type.underscore.to_sym
+	end
+
+	def associated_report
+		unless @daily_report.section_report.intern_id == current_user.id
+			redirect_back fallback_location: courses_path, alert: "You are not authorized to do that"
+		end
 	end
 end

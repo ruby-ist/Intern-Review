@@ -4,6 +4,7 @@ class Api::DailyReportsController < Api::ApiController
 	before_action :not_an_intern_account!, only: [:update_feedback]
 	before_action :set_daily_report, only: [:update, :destroy, :update_feedback]
 	before_action :set_section, only: :create
+	before_action :associated_report, only: [:update, :destroy]
 
 	def index
 		request.variant = user_sym
@@ -87,4 +88,9 @@ class Api::DailyReportsController < Api::ApiController
 		current_account.accountable_type.underscore.to_sym
 	end
 
+	def associated_report
+		unless @daily_report.section_report.intern_id == current_user.id
+			render json: {errors: { intern: "You're don't have access to that record"}}, status: :forbidden
+		end
+	end
 end
