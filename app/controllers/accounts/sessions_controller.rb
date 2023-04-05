@@ -33,9 +33,9 @@ class Accounts::SessionsController < Devise::SessionsController
 		if verify_recaptcha
 			true
 		else
-			self.resource = resource_class.new(sign_in_params)
-			flash.now[:alert] = "You need fill the reCaptcha box before submitting the form"
-			render :new, status: :unprocessable_entity
+			flash.delete(:recaptcha_error)
+			flash[:alert] = "You need fill the reCaptcha box before submitting the form"
+			redirect_to new_account_session_path
 		end
 	end
 end
