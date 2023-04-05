@@ -7,19 +7,16 @@ ActiveAdmin.register Batch do
 	#
 	permit_params :name, :status, :admin_user_id
 
+	scope :all
 	scope :active
 	scope :inactive
 
 	includes(admin_user: :account)
 
-	filter :admin_user, as: :select, collection: AdminUser.includes(:account).distinct
-	 												.collect { |admin_user| [admin_user.account.name, admin_user.id]}
+	filter :admin_user
+	filter :trainers
+	filter :interns
 
-	filter :trainers, as: :select, collection: Trainer.includes(:account).distinct
-													.collect { |trainer| [trainer.account.name, trainer.id]}
-
-	filter :interns, as: :select, collection: Intern.includes(:account).distinct
-													.collect { |intern| [intern.account.name, intern.id]}
 	filter :name
 	filter :created_at, as: :date_range
 	filter :updated_at, as: :date_range

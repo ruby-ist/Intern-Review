@@ -6,8 +6,8 @@ ActiveAdmin.register Trainer do
 
 	filter :course
 	filter :batch
-	filter :interns , as: :select, collection: Intern.includes(:account).distinct
-													 .collect { |intern| [intern.account.name, intern.id] }
+	filter :interns
+
 	filter :created_at, as: :date_range
 	filter :updated_at, as: :date_range
 

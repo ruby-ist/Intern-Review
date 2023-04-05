@@ -7,6 +7,8 @@ ActiveAdmin.register Course do
 	#
 	permit_params :title, :description, :duration, :image_url, :account_id
 
+	includes(:account)
+
 	filter :title
 	filter :duration
 	filter :description
@@ -19,7 +21,7 @@ ActiveAdmin.register Course do
 		id_column
 		column :title
 		column :duration
-		column :image_url
+		column "Created by", :account
 
 		actions
 	end

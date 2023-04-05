@@ -6,8 +6,8 @@ ActiveAdmin.register Intern do
 
 	filter :batch
 	filter :technology, as: :select, collection: Course.all.collect { |course| [course.title, course.title] }
-	filter :trainers, as: :select, collection: Trainer.includes(:account).distinct
-													  .collect {|trainer| [trainer.account.name, trainer.id] }
+	filter :trainers
+
 	filter :created_at, as: :date_range
 	filter :updated_at, as: :date_range
 

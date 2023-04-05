@@ -7,5 +7,6 @@ class Trainer < ApplicationRecord
 	has_many :interns, through: :batch
 	has_many :daily_reports, through: :interns
 
+	default_scope { includes(:account) }
 	delegate_missing_to :account
 end

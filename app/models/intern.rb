@@ -15,5 +15,6 @@ class Intern < ApplicationRecord
 
 	has_many :reviews, through: :course_reports
 
+	default_scope { includes(:account) }
 	delegate_missing_to :account
 end

@@ -5,8 +5,7 @@ ActiveAdmin.register CourseReport do
 	includes(:course, intern: :account, review: {admin_user: :account} )
 
 	filter :course
-	filter :intern, as: :select, collection: Intern.includes(:account).distinct
-												   .collect { |intern| [intern.account.name, intern.id] }
+	filter :intern
 	filter :created_at, as: :date_range
 	filter :updated_at, as: :date_range
 

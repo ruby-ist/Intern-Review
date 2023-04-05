@@ -17,15 +17,15 @@ class AccountsController < ApplicationController
 		when "Intern"
 			@section_reports = @user.section_reports.dated_reports
 			@batch = @user.batch
-			@trainers = @batch.trainers.includes(:account)
+			@trainers = @batch.trainers
 			@course_reports = CourseReport.where(intern: @user).includes(:course)
 			@reviews = @user.reviews.includes(:admin_user, course_report: :course)
 		when "Trainer"
 			@batch = @user.batch
-			@interns = @batch.interns.includes(:account)
+			@interns = @batch.interns
 			@course = @user.course
 		when "AdminUser"
-			@batches = @user.batches.includes(trainers: :account, interns: :account)
+			@batches = @user.batches.includes(:trainers, :interns)
 			@reviews = @user.reviews.includes(course_report: [:intern, :course])
 		end
 	rescue

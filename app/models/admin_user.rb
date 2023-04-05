@@ -14,5 +14,6 @@ class AdminUser < ApplicationRecord
 	has_many :trainers, through: :batches
 	has_many :daily_reports, through: :interns
 
+	default_scope { includes(:account) }
 	delegate_missing_to :account
 end
