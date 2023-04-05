@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe Course do
 
 	context "account" do
-		it "should exist" do
+		it "is optional" do
 			course = build(:course)
-			expect(course.save).to be_falsey
+			expect(course.save).to be_truthy
 
 			course = build(:accounted_course)
 			expect(course.save).to be_truthy
