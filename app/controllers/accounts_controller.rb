@@ -18,8 +18,7 @@ class AccountsController < ApplicationController
 			@section_reports = @user.section_reports.dated_reports
 			@batch = @user.batch
 			@trainers = @batch.trainers
-			@course_reports = CourseReport.where(intern: @user).includes(:course)
-			@reviews = @user.reviews.includes(:admin_user, course_report: :course)
+			@course_reports = CourseReport.where(intern: @user).includes(:course, :review)
 		when "Trainer"
 			@batch = @user.batch
 			@interns = @batch.interns

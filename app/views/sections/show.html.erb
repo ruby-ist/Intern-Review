@@ -22,7 +22,7 @@
 						<td>References</td>
 						<td>
 							<ul>
-								<% @section.references.each do |reference| %>
+								<% @section.references.where.not(id: nil).each do |reference| %>
 									<li><%= link_to h(reference.url), reference.url, data: {confirm: "You are about to follow an external link, are you sure?"} %>&ensp;&ensp;
 										<% unless current_account.intern? %>
 											<%= link_to edit_reference_path(reference) do %>

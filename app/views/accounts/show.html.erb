@@ -128,7 +128,7 @@
 <div class="ui very padded raised segment">
 	<h2 class="ui header">Reviews:</h2>
 	<div id="reviews">
-		<%= render @reviews %>
+		<%= render @course_reports.map(&:review) %>
 	</div>
 </div>
 <% end %>
