@@ -19,14 +19,14 @@ class DailyReport < ApplicationRecord
 		joins(section_report: { intern: { batch: :trainers }})
 			.where(trainers: { id: id })
 			.order(date: :desc, created_at: :desc)
-			.includes(section_report: :intern)
+			.includes(section_report: {intern: :account})
 	}
 
 	scope :for_admin_user, -> (id) {
 		joins(section_report: { intern: :batch })
 			.where(batches: { admin_user_id: id })
 			.order(date: :desc, created_at: :desc)
-			.includes(section_report: {intern: :batch})
+			.includes(section_report: {intern: [:batch, :account]})
 	}
 
 	before_save do

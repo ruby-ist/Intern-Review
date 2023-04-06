@@ -1,9 +1,9 @@
 <div class="ui raised report segment" id=<%= dom_id(daily_report) %>>
 	
 	<div class="username">
-		<%= avatar_url(daily_report.intern.account) %>
+		<%= avatar_url(daily_report.section_report.intern.account) %>
 		<b class="ui blue text" style="font-size: 1.1em">
-			<%= link_to daily_report.intern.name.capitalize, account_path(daily_report.intern.account) %>
+			<%= link_to daily_report.section_report.intern.name.capitalize, account_path(daily_report.section_report.intern.account) %>
 		</b>
 		
 		<div class="ui right aligned container status">
@@ -16,7 +16,7 @@
 	
 	<div class="content">
 	<% if current_account.admin_user? %>
-		<h4 class="ui inline header">Batch: </h4>&ensp;<%= daily_report.intern.batch.name %>
+		<h4 class="ui inline header">Batch: </h4>&ensp;<%= daily_report.section_report.intern.batch.name %>
 		<br/>
 	<% end %>
 	
