@@ -24,6 +24,10 @@ if @account.intern?
 		end
 	end
 
+	json.reviews do
+		json.array! @course_reports.map(&:review), partial: "api/reviews/review", as: :review
+	end
+
 	json.section_reports do
 		json.array! @section_reports do |section_report|
 			json.partial! "api/sections/section", locals: { section: section_report.section }

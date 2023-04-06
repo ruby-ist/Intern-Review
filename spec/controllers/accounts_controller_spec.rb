@@ -78,7 +78,7 @@ RSpec.describe Api::AccountsController do
 					expect(keys).not_to be_empty
 				end
 
-				%w[ batch courses trainers section_reports ].each do |attribute|
+				%w[ batch courses trainers section_reports reviews].each do |attribute|
 					it attribute do
 						expect(json_response).to include attribute
 					end

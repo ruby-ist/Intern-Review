@@ -20,7 +20,7 @@ class Api::AccountsController < Api::ApiController
 			@section_reports = @user.section_reports.dated_reports
 			@batch = @user.batch
 			@trainers = @batch.trainers
-			@course_reports = CourseReport.where(intern: @user).includes(:course)
+			@course_reports = CourseReport.where(intern: @user).includes(:course, :review)
 		when "Trainer"
 			@batch = @user.batch
 			@interns = @batch.interns
