@@ -22,6 +22,7 @@
 	<div class="daily-reports">
 		<% if @daily_reports.present? %>
 			<%= render @daily_reports %>
+			<%= paginate @daily_reports %>
 		<% else %>
 			<div class="ui center aligned very padded container">No reports added for the date yet</div>
 		<% end %>

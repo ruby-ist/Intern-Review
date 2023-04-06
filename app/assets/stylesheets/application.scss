@@ -435,3 +435,31 @@ nav.ui.menu {
 		right: 7%;
 	}
 }
+
+nav.pagination{
+	text-align: center;
+
+
+	span.page{
+		border: 1px solid #f26202;
+		border-radius: 4px;
+		margin: 0 5px;
+		padding: 6px 10px;
+		font-weight: 600;
+
+		&.current, &:hover{
+			background-color: #f26202;
+			color: white;
+			a{
+				color: white !important;
+			}
+		}
+	}
+
+	span.next, span.last, span.prev, span.first{
+		margin: 0 3px;
+		a{
+			color: #f26202 !important;
+		}
+	}
+}

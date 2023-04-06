@@ -15,18 +15,19 @@ class DailyReportsController < ApplicationController
 			return
 		end
 
+		page = params[:page].to_i
 		@type = "all"
 		if params['date'] == "all"
-			@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id)
+			@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).page(page)
 		elsif params['date']
 			begin
-				@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: params['date'].to_date)
+				@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: params['date'].to_date).page(page)
 			rescue
 				@daily_reports = DailyReport.none
 			end
 		else
 			@type = "today"
-			@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: Date.today)
+			@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: Date.today).page(page)
 		end
 	end
 

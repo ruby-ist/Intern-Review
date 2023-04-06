@@ -1,4 +1,6 @@
 class DailyReport < ApplicationRecord
+	paginates_per 8
+
 	validates :date, presence: true
 	validates :progress, length: { minimum: 25 }
 	validates :feedback, length: { minimum: 5 }, allow_blank: true

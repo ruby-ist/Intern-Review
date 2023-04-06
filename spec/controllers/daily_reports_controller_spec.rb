@@ -50,7 +50,7 @@ RSpec.describe Api::DailyReportsController do
 					format: :json,
 				}
 				expect(response).to have_http_status(:ok)
-				expect(json_response.count).to eql trainer.daily_reports.where(date: Date.today).count
+				expect(json_response['daily_reports'].count).to eql trainer.daily_reports.where(date: Date.today).page(1).count
 
 				get :index, params: {
 					access_token: trainer_token.token,
@@ -58,7 +58,7 @@ RSpec.describe Api::DailyReportsController do
 					date: 'all'
 				}
 				expect(response).to have_http_status(:ok)
-				expect(json_response.count).to eql trainer.daily_reports.count
+				expect(json_response['daily_reports'].count).to eql trainer.daily_reports.page(1).count
 			end
 		end
 
@@ -76,7 +76,7 @@ RSpec.describe Api::DailyReportsController do
 					format: :json,
 				}
 				expect(response).to have_http_status(:ok)
-				expect(json_response.count).to eql admin_user.daily_reports.where(date: Date.today).count
+				expect(json_response['daily_reports'].count).to eql admin_user.daily_reports.where(date: Date.today).page(1).count
 
 				get :index, params: {
 					access_token: admin_user_token.token,
@@ -84,7 +84,7 @@ RSpec.describe Api::DailyReportsController do
 					date: 'all'
 				}
 				expect(response).to have_http_status(:ok)
-				expect(json_response.count).to eql admin_user.daily_reports.count
+				expect(json_response['daily_reports'].count).to eql admin_user.daily_reports.page(1).count
 			end
 		end
 	end

@@ -299,6 +299,7 @@ DEPENDENCIES
   figaro (~> 1.2)
   fomantic-ui-sass (~> 2.8)
   jbuilder (~> 2.7)
+  kaminari (~> 1.2)
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
   psych (< 4)
