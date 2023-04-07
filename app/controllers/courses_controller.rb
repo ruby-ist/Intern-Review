@@ -11,6 +11,7 @@ class CoursesController < ApplicationController
 		else
 			@courses = Course.order(:created_at)
 		end
+		fresh_when @courses
 	end
 
 	def new

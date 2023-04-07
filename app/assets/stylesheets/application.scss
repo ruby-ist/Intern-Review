@@ -447,12 +447,13 @@ nav.pagination{
 		padding: 6px 10px;
 		font-weight: 600;
 
-		&.current, &:hover{
+		&.current{
 			background-color: #f26202;
 			color: white;
-			a{
-				color: white !important;
-			}
+		}
+
+		&:hover{
+			box-shadow: 0 0 10px -2px;
 		}
 	}
 
@@ -460,6 +461,9 @@ nav.pagination{
 		margin: 0 3px;
 		a{
 			color: #f26202 !important;
+			&:hover{
+				text-decoration: underline;
+			}
 		}
 	}
 }

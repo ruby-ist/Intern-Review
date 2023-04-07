@@ -11,6 +11,7 @@ class Api::CoursesController < Api::ApiController
 		else
 			@courses = Course.order(:created_at)
 		end
+		fresh_when @courses
 	end
 
 	def create

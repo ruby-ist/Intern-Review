@@ -1,7 +1,15 @@
 ActiveAdmin.register AdminUser do
 	permit_params :email, :password, :password_confirmation, account_attributes: [:name, :email, :password, :password_confirmation, :_destroy]
 
-	actions :all, except: [:update, :edit, :destroy]
+	before_action :check_current_admin, only: [:edit, :update, :destroy]
+
+	controller do
+		def check_current_admin
+			unless current_admin_user.id == params[:id].to_i
+				redirect_back fallback_location: admin_root_path
+			end
+		end
+	end
 
 	index do
 		selectable_column
@@ -22,6 +30,8 @@ ActiveAdmin.register AdminUser do
 	action_item :view, only: :show do
 		link_to 'View on site', account_path(resource.account)
 	end
+
+	# action_item :super
 
 	form do |f|
 		f.inputs do

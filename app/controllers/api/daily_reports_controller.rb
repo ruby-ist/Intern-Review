@@ -29,6 +29,7 @@ class Api::DailyReportsController < Api::ApiController
 			@type = "today"
 			@daily_reports = DailyReport.send("for_#{user_sym.to_s}", @user.id).where(date: Date.today).page(page)
 		end
+		fresh_when @daily_reports
 	end
 
 	def create
