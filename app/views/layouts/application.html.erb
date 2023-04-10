@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<nav class="ui nav-section menu">
+	<nav class="ui sticky nav-section menu">
 		<%= link_to daily_reports_path, class: "item" do %>
 			<div class="ui huge header">
 				<%= image_tag "intern-logo.svg", class: "logo" %>
@@ -58,7 +58,7 @@
 	</div>
 
 	<script>
-		document.querySelector('.message .close.icon').addEventListener('click', (ev)=> { ev.target.parentElement.style.display = "none";});
+		document.querySelector('.message .close.icon')?.addEventListener('click', (ev)=> { ev.target.parentElement.style.display = "none";});
 	</script>
 </body>
 </html>
