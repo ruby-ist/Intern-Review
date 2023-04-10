@@ -72,5 +72,9 @@ Rails.application.routes.draw do
 		resources :daily_reports, only: :index
 		resources :accounts, only: :show
 		put "account/update", to: "accounts#update", as: :account_update
+
+		namespace :accounts do
+			patch "passwords", to: "passwords#update"
+		end
 	end
 end

@@ -8,12 +8,10 @@ Doorkeeper.configure do
 	# This block will be called to check whether the resource owner is authenticated or not.
 	resource_owner_authenticator do
 		account = current_account || warden.authenticate!(scope: :account)
-		p account
 		account
 	end
 
 	resource_owner_from_credentials do
-
 		Account.authenticate!(params[:email], params[:password])
 	end
 
