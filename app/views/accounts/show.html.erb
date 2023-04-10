@@ -124,7 +124,7 @@
 	<% end %>
 </div>
 
-<% reviews = @course_reports.map(&:review) %>
+<% reviews = @course_reports&.map(&:review) %>
 <% if current_account.intern? && reviews.present? %>
 <div class="ui very padded raised segment">
 	<h2 class="ui header">Reviews:</h2>

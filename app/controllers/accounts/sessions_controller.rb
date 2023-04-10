@@ -29,22 +29,11 @@ class Accounts::SessionsController < Devise::SessionsController
 	private
 
 	def captcha_valid
-		if verify_recaptcha
-			true
-		else
+		unless verify_recaptcha
 			self.resource = resource_class.new(sign_in_params)
-			if resource.valid? && !verify_recaptcha
-				clean_up_passwords(resource)
-				flash.delete :recaptcha_error
-			elsif !resource.valid? && verify_recaptcha
-				clean_up_passwords resource
-				respond_with resource
-			elsif !resource.valid? && !verify_recaptcha
-				flash.now[:alert] = "You need fill the reCaptcha box before submitting the form"
-				flash.delete :recaptcha_error
-				clean_up_passwords resource
-				respond_with resource
-			end
+			clean_up_passwords resource
+			flash.now[:alert] = "You need to fill the reCaptcha box before submitting the form"
+			render :new, status: :unprocessable_entity
 		end
 	end
 end
