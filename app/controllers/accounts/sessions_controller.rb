@@ -2,8 +2,7 @@
 
 class Accounts::SessionsController < Devise::SessionsController
 	# before_action :configure_sign_in_params, only: [:create]
-	prepend_before_action :captcha_valid, :only => [ :create]
-
+	prepend_before_action :captcha_valid, :only => [:create]
 
 	# GET /resource/sign_in
 	# def new
@@ -33,9 +32,19 @@ class Accounts::SessionsController < Devise::SessionsController
 		if verify_recaptcha
 			true
 		else
-			flash.delete(:recaptcha_error)
-			flash[:alert] = "You need fill the reCaptcha box before submitting the form"
-			redirect_to new_account_session_path
+			self.resource = resource_class.new(sign_in_params)
+			if resource.valid? && !verify_recaptcha
+				clean_up_passwords(resource)
+				flash.delete :recaptcha_error
+			elsif !resource.valid? && verify_recaptcha
+				clean_up_passwords resource
+				respond_with resource
+			elsif !resource.valid? && !verify_recaptcha
+				flash.now[:alert] = "You need fill the reCaptcha box before submitting the form"
+				flash.delete :recaptcha_error
+				clean_up_passwords resource
+				respond_with resource
+			end
 		end
 	end
 end
