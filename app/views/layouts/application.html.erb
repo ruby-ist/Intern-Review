@@ -34,7 +34,9 @@
 					<%= avatar_url(current_account) %>
 					<%= current_account.email %>
 				</div>
-				<%= link_to "LOG OUT", destroy_account_session_path, class: "sign-up item", data: {turbo_method: :delete, turbo_confirm: "Are you Sure?"} %>
+				<%= link_to "LOG OUT", destroy_account_session_path,
+							class: "sign-up item",
+							data: {turbo_method: :delete, turbo_confirm: "Are you Sure?"} %>
 			<% end %>
 		</div>
 	</nav>
@@ -57,8 +59,12 @@
 		<%= yield %>
 	</div>
 
-	<script>
-		document.querySelector('.message .close.icon')?.addEventListener('click', (ev)=> { ev.target.parentElement.style.display = "none";});
-	</script>
+	<% if notice || alert %>
+		<script>
+			document.querySelector('.message .close.icon')?.addEventListener('click', (ev) => {
+				ev.target.parentElement.style.display = "none";
+			});
+		</script>
+	<% end %>
 </body>
 </html>
