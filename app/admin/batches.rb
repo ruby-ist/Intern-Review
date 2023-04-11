@@ -21,8 +21,6 @@ ActiveAdmin.register Batch do
 	filter :created_at, as: :date_range
 	filter :updated_at, as: :date_range
 
-	includes(trainers: :account, interns: :account, admin_user: :account)
-
 	index do
 		selectable_column
 		id_column
